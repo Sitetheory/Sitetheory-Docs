@@ -1,7 +1,7 @@
 How To Create Content Type Entities
 ===================================
 
-:doc:`Content Types </2.0/Overview/Content-Types>` are a critical part of the CMS because they determine what Controller should be executed for each page (what that page should do and how that page should look). When a creating an :doc:`Entity Content Type </2.0/Overview/Content-Types>` which will be a piece of content (e.g. an Article) the Content Type needs to specific the Entity name and the Entity must be created in a specific way.
+:doc:`Content Types </2.0/Overview/Content-Types>` are a critical part of the CMS because they determine what Controller should be executed for each page (what that page should do and how that page should look). When a creating an :ref:`Entity Content Type <overview-entity-content-types>` which will be a piece of content (e.g. an Article) the Content Type needs to specific the Entity name and the Entity must be created in a specific way.
 
 Create Entity Class
 -------------------
