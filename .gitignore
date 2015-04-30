@@ -1,0 +1,11 @@
+# Extensions
+.DS_Store
+# OSX
+.DS_Store
+# IDE Stuff
+.idea/
+.project
+.settings
+.jar
+/.ide_plugins/
+/nbproject/
