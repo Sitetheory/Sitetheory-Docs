@@ -17,7 +17,7 @@ The versionable entity registers the name of the parent entity and then the trai
 .. code-block:: php
     :linenos:
 
-        class ViewVersion extends Base implements VersionEntityInterface {
+    class ViewVersion extends Base implements VersionEntityInterface {
         /**
          * Use Shared Versionable Traits
          */
@@ -59,6 +59,7 @@ The versionable entity registers the name of the parent entity and then the trai
          * @ORM\Column(type="integer", nullable=true)
          */
         protected $viewId = NULL;
+    }
 
 
 Add Clone Method to Versionable Entity
@@ -69,13 +70,13 @@ The entity will be cloned every time an version is iterated. So some standard fu
 .. code-block:: php
     :linenos:
 
-        public function __clone() {
-            if($this->id) {
-                $this->setId(null);
-                $this->setSiteId(null);
-                $this->setLockVersion(1);
-            }
+    public function __clone() {
+        if($this->id) {
+            $this->setId(null);
+            $this->setSiteId(null);
+            $this->setLockVersion(1);
         }
+    }
 
 
 *****************************************************
@@ -90,7 +91,7 @@ If this parent entity has only one versionable entity (e.g. View with ViewVersio
 .. code-block:: php
     :linenos:
 
-        class View extends Base implements VersionParentInterface {
+    class View extends Base implements VersionParentInterface {
         /**
          * Use Shared Versionable Traits.
          */
@@ -138,6 +139,7 @@ If this parent entity has only one versionable entity (e.g. View with ViewVersio
 
         public function getPreview($id) {}
         public function getLive($id) {}
+    }
 
 ********************************************
 Registering Information for Dynamic Versions
@@ -155,13 +157,12 @@ The sub entities associated with the versionable entity (e.g. each content type,
 .. code-block:: php
     :linenos:
 
-        public function getParent() {
-            return $this->getViewVersion();
-        }
-        public function getRootParent() {
-            return $this->getParent()->getParent();
-        }
-
+    public function getParent() {
+        return $this->getViewVersion();
+    }
+    public function getRootParent() {
+        return $this->getParent()->getParent();
+    }
 
 Find the Entity Version
 =======================
@@ -176,12 +177,12 @@ Once you've set up an entity correctly, your controller can simply call the corr
 .. code-block:: php
     :linenos:
 
-        /**
-         * VERSIONING
-         * Get the Best ViewVersion of the View based on the environment view mode
-         */
-        $viewVersionRepo = $em->getRepository('GutensiteCmsBundle:View\ViewVersion');
-        $viewVersionRepo->associateVersion(‘ViewVersion', $view, $this->env->getMode());
+    /**
+     * VERSIONING
+     * Get the Best ViewVersion of the View based on the environment view mode
+     */
+    $viewVersionRepo = $em->getRepository('GutensiteCmsBundle:View\ViewVersion');
+    $viewVersionRepo->associateVersion(‘ViewVersion', $view, $this->env->getMode());
 
 Iterate Versions
 ================
