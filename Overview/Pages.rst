@@ -25,15 +25,15 @@ ViewVersion Associations
 
 The ViewVersion contains the standard fields that most pages or modules will need, e.g. Title, Author, Date, main Content, main Image, etc. This is done so that it is easier to reference the content of each entity in a list without having to attach a lot of other associated entities. These ViewVersion fields should be used by the Content Type whenever possible, i.e. some Content Types like "Article" may not even have any custom fields in the associate Article (Content Type) entity. But many Content Types do need unique fields, so all ViewVersions reference a related Content Type entity.
 
-Related Content Entity
+Related ``Content`` Entity
     The ViewVersion has a placeholder to attach a dynamic entity for the specific related Content Type, e.g. an Article page, will attach the Article entity. But a Form page will attach a Form entity. So this related content entity is dynamically associated with the ViewHelper when a view (and it's correct version) is fetched.
 
-Streams
+``Streams``
     The View can be tagged with one or more :doc:`Streams </2.0/Overview/Streams>`, which are list pages that display all the content associated with it.
 
-ViewShell
+``ViewShell``
     A View can specify a unique template shell design to use (the look of the container around the content), and this preference is associated with the ViewVersion so that it can be previewed before the ViewVersion is published.
 
-ViewLayout
+``ViewLayout``
     A View can specify a unique layout design to use (the look of the content area), and this preference is associated with the ViewVersion so that it can be previewed before the ViewVersion is published.
 
