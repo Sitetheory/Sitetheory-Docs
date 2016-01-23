@@ -22,4 +22,4 @@ The OnScreen plugin will detect when an element is visible on the screen and add
 
 * data-event: one or more events names that can trigger actions. The only option at the moment is "reset" which allows the classes to be reset if the page is scrolled to the very top, or if the data-reset value is set when the page is scrolled to that position.
 
-* data-reset
+* data-reset: an integer representing a vertical (y) pixel position on the page that should trigger a reset when the page is scrolled to that point (defaults to 0).
