@@ -39,6 +39,18 @@ The advantage with this method is that there is less "magic" and the CMS is more
 
     <img src="{{ asset('bundles/templatesgutensiteadmin/GutensiteMenu/images/Daniela-Avatar.jpg') }}">
 
+If you need to link to your own custom CSS for a site, the vhost needs to have a web folder that points to the public resources. That means that it should have the same folder structure as a normal Assetic dump, e.g. /var/www/vhosts/100/web/sitetheory/v/2/0/bundles/. This folder will contain symbolic links to the bundles public folder.
+
+.. code-block::
+mkdir /var/www/vhosts/100/web/sitetheory/v/2/0/bundles/
+ln -s /var/www/vhosts/100/src/Sitetheory/ArticleBundle/Resources/public /var/www/vhosts/100/web/sitetheory/v/2/0/bundles/sitetheoryarticle
+
+ Unfortunately, the Template will not be able to use Assetic, and must just have a direct link.
+ .. code-block:: html+jinja
+    {% block link %}
+        {{ parent() }}
+        <link rel="stylesheet" href="/sitetheory/v/2/0/bundles/sitetheoryarticle/css/Article1000-Welcome.css">
+    {% endblock link %}
 
 *****************
 Client Site Files
