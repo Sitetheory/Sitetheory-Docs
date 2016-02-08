@@ -2,7 +2,7 @@
 How to Use Plugins
 ##################
 
-Standard plugins are defined in the Stratus.js and are available on any page by adding a data-plugin="" attribute to any element.
+Standard plugins are defined in the Stratus.js and are available on any page by adding a data-plugin="" attribute to any element. You may combine multiple plugins on one element by separating each plguin name with a space, e.g. data-plugin="AddClass Dim"
 
 
 OnScreen
@@ -44,3 +44,43 @@ The AddClass plugin will allow you to add a class to any target element when hov
 * data-event: these are the events that the plugin will listen for on the element, in order to add the class. By default this is based on 'hover', but it can also be 'click'. If you want to have it listen to both events you can include both, e.g. data-event="hover click", and then target your CSS based on .active.hover or .active.click. The hover adds the class on mouse over and removes it on mouse leave. The click events toggles the class on and off each time the click takes place.
 
  * data-classinitialized: the CSS class that should be added to the target element (and the element that triggers the event) the first time it is initialized. This defaults to the generic 'initialized' but will also add a unique version based on the CSS class, e.g. if your css Class is 'fooBar', it will add initializedFooBar do distinguish it from other plugins that are adding classes to the same target.
+
+
+MoreBox
+-------
+This plugin provides a consistent way to use the AddClass plugin to create a simple box that pops up to provide more information when you click or hover a button. CClicking the plugin button, will add an "active" class to the target moreBox. The basic styling makes the .moreBox { display: none; } by default, and then changes it to display:block when it's active. The positioning of the box will be relative to wherever the box is in the DOM, but you can easily create custom CSS to make positioning absolute or fixed to any part of the page, and add your own animations, etc.
+
+Any options for AddClass plugin will work on this plugin as well. You can also double other other plugins like Dim.
+
+**Required**
+- The button element needs an id, and the moreBox needs an ID that matches.
+
+**Example**
+<div id="foo" data-plugin="moreBox">Click for More</div>
+<div id="foo-moreBox">
+    <p>Content that Appears</p>
+</div>
+
+
+Drawer
+------
+Make a drawer slide in and out of the side of the website. The core plugins.css has basic styling that makes the drawer and the app container slide in together, but you can customize specifics in your own CSS.
+
+**Required**
+- The button element needs an id, and the drawer needs an ID that matches with the suffix "-drawer".
+
+**Example**
+<div id="foo" data-plugin="Drawer">Open Drawer</div>
+<div id="foo-drawer">
+    <p>Drawer Content</p>
+</div>
+
+
+
+Dim
+---
+
+ Dim the page (by adding a 'dim' class to the body). The actual effect is determined by the styles you set in your CSS. The basic CSS recommended is:
+
+  body.dim { background-color: #000; }
+  body.dim #app { opacity: .2; }
