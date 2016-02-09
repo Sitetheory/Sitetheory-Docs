@@ -6,7 +6,7 @@ Versioning allows an entity's revision history to be tracked. The best example o
 
 All pages of the website are a ``View`` which has an association with on or more ``ViewVersion`` entities. These ``ViewVersion`` entities (and the content specific entities that are associated with that version) contain the unique content. See the :doc:`overview of how Pages work</2.0/Overview/Pages>` for more details.
 
-Since versioning is a key part of the CMS, our framework makes it easy to make an entity "versionable". See the :namespace:`GutensiteCmsBundle/Entity/View/ViewVersion` or :namespace:`GutensiteCmsBundle/Entity/Design/Design` as examples of how to implement this in different ways. We use special Traits to make this easy, and minimize redundant code.
+Since versioning is a key part of the CMS, our framework makes it easy to make an entity "versionable". See the :namespace:`SitetheoryCmsBundle/Entity/View/ViewVersion` or :namespace:`SitetheoryCmsBundle/Entity/Design/Design` as examples of how to implement this in different ways. We use special Traits to make this easy, and minimize redundant code.
 
 *************************
 Interacting with Versions

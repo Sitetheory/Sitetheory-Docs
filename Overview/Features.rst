@@ -7,7 +7,7 @@ Features
 Platform
 ********
 
-Gutensite is the primary vendor of the CMS, but it will have a site like any other client. And the admin that all its clients use will be pages from its website (associated with Gutensite's siteId #1). But any client could theoretically be subscribed to the "platform" features, and get their own pages as well. This would allow designers and developers to have their own clients using their version of the pages.
+Sitetheory is the primary vendor of the CMS, but it will have a site like any other client. And the admin that all its clients use will be pages from its website (associated with Sitetheory's siteId #1). But any client could theoretically be subscribed to the "platform" features, and get their own pages as well. This would allow designers and developers to have their own clients using their version of the pages.
 
 ********
 Accounts
@@ -17,7 +17,7 @@ Shared Accounts
 ===============
 
 - All accounts are shared across the entire platform, but restricted to one or more sites, with specific privileges granted by the administrator. 
-- If an account is created on one site, and then the user visits another site on the Gutensite platform, the user can register on the new site. But instead of creating a new account, the user's existing account (associated with the email) will be granted basic access to the second site. This allows them to keep a single identity across all the sites. There could be edge cases where a user may want a different profile for a special site (e.g. to mask their identity), in that case they can create a new account for a different email address (but that should be rare, and is a small inconvenience for the overall benefit of a shared account system).
+- If an account is created on one site, and then the user visits another site on the Sitetheory platform, the user can register on the new site. But instead of creating a new account, the user's existing account (associated with the email) will be granted basic access to the second site. This allows them to keep a single identity across all the sites. There could be edge cases where a user may want a different profile for a special site (e.g. to mask their identity), in that case they can create a new account for a different email address (but that should be rare, and is a small inconvenience for the overall benefit of a shared account system).
 - By default a new account has basic access to the site that it was created on, but the administrator can promote the user to be a moderator on the site, or an administrator with varying degrees of CRUD access on a page by page basis, or an administrator over multiple sites.
 
 
@@ -117,6 +117,6 @@ You can do advanced searches on one or more specific fields by using a special f
 Customization
 *************
 
-The framework allows you to customize the generic PHP controller or Twig template for any content type by adding an identical file to the client's site ``/var/wwww/vhosts/{ID}/src/`` directory. Design Templates can also be customized in the same way by adding files to the ``Gutensite/Template{TEMPLATE-NAME}Bundle/src/`` directory. Individual pages can have a unique controller only for that view ID by adding a similar file with the additional view ID appended to the name.
+The framework allows you to customize the generic PHP controller or Twig template for any content type by adding an identical file to the client's site ``/var/wwww/vhosts/{ID}/src/`` directory. Design Templates can also be customized in the same way by adding files to the ``Sitetheory/Template{TEMPLATE-NAME}Bundle/src/`` directory. Individual pages can have a unique controller only for that view ID by adding a similar file with the additional view ID appended to the name.
 
 Learn more about :doc:`File Customizations </2.0/Tutorials/How-To-Customize-Files>`.

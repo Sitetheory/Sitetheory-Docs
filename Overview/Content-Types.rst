@@ -14,7 +14,7 @@ Every :doc:`page is a View </2.0/Overview/Pages>` which is associated with a spe
 Restricting to Services
 ***********************
 
-A Content Type is also associated with a specific service, and sites will have access to any Content Types belonging to services that they are subscribed to. For example, **Article** is Content Type that is available to everyone. But **CMS** is a service with a lot of Content Types that are only available to Gutensite, and all those content types are the pages that power the CMS Control Panel, e.g. Dash, Aerial Menu, Content List, Editing pages, etc.
+A Content Type is also associated with a specific service, and sites will have access to any Content Types belonging to services that they are subscribed to. For example, **Article** is Content Type that is available to everyone. But **CMS** is a service with a lot of Content Types that are only available to Sitetheory, and all those content types are the pages that power the CMS Control Panel, e.g. Dash, Aerial Menu, Content List, Editing pages, etc.
 
 
 .. _overview-functionality-content-types:

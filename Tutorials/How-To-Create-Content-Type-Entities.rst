@@ -12,7 +12,7 @@ An Entity class should be created for each Entity Content Type, whether or not y
 Register Searchable Fields
 --------------------------
 
-The Entity class should register the entity properties (fields) that are "searchable". These will be made available for filtering on list pages. This registration happens in the entity repository. See the :namespace:`GutensiteCmsBundle:View\ViewVersionRepository` as an example.
+The Entity class should register the entity properties (fields) that are "searchable". These will be made available for filtering on list pages. This registration happens in the entity repository. See the :namespace:`SitetheoryCmsBundle:View\ViewVersionRepository` as an example.
 
 * **Searchable Fields**
     These are the fields that should be searched on a regular generic search (the most common fields).

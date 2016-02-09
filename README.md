@@ -1,6 +1,9 @@
-# Gutensite-Docs
-Documentation for the Gutensite Framework and CMS
+# Sitetheory-Docs
+Documentation for the Sitetheory Framework and CMS
 
-- Primary documentation can be found online at http://beta.gutensite.com/docs
-- PHP API can be found online at http://beta.gutensite.com/phpdocs/2/0
-- Javascript API can be found online at http://beta.gutensite.com/jsdocs/2/0
+- Primary documentation can be found at http://docs.sitetheory.io/index.html
+- PHP API can be found at http://api.sitetheory.io/index.html
+- Javascript API can be found at http://js.sitetheory.io/2/0/stratus.html
+- Spinx Markup Reference can be found at: http://www.sphinx-doc.org/en/stable/rest.html
+
+

@@ -21,7 +21,7 @@ The versionable entity registers the name of the parent entity and then the trai
         /**
          * Use Shared Versionable Traits
          */
-        use Gutensite\CmsBundle\Entity\VersionEntityTrait;
+        use Sitetheory\CmsBundle\Entity\VersionEntityTrait;
 
         /**
          * Register the name of this entity, as it's referenced in the parent.
@@ -45,12 +45,12 @@ The versionable entity registers the name of the parent entity and then the trai
          */
 
         public function getEntityForm() {
-            return 'Gutensite\CmsBundle\Form\Type\View\ViewVersionType';
+            return 'Sitetheory\CmsBundle\Form\Type\View\ViewVersionType';
         }
 
 
         /**
-         * @ORM\ManyToOne(targetEntity="\Gutensite\CmsBundle\Entity\View\View", inversedBy="viewVersion")
+         * @ORM\ManyToOne(targetEntity="\Sitetheory\CmsBundle\Entity\View\View", inversedBy="viewVersion")
          * @ORM\JoinColumn(name="viewId", referencedColumnName="id", nullable=true, onDelete="SET NULL")
          */
         protected $view;
@@ -95,7 +95,7 @@ If this parent entity has only one versionable entity (e.g. View with ViewVersio
         /**
          * Use Shared Versionable Traits.
          */
-        use Gutensite\CmsBundle\Entity\VersionParentTrait;
+        use Sitetheory\CmsBundle\Entity\VersionParentTrait;
 
         /**
          * Define the Container Manually
@@ -124,7 +124,7 @@ If this parent entity has only one versionable entity (e.g. View with ViewVersio
             }
 
         /**
-         * @ORM\OneToMany(targetEntity="\Gutensite\CmsBundle\Entity\View\ViewVersion", mappedBy="view", cascade={"persist", "remove", "detach"}, orphanRemoval=true)
+         * @ORM\OneToMany(targetEntity="\Sitetheory\CmsBundle\Entity\View\ViewVersion", mappedBy="view", cascade={"persist", "remove", "detach"}, orphanRemoval=true)
          */
         protected $viewVersions;
         Versionable Entity Repository
@@ -135,7 +135,7 @@ If this parent entity has only one versionable entity (e.g. View with ViewVersio
         /**
          * Use Shared Version Trait Methods
          */
-        use Gutensite\CmsBundle\Entity\VersionRepositoryTrait;
+        use Sitetheory\CmsBundle\Entity\VersionRepositoryTrait;
 
         public function getPreview($id) {}
         public function getLive($id) {}
@@ -181,7 +181,7 @@ Once you've set up an entity correctly, your controller can simply call the corr
      * VERSIONING
      * Get the Best ViewVersion of the View based on the environment view mode
      */
-    $viewVersionRepo = $em->getRepository('GutensiteCmsBundle:View\ViewVersion');
+    $viewVersionRepo = $em->getRepository('SitetheoryCmsBundle:View\ViewVersion');
     $viewVersionRepo->associateVersion(‘ViewVersion', $view, $this->env->getMode());
 
 Iterate Versions

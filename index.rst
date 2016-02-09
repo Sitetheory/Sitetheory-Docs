@@ -1,13 +1,13 @@
 #############
-Gutensite 2.0
+Sitetheory 1.0
 #############
 
-Gutensite 2.0 aims to build a *Scalable, Enterprise-Level SaaS* Content Management System.
+Sitetheory 1.0 aims to build a *Scalable, Enterprise-Level SaaS* Content Management System.
 This version will pave the way for all future features, including the `Developer API`_, the `Javascript Library`_ (The "Stratus" Layer) and any succeeding versions.
 A new version will only be created at the moment when `Backwards Compatibility`_ is broken.
 
-.. _Developer API: http://phpdocs.gutensite.com/2/0/index.html
-.. _Javascript Library: http://jsdocs.gutensite.com/2/0/stratus.html
+.. _Developer API: http://api.sitetheory.io/index.html
+.. _Javascript Library: http://js.sitetheory.io/2/0/stratus.html
 .. _Backwards Compatibility: http://en.wikipedia.org/wiki/Backward_compatibility
 
 Documentation Topics:
