@@ -5,6 +5,33 @@ How to Use Plugins
 Standard plugins are defined in the Stratus.js and are available on any page by adding a data-plugin="" attribute to any element. You may combine multiple plugins on one element by separating each plguin name with a space, e.g. data-plugin="AddClass Dim"
 
 
+Lazy Load Correct Sized Images
+----------------
+This plugin is so important, it's part of the core, so you don't have to specify a data-plugin value. Instead you just specify a data-src that points to the image that you want to load dynamically. It will calculate the size of the container and load the right sized image (XS, S, M, L, XL, HQ) to fill that area (which means it doesn't load images larger than mobile devices need).
+
+If you want a placeholder image to appear on the page, you can just enter that as the regular image src. It is usually recommended to specify the smallest version of the image, so that the image's native ratio will be available to the CSS so that the height is correctly proportional to the width (which means when the real image loads the page isn't going to shift as element heights change).
+
+If you use the lazy loading on images in your design (not created by the system so they don't automatically have the different size options, e.g. XS, S, M, L, XL, HQ, you will need to create these versions of your images that the plugin can load. You can technically make them any size, e.g. if you want your Small image to be 350px (because that is the largest you ever want it displayed) you can upload that size (instead of the standard 400px for S images).
+
+**Classes**
+- placeholder: When the image is first collected for lazy-loading a 'placeholder' class will be added to it, so that you can style default look of an image that isn't loaded, e.g. gray background with a loading icon.
+
+- loading: when the image is on screen and is in the process of loading, a 'loading' class will be added.
+
+- loaded: when the image is loaded, the 'loading' class will be replaced by 'loaded'.
+
+**Data Options:**
+
+- src: the data-src should point to the image that you want to lazy-load. If you have specified a regular img src as a placeholder image (e.g. a small version), and you want to lazy load the best size of that image, than you can avoid typing out the path a second time and just specify data-src="lazy" and the system will load the best version of the current image src.
+
+- spy: By default the image will load when it is "on screen". But in some cases (like a Bootstrap Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
+
+**Additional Options**
+
+-disable-fadein: All images will fade in from opacity 0 to 1, when the placeholder class is replaced with the loaded class. If you have specified a src because you want a default placeholder image to show up, then obviously you don't want the placeholder image to go invisible. So you should add a "disable-fadein" class to the image.
+
+
+
 OnScreen
 --------
 
@@ -66,6 +93,9 @@ Drawer
 ------
 Make a drawer slide in and out of the side of the website. The core plugins.css has basic styling that makes the drawer and the app container slide in together, but you can customize specifics in your own CSS.
 
+**Data Options**
+- mobileonly: set to true if this drawer should only kick in at mobile sizes. This is useful because if the drawer is opened and the browser resized larger, the drawer will suck back into the sidebar and return the desktop look (e.g. usually a visible sidebar)
+
 **Required**
 - The button element needs an id, and the drawer needs an ID that matches with the suffix "-drawer".
 
@@ -84,3 +114,33 @@ Dim
 
   body.dim { background-color: #000; }
   body.dim #app { opacity: .2; }
+
+
+Carousel
+--------
+The current carousel uses Bootstrap's Carousel, but we standardize how it is evoked and also allow an easy way to specify how many frames (item elements) to appear in each slide. This is useful when you want to display a gallery with several options. We also allow lazy loading of images inside the slideshow by toggling a Stratus.Environment.viewPortChange after the slide appears (otherwise the images will never appear unless you are simultaneously scrolling. So overall, it's better to call the carousel via our standard plugin.
+
+ **Data Options**
+- group: the number of frames to group together and show in each slide (this will apply to both desktop and mobile, unless groupmobile is set).
+- groupmobile: the number of items to group together and show in each slide when loaded on a mobile device.
+- colminsize: the css to add to the nested items so that they properly align, e.g. if you specify data-group="3" data-colminsize="sm" then the class for the nestedItem will be 'col-sm-4'.
+- All Standard Bootstrap data options: interval, pause, wrap, keyboard
+
+**Example**
+<div id="slideshow" class="carousel slide" data-plugin="carousel" data-group="3" data-colminsize="sm" data-interval="4000">
+    <div class="carousel-inner">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+    <div class="designSelectorControls">
+    <a class="carousel-control left" href="#slideshow" role="button" data-slide="prev" data-scroll="false"></a>
+    <a class="carousel-control right" href="#slideshow" role="button" data-slide="next" data-scroll="false"></a>
+    </div>
+</div>
+
+**NOTE:**
+The data-scroll="false" is added to prevent our anchor script from scrolling to the new position.
