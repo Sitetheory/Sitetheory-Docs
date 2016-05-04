@@ -65,6 +65,9 @@ data-sourcetarget (JSON): If you need to limit the API call you can pass in addi
 
 data-sourcelabelattribute (string): When the API returns the model, it needs to know what field to use as the label for the options. So you would specify "name" or "title" or whatever the field is on that model.
 
+
+data-sourceImageAttribute (string): When the API returns the model, it needs to know what field to find the images. This will default to 'images'.
+
 data-sourceidattribute (string): When the API returns the model, it needs to know what field to use as the value for the options. So you would specify "id" or whatever the field is on that model. It defaults to 'id'.
 
  data-sourcelimit (integer): This determines the limit of how many options should appear at a time.
