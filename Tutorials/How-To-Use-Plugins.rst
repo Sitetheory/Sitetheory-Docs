@@ -7,6 +7,7 @@ Standard plugins are defined in the Stratus.js and are available on any page by 
 
 Lazy Load Correct Sized Images
 ----------------
+
 This plugin is so important, it's part of the core, so you don't have to specify a data-plugin value. Instead you just specify a data-src that points to the image that you want to load dynamically. It will calculate the size of the container and load the right sized image (XS, S, M, L, XL, HQ) to fill that area (which means it doesn't load images larger than mobile devices need).
 
 If you want a placeholder image to appear on the page, you can just enter that as the regular image src. It is usually recommended to specify the smallest version of the image, so that the image's native ratio will be available to the CSS so that the height is correctly proportional to the width (which means when the real image loads the page isn't going to shift as element heights change).
