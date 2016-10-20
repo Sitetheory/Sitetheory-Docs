@@ -121,7 +121,7 @@ Dim
 
 Carousel
 --------
-The current carousel uses Bootstrap's Carousel, but we standardize how it is evoked and also allow an easy way to specify how many frames (item elements) to appear in each slide. This is useful when you want to display a gallery with several options. We also allow lazy loading of images inside the slideshow by toggling a Stratus.Environment.viewPortChange after the slide appears (otherwise the images will never appear unless you are simultaneously scrolling. So overall, it's better to call the carousel via our standard plugin.
+The current carousel uses Bootstrap's Carousel, but we standardize how it is evoked and also allow an easy way to specify how many frames (item elements) to appear in each slide. This is useful when you want to display a gallery with several items per slide. We also allow lazy loading of images inside the slideshow by toggling a Stratus.Environment.viewPortChange after the slide appears (otherwise the images will never appear unless you are simultaneously scrolling. And finally, we force the carousel to be paused until it's onscreen so that you don't arrive at a carousel half way through the cycle. So overall, it's better to call the carousel via our standard plugin.
 
  **Data Options**
 - group: the number of frames to group together and show in each slide (this will apply to both desktop and mobile, unless groupmobile is set).
