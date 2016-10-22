@@ -101,6 +101,7 @@ Make a drawer slide in and out of the side of the website. The core plugins.css 
 
 **Required**
 - The button element needs an id, and the drawer needs an ID that matches with the suffix "-drawer".
+- If you need to toggle one drawer from more than one button (element) then the second element needs to have the identical id base but with a suffix "-*" (dash anything), e.g. if the original ID is "sidebarToggle" the second ID can be "sidebarToggle-2" or "sidebarToggle-retractableHeader".
 
 **Example**
 <div id="foo" data-plugin="Drawer">Open Drawer</div>
