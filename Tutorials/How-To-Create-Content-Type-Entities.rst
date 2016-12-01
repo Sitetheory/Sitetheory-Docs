@@ -9,16 +9,20 @@ Create Entity Class
 
 An Entity class should be created for each Entity Content Type, whether or not you need unique fields for this Content Type (beyond what is included in the :doc:`ViewVersion </2.0/Overview/Pages>` already). The reason for this is so that all Content Types follow the same predictable structure, i.e. we always know that there will be an entity at ``$View->getViewVersion()->getContent()``. Most entities will need custom content fields, but either way we include it for consistency in case we need to add a custom field in the future and don’t want to have to create new records for every existing record.
 
-Register Searchable Fields
+Register API Accessibility
 --------------------------
 
-The Entity class should register the entity properties (fields) that are "searchable". These will be made available for filtering on list pages. This registration happens in the entity repository. See the :namespace:`SitetheoryCmsBundle:View\ViewVersionRepository` as an example.
+The Entity class should register the entity properties (fields) that are readable, writable, and searchable by using Sitetheory\Api annotation. This registration happens in the entity field declaration. See the :namespace:`SitetheoryCoreBundle:View\ViewVersion` as an example. See `Sitetheory\CoreBundle\Annotations\Api.php` for details.
 
-* **Searchable Fields**
-    These are the fields that should be searched on a regular generic search (the most common fields).
+* **Readable**
+    All fields are readable by default. Set to false if you don't want them displaying. Set level="x" if you don't want
+    the API traversing beyond a certain level. You can specify a sentinel of permissions to
+    limit who can read, e.g. readable="false" or readable={"edit"}
 
-* **Valid Fields**
-    These are the fields that can be searched against with the special field search syntax. The Searchable Fields will be added to this list to create a full list of valid fields. So the Valid Fields are extra fields not included in the standard searchable fields.
+* **Searchable**
+    Fields are not searchable by default, you must enable them explicitly. You can specify a sentinel of permissions to
+    limit who can search, e.g. searchable="true" or searchable={"edit"}
 
-* **Alias Fields**
-    These are alias names for the valid fields, e.g. ``id`` is an alias for ``viewId``. This makes it more intuitive for the end user to use the special field search syntax, e.g. they can search for ``id:100``	 instead of having to know that the content list page is actually displaying ViewVersion and so you have so search for ``viewId:100`` (which would give the same results since it's aliased).
+* **Writable**
+    Fields are not writable by default, you must enable them explicitly. You can specify a sentinel of permissions to
+    limit who can write, e.g. writable="true" or writable={"create","edit"}

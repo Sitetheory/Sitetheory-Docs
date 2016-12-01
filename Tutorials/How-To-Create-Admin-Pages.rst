@@ -1,8 +1,8 @@
-###################
-How To Create Pages
-###################
+#########################
+How To Create Admin Pages
+#########################
 
-Note: Admin pages are going to be created slightly differently than regular pages, i.e. they aren't created through the Content page, but through a special page (Content Type restricted to CMS service) that gives full access to create new content types.
+Admin pages are going to be created slightly differently than regular pages, i.e. they aren't created through the Content page, but through a special page (Content Type restricted to CMS service) that gives full access to create new content types.
 
 
 ********************************
