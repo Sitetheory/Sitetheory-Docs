@@ -209,20 +209,37 @@ Example: Edit
             This hint will show when showHints switch is true.
         </div>
 
-        {# Example: include help and generic input #}
+        {# Example: help and generic input #}
         <stratus-help flex="5">Lorem ipsum dolor sit amet.</stratus-help>
         <md-input-container flex="95" ng-show="model.completed">
             <label>Title</label>
             <input ng-model="model.data.viewVersion.title" type="text" required>
         </md-input-container>
 
-        {# Example: include basic date picker #}
-        <md-input-container flex="100" ng-show="model.completed">
+        {# Example: basic date picker #}
+        <div flex="5"></div>
+        <md-input-container flex="95" ng-show="model.completed">
             <label>Display Date</label>
             <md-datepicker ng-model="model.data.viewVersion.timeCustom"></md-datepicker>
         </md-input-container>
 
-        {# Example: include auto-complete with chips #}
+        {# Example: Select with options hydrated from API #}
+        <div flex="5"></div>
+        <md-input-container flex="95" ng-show="model.completed">
+            <label>Genre</label>
+            {% verbatim %}
+            <md-select
+                ng-model="model.data.genre.id"
+                ng-controller="StratusController"
+                data-target="SiteGenre"
+                md-model-options="{trackBy: '$value.id'}"
+                required>
+                <md-option ng-repeat="option in collection.models" ng-value="option.data.id">{{ option.data.name }}</md-option>
+            </md-select>
+            {% endverbatim %}
+        </md-input-container>
+
+        {# Example: auto-complete with chips #}
         <div flex="5"></div>
         <md-input-container flex="95" ng-show="model.completed">
             <md-chips
@@ -238,7 +255,8 @@ Example: Edit
                     md-selected-item="selected"
                     md-search-text="query"
                     md-min-length="0"
-                    md-no-cache="true">
+                    md-no-cache="true"
+                    placeholder="Pick a Mailing List">
                     <md-item-template>{{ mailList.data.name }}</md-item-template>
                     <md-not-found>No Mailing Lists Found...</md-not-found>
                 </md-autocomplete>
@@ -246,7 +264,7 @@ Example: Edit
             </md-chips>
         </md-input-container>
 
-        {# Example: include Froala text editor #}
+        {# Example: Froala text editor #}
         <div flex="5"></div>
         <md-input-container flex="95" ng-show="model.completed">
             <label>Body</label>
