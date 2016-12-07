@@ -282,7 +282,56 @@ Example: Edit
 CUSTOM COMPONENTS
 #################
 
-
 See the Javascript documentation for detailed specs of each component.
 http://js.sitetheory.io/2/0/stratus.html
 
+
+****************
+`<stratus-help>`
+****************
+
+Add a "Help" icon that reveals more information on hover.
+
+Example
+-------
+```
+<stratus-help flex="5">This field allows you to explain how awesome you are.</stratus-help>
+```
+
+************************
+`<stratus-option-value>`
+************************
+
+Add different types of dynamic fields that allow you to enter a value and select a label to describe what knd of infromation this is, e.g. an email field, that lets you select "Main", "Work", "Personal" or enter your own custom label.
+
+Options
+-------
+
+- `data-type` (string): a string of one of the valid field types. A valid field type will add special styling, functionality, and validation relevant to that type of data. Valid options include: "phone", "email", "url", "location", "date". If no valid type is specified it will just be a simple field.
+- `data-options` (array) [required]: an array of labels to choose from for this field e.g. ["Main", "Mobile", "Work", "Personal"]
+- `data-custom` (boolean): specify "true" if you want users to be able to enter a custom value for the label. (default: true)
+- `data-multiple` (boolean): specify "true" if you want users to be able to add more than one version of this type of field, e.g. multiple phone numbers. (default: true)
+
+Additional Features for Type
+----------------------------
+
+- location: when saved, a location will attempt to do a geolocation lookup and store the latitude/longitude of the address.
+
+
+Example
+-------
+
+```
+<stratus-option-value flex="95" ng-show="model.completed"
+    ng-model="model.data.viewVersion.meta.phones"
+    data-options='["Main", "Mobile", "Work", "Personal"]'
+    data-type="phone"
+    data-custom="true"
+    data-multiple="true">
+</stratus-option-value>
+```
+
+Backend Info
+------------
+
+The label/value pairs are stored in the AssetManager, which allows for multiple dynamic fields to be attached to any entity.
