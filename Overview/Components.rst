@@ -30,7 +30,7 @@ In addition to all the standard Angular options, the following options are the m
 
 `ng-model` (string:required) This is the property that is being edited, e.g. "model.data.name"
 
-`data-api` (json:optional) This is an optional json array of settings that will be passed to the API via the Convoy's Meta property.
+`data-api` (json:optional) This is an optional json array of settings that will be passed to the API via the Convoy's Meta property, e.g. `data-api='{"options":{"showRouting":true}}'`.
 
 
 ******************************
