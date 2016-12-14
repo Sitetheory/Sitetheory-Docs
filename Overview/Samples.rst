@@ -162,6 +162,19 @@ Twig
     {{ block('registrationForm') }}
 </div>
 
+```
 
 
+
+Count Up
+========
+A counter that changes a number from a start to an end value. You can also tell countUp to animate other elements like a progress bar.
+
+This sample code is using a Custom API to fetch custom data `results.count` which is set to fetch on load and then every 10 seconds afterwards.
+
+```
+<div ng-controller="CustomApi" options='{"controller":"/people/count", "onLoad": "fetch", "onTime": {"time": "10s", "method":"fetch"}}'>
+    <div id="progressBar" class="positionLeftTop salmon" style="max-width: 100%"></div>
+    <div id="totalSignUp" class="borderDashed fontSecondary salmonText" count-up start-val="0" end-val="results.count" count-instance="countUp" related-target="progressBar" related-style="{ width: (100*(frameVal/500000))+'%' }" duration="1.5" decimals="0" scroll-spy-event="elementFirstScrolledIntoView" scroll-spy></div>
+</div>
 ```
