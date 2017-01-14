@@ -24,7 +24,7 @@ Component Options
 
 In addition to all the standard Angular options, the following options are the most common basic options used in our system.
 
-`ng-controller` (string:required) This tells Angular to use our standard StratusController which fetches and binds the models to the current scope, e.g. ng-controller="StratusController". This standard StratusController is good enough for most situations, but if you need a fully custom implementation, you can declare one in a <script> tag above (see example below).
+`ng-controller` (string:required) This tells Angular to use our standard `Generic` controller which fetches and binds the models to the current scope, e.g. ng-controller="Generic". This standard `Generic` controller is good enough for most situations, but if you need a fully custom implementation, you can declare one in a <script> tag above (see example below).
 
 `data-target` (string:required) This is the name of the entity that the RESTful API will target, e.g. "User".
 
@@ -60,7 +60,7 @@ NOTE: below is sample HTML, but a lot of the outer HTML is reusable in Twig by e
 HTML
 ----
 <!-- The ng-controller is the name of the API that will be called, e.g. ListApiController -->
-<md-list ng-controller="StratusController"
+<md-list ng-controller="Generic"
 data-target="User" data-api='{"options":{"limitContext":true, "showProfile":true, "showMailLists":true}}'
 layout-padding ng-cloak>
 
@@ -136,7 +136,7 @@ TWIG
 Javascript
 ----------
 If you need to define custom functionality, you can easily create a custom controller that utilizes the services of the
-default StratusController. Then you either define the `ng-controller` manually, or if you are using the ListBase, you can
+default `Generic` controller. Then you either define the `ng-controller` manually, or if you are using the ListBase, you can
 define your own controller, e.g.:
 
 {% set stratusController = 'FooController' %}`
@@ -187,7 +187,7 @@ Example: Edit
 *************
 
 <!-- Targeting the Article entity API for the specified ID -->
-<div ng-controller="StratusController"
+<div ng-controller="Generic"
     data-target="Article"
     data-id="35558"
     data-manifest="true"
@@ -230,7 +230,7 @@ Example: Edit
             {% verbatim %}
             <md-select
                 ng-model="model.data.genre.id"
-                ng-controller="StratusController"
+                ng-controller="Generic"
                 data-target="SiteGenre"
                 md-model-options="{trackBy: '$value.id'}"
                 required>
