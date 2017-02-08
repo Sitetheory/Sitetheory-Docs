@@ -59,6 +59,8 @@ NOTE: below is sample HTML, but a lot of the outer HTML is reusable in Twig by e
 
 HTML
 ----
+
+```
 <!-- The ng-controller is the name of the API that will be called, e.g. ListApiController -->
 <md-list ng-controller="Generic"
 data-target="User" data-api='{"options":{"limitContext":true, "showProfile":true, "showMailLists":true}}'
@@ -113,10 +115,12 @@ layout-padding ng-cloak>
 
     </md-list-item>
 </md-list>
-
+```
 
 TWIG
 ----
+
+```
 {% extends 'SitetheoryCoreBundle:Core:ListBase.html.twig' %}
 {% set stratusTarget = 'User' %}
 {% set stratusApi = '{"options":{"limitContext":true, "showProfile":true, "showMailLists":true}, "q":"foo"}' %}
@@ -130,7 +134,7 @@ TWIG
     <div>{{ model.data.bestName }}</div>
     {% endverbatim %}
 {% endblock listRow %}
-
+```
 
 
 Javascript
@@ -139,6 +143,7 @@ If you need to define custom functionality, you can easily create a custom contr
 default `Generic` controller. Then you either define the `ng-controller` manually, or if you are using the ListBase, you can
 define your own controller, e.g.:
 
+```
 {% set stratusController = 'FooController' %}`
 {% block script %}
 
@@ -180,12 +185,13 @@ define your own controller, e.g.:
     </script>
 
 {% endblock script %}
-
+```
 
 *************
 Example: Edit
 *************
 
+```
 <!-- Targeting the Article entity API for the specified ID -->
 <div ng-controller="Generic"
     data-target="Article"
@@ -276,7 +282,7 @@ Example: Edit
         <md-button aria-label="save" class="md-raised md-primary white-svg" ng-show="model.completed" ng-click="model.save()">Save</md-button>
     </div>
 </div>
-
+```
 
 #################
 CUSTOM COMPONENTS
