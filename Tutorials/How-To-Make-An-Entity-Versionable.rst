@@ -2,7 +2,7 @@
 How to Make an Entity Versionable
 #################################
 
-Before you make an entity versionable, be sure to read the :doc:`overview documentation for Versioning </2.0/Overview/Versioning>` to understand how versioning works.
+Before you make an entity versionable, be sure to read the :doc:`overview documentation for Versioning </1.0/Overview/Versioning>` to understand how versioning works.
 
 
 ************************************
