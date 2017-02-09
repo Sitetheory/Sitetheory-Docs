@@ -5,6 +5,8 @@ How To Utilize Special Conditions in the Body Class
 The Stratus.js adds a lot of useful CSS classes to the HTML body, which can assist you with styling under certain conditions.
 
 .. code-block:: html
+    :linenos:
+
     <body class="SitetheoryArticleBundle-Article viewId-12345 layout-Main mac chrome version47 loaded">
 
 Browser

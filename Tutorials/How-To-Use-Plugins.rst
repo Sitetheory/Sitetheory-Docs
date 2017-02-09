@@ -6,7 +6,7 @@ Standard plugins are defined in the Stratus.js and are available on any page by 
 
 
 Lazy Load Correct Sized Images
-----------------
+------------------------------
 
 This plugin is so important, it's part of the core, so you don't have to specify a data-plugin value. Instead you just specify a data-src that points to the image that you want to load dynamically. It will calculate the size of the container and load the right sized image (XS, S, M, L, XL, HQ) to fill that area (which means it doesn't load images larger than mobile devices need).
 
@@ -104,10 +104,14 @@ Make a drawer slide in and out of the side of the website. The core plugins.css 
 - If you need to toggle one drawer from more than one button (element) then the second element needs to have the identical id base but with a suffix "-*" (dash anything), e.g. if the original ID is "sidebarToggle" the second ID can be "sidebarToggle-2" or "sidebarToggle-retractableHeader".
 
 **Example**
-<div id="foo" data-plugin="Drawer">Open Drawer</div>
-<div id="foo-drawer">
-    <p>Drawer Content</p>
-</div>
+
+.. code-block:: html
+    :linenos:
+
+    <div id="foo" data-plugin="Drawer">Open Drawer</div>
+    <div id="foo-drawer">
+        <p>Drawer Content</p>
+    </div>
 
 
 
@@ -131,20 +135,24 @@ The current carousel uses Bootstrap's Carousel, but we standardize how it is evo
 - All Standard Bootstrap data options: interval, pause, wrap, keyboard
 
 **Example**
-<div id="slideshow" class="carousel slide" data-plugin="carousel" data-group="3" data-colminsize="sm" data-interval="4000">
-    <div class="carousel-inner">
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+
+.. code-block:: html
+    :linenos:
+
+    <div id="slideshow" class="carousel slide" data-plugin="carousel" data-group="3" data-colminsize="sm" data-interval="4000">
+        <div class="carousel-inner">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+        </div>
+        <div class="designSelectorControls">
+        <a class="carousel-control left" href="#slideshow" role="button" data-slide="prev" data-scroll="false"></a>
+        <a class="carousel-control right" href="#slideshow" role="button" data-slide="next" data-scroll="false"></a>
+        </div>
     </div>
-    <div class="designSelectorControls">
-    <a class="carousel-control left" href="#slideshow" role="button" data-slide="prev" data-scroll="false"></a>
-    <a class="carousel-control right" href="#slideshow" role="button" data-slide="next" data-scroll="false"></a>
-    </div>
-</div>
 
 **NOTE:**
 The data-scroll="false" is added to prevent our anchor script from scrolling to the new position.

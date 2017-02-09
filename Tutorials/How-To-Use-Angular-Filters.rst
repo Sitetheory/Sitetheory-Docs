@@ -29,4 +29,9 @@ You can pass in arguments by specifying a JSON string, e.g. `truncate:{limit:25}
 - `limit` (int): the max number of characters to display.
 - `suffix` (string): the suffix string that should be added to the end of the truncated string. Enter an empty string to not append any suffix. (default `...`)
 
-Example: {{ model.data.title | truncate:{limit:25, suffix:""} }}
+Example:
+
+.. code-block:: twig
+    :linenos:
+
+    {{ model.data.title | truncate:{limit:25, suffix:""} }}

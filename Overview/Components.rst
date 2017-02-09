@@ -58,7 +58,8 @@ NOTE: below is sample HTML, but a lot of the outer HTML is reusable in Twig by e
 HTML
 ----
 
-::
+.. code-block:: html+twig
+    :linenos:
 
     <!-- The ng-controller is the name of the API that will be called, e.g. ListApiController -->
     <md-list ng-controller="Generic"
@@ -120,7 +121,8 @@ HTML
 TWIG
 ----
 
-::
+.. code-block:: html+twig
+    :linenos:
 
     {% extends 'SitetheoryCoreBundle:Core:ListBase.html.twig' %}
     {% set stratusTarget = 'User' %}
@@ -143,7 +145,8 @@ If you need to define custom functionality, you can easily create a custom contr
 default `Generic` controller. Then you either define the `ng-controller` manually, or if you are using the ListBase, you can
 define your own controller, e.g.:
 
-::
+.. code-block:: html+twig
+    :linenos:
 
     {% set stratusController = 'FooController' %}`
     {% block script %}
@@ -192,7 +195,8 @@ define your own controller, e.g.:
 Example: Edit
 *************
 
-::
+.. code-block:: html+twig
+    :linenos:
 
     <!-- Targeting the Article entity API for the specified ID -->
     <div ng-controller="Generic"
@@ -303,7 +307,8 @@ Add a "Help" icon that reveals more information on hover.
 Example
 -------
 
-::
+.. code-block:: html
+    :linenos:
 
     <stratus-help flex="5">This field allows you to explain how awesome you are.</stratus-help>
 
@@ -331,7 +336,8 @@ Additional Features for Type
 Example
 -------
 
-::
+.. code-block:: html
+    :linenos:
 
     <stratus-option-value flex="95" ng-show="model.completed"
         ng-model="model.data.viewVersion.meta.phones"
