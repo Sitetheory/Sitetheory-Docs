@@ -24,9 +24,9 @@ Using LESS is always a bit more complex, but allows for a level of dynamism that
 
 We highly recommend using LESS, when applicable.  Compilation and compression of these files works out of the box in most Sitetheory contexts.
 
-##############
-Twig Standards
-##############
+****************
+Twig Compilation
+****************
 
 This methodology allows for your LESS files to easily compile and compress appropriately within Sitetheory's ecosystem.
 
