@@ -33,14 +33,6 @@ Versions
 ========
 A new version will only be created at the moment when `Backwards Compatibility`_ is broken.
 
-
-================
-Other References
-================
-
-* `PHP API`_ Docs
-* `Stratus`_ Docs
-
 ========
 Overview
 ========
@@ -59,7 +51,7 @@ Tutorials
     :maxdepth: 1
     :glob:
 
-    Tutorials/Overview
+    Tutorials/Quick-Overview
     Tutorials/*
 
 =========
@@ -106,6 +98,13 @@ API
     API/Overview
     API/*
 
+
+================
+Other References
+================
+
+* `PHP API`_ Docs
+* `Stratus`_ Docs
 
 
 
