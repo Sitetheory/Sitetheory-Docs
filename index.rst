@@ -44,17 +44,6 @@ Overview
     Overview/*
 
 =========
-Tutorials
-=========
-
-.. toctree::
-    :maxdepth: 1
-    :glob:
-
-    Tutorials/Quick-Overview
-    Tutorials/*
-
-=========
 Standards
 =========
 
@@ -64,6 +53,17 @@ Standards
 
     Standards/Overview
     Standards/*
+
+=========
+Tutorials
+=========
+
+.. toctree::
+    :maxdepth: 1
+    :glob:
+
+    Tutorials/Quick-Overview
+    Tutorials/*
 
 ========
 Security
@@ -103,12 +103,12 @@ API
 Other References
 ================
 
-* `PHP API`_ Docs
+* `Framework`_ Docs
 * `Stratus`_ Docs
 
 
 
-.. _PHP API: http://api.sitetheory.io/index.html
+.. _Framework: http://api.sitetheory.io/index.html
 .. _Stratus: http://js.sitetheory.io/1/0/stratus.html
 .. _Backwards Compatibility: http://en.wikipedia.org/wiki/Backward_compatibility
 .. _Symfony: http://symfony.com/
