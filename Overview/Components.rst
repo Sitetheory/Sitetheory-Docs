@@ -291,10 +291,10 @@ Example: Edit
 
 
 #################
-CUSTOM COMPONENTS
+Custom Components
 #################
 
-See the `Stratus Documentation <http://js.sitetheory.io/2/0/stratus.html>`_ for detailed specs of each component.
+See the `Stratus Documentation <http://js.sitetheory.io/1/0/stratus.html>`_ for detailed specs of each component.
 
 
 

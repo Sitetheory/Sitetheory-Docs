@@ -1,6 +1,10 @@
-#############
+#################
+Styling Standards
+#################
+
+*************
 CSS Standards
-#############
+*************
 
 We suggest you follow the styling guide located at: https://github.com/necolas/idiomatic-css and declare files in the normal methods for Twig using Assetic in Sitetheory.
 
@@ -11,9 +15,9 @@ We suggest you follow the styling guide located at: https://github.com/necolas/i
 
 So, ideally, it will use the unminified version when you’re in design mode, otherwise the min version will be supplied to production.
 
-##############
+**************
 LESS Standards
-##############
+**************
 
 Using LESS is always a bit more complex, but allows for a level of dynamism that can provide a much simple updating, alteration, and maintenance scheme in the long run.  For example:
 

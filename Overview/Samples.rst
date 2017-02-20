@@ -1,5 +1,5 @@
 #######
-SAMPLES
+Samples
 #######
 
 

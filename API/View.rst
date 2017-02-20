@@ -1,8 +1,12 @@
-########
-View Api
-########
+####
+View
+####
 
 
+Overview
+========
+
+A View is simply a page that is attached to a Dynamic Route (i.e. /Home).
 
 
 SOAP
@@ -27,11 +31,9 @@ options[showUsedContentTypes]=true
 Include a list of all content types that are used by this site. This would be used on a content list page, to create filters.
 
 
-
 options[showRouting]=true
 -------------------------
 The routes are always included in the query, so that we can get the primary. But this will make sure that the full list of routes is included in the API results.
-
 
 
 options[showContentInfo]
