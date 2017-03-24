@@ -290,6 +290,36 @@ Example: Edit
     </div>
 
 
+
+############
+# VALIDATION
+############
+
+The `validate` directive enhances `Angular's internal form<https://docs.angularjs.org/guide/forms>`_ by using the `Angular ngMessages<https://docs.angularjs.org/api/ngMessages/directive/ngMessages>`_ system to allow custom validation in addition to the Angular defaults validation like `required`, `min`, `max`, `email`, etc. This `validate` directive adds several new validation methods that can be triggered for inputs by including the requirements as options.
+
+- string|array `validateInvalid` One or more invalid values not allowed. Can include scope variables that will be evaluated, e.g. `validate-invalid='[model.data.nominatorName, "foo"]'`
+- string|array `validateValid` One or more values that are valid.
+- string `validateComparison` A scope variable comparison that will be evaluated, e.g. `model.data.nominatorName != model.data.nomineeName`. NOTE: if the comparison value evaluates the current model value, e.g. model.data.nomineeName this is evaluates after the viewValue is updated but BEFORE the model is updated, so it won't work with the timing.
+
+The ng-message validate key will be set if a specific validation fails. If more than one validation scheme is set, we will also show if any of them fail:
+- `validateComparison`: if the comparison was false.
+- `validateInvalid`: if an invalid value was provided.
+- `validateValid`: if a valid value was not provided.
+- `validateAny`: if any of the validations fail.
+
+Example:
+
+::
+
+    <input name="nomineeName" ng-model="model.data.fooName" placeholder="" required stratus-validate validate-comparison="model.data.foo != model.data.bar" validate-invalid="['baz', 'rab']">
+        <div ng-messages="Nominate.nomineeName.$error" ng-messages-multiple role="alert">
+        <div ng-message="required">Please enter a name.</div>
+        <div ng-message="validateComparison">Please do not nominate yourself.</div>
+        <div ng-message="validateInvalid">Baz and Rab are not valid values.</div>
+        <div ng-message="validateAny">Ya you really messed up.</div>
+    </div>
+
+
 #################
 Custom Components
 #################
