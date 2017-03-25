@@ -38,9 +38,12 @@ Then in your twig file, just load your custom config, BEFORE
     {# Load Custom Vendor or Vhost Require Config #}
     {% block scriptConfig %}
 
-        {% javascripts '@AcmeCoreBundle/Resources/public/js/boot/config.js' filter='?uglifyjs2' %}
+        {% javascripts '@AcmeFooBundle/Resources/public/js/boot/config.js' filter='?uglifyjs2' %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
+
+        {# You MUST include the parent, so that it doesn't overwrite other instances of custom config by other vendors #}
+        {{ parent() }}
 
     {% endblock scriptConfig %}
 
