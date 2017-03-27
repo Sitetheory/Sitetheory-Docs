@@ -15,7 +15,7 @@ Example 1: Specify shim, paths, etc (full config structure)
         paths: {
             froala: boot.bundle + 'stratus/bower_components/froala-wysiwyg-editor/js/froala_editor.min',
             'angular-froala': boot.bundle + 'stratus/bower_components/angular-froala/src/angular-froala',
-            'stratus.components.foo': '/assets/1/0/bundles/acmefoo/js/foo'+boot.suffix
+            'stratus.components.foo': 'acmefoo/js/foo'+boot.suffix
         }
     });
 
@@ -24,11 +24,13 @@ Example 2: Specify only paths (shortcut)
 ::
 
     boot.config({
-        'stratus.components.foo': '/assets/1/0/bundles/acmefoo/js/components/foo'+boot.suffix
+        'stratus.components.foo': 'acmefoo/js/components/foo'+boot.suffix
     });
 
 
-Note: See `SitetheoryStratusBundle/Resources/public/stratus/boot/env.js` for available properties, e.g. `boot.suffix`
+Note: See `SitetheoryStratusBundle/Resources/public/stratus/boot/env.js` for available properties, e.g. `boot.suffix`. The Sitetheory config will load first and set the default values for these properties, which will be available for the custom config above.
+
+If the path does not start with a slash, the config will automatically prefix the path provided with `boot.cdn` (which will be the path to the CDN if it's production or a relative '/' if it's dev) and the `boot.relative` (which is the path to the current version, e.g. 'assets/1/0/bundles'). So you only need to start with the vendor bundle name folder.
 
 TWIG
 Then in your twig file, just load your custom config, BEFORE
