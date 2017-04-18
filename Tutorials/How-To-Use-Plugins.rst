@@ -21,17 +21,15 @@ If you use the lazy loading on images in your design (not created by the system 
 
 - loaded: when the image is loaded, the 'loading' class will be replaced by 'loaded'.
 
-**Data Options:**
+**Attribute Options:**
 
-- src: the data-src should point to the image that you want to lazy-load. If you have specified a regular img src as a placeholder image (e.g. a small version), and you want to lazy load the best size of that image, than you can avoid typing out the path a second time and just specify data-src="lazy" and the system will load the best version of the current image src.
+- stratus-src: the stratus-src should point to the image that you want to lazy-load. If you have specified a regular img src as a placeholder image (e.g. a small version), and you want to lazy load the best size of that image, than you can avoid typing out the path a second time and just specify data-src="lazy" and the system will load the best version of the current image src.
 
-- spy: By default the image will load when it is "on screen". But in some cases (like a Bootstrap Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
+- data-spy: By default the image will load when it is "on screen". But in some cases (like a Bootstrap Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
 
-- ignoreVisibility: normally it will look for the size of the container and load the correct image that will fill the container (assuming a 100% width is set on CSS). But if the container is invisible, it will try to go up the element tree to the first parent that is visible. This is often desirable because the parent is collapsed. However, in some cases, like a bootstrap carousel, if you have the parent width set explictly on a containing element, you want to use that (not the outer carousel width). So you set data-ignoreVisibility="true" and it will use the parent container width.
+- data-ignore-visibility: normally it will look for the size of the container and load the correct image that will fill the container (assuming a 100% width is set on CSS). But if the container is invisible, it will try to go up the element tree to the first parent that is visible. This is often desirable because the parent is collapsed. However, in some cases, like a bootstrap carousel, if you have the parent width set explictly on a containing element, you want to use that (not the outer carousel width). So you set data-ignoreVisibility="true" and it will use the parent container width.
 
-**Additional Options**
-
--disable-fadein: All images will fade in from opacity 0 to 1, when the placeholder class is replaced with the loaded class. If you have specified a src because you want a default placeholder image to show up, then obviously you don't want the placeholder image to go invisible. So you should add a "disable-fadein" class to the image.
+- data-disable-fadein: All images will fade in from opacity 0 to 1, when the placeholder class is replaced with the loaded class. If you have specified a src because you want a default placeholder image to show up, then obviously you don't want the placeholder image to go invisible. So you should add a "disable-fadein" class to the image.
 
 
 
