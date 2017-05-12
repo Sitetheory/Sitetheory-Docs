@@ -128,3 +128,29 @@ Templates will be located in the same cloned structure, e.g.:
     TODO: Assets
 
     The framework should reference asset files in the same namespace as the original, e.g. ``@SitetheoryCoreBundle/Resources/public/css/dash.css`` should find files in ``@Templates/SitetheoryAdminBundle/Resources/SitetheoryCms/public/css/dash.css`` if they are customized and exist in that location.
+
+
+*************************
+Custom Layout Controllers
+*************************
+
+
+Templates
+---------
+
+If a template requires a special customized controller, you can create that controller in the template bundle, e.g. `Sitetheory\TemplateCustomBundle\Controller\TemplateController.php`. This will load and execute before the ContentType controller.
+
+
+Layouts
+-------
+
+Some layouts may require a custom controller. This can be accomplished by creating special files that the system looks for. If we look at the StreamBundle `Landing` contentType, the normal files will be:
+- Controller: `Sitetheory\StreamBundle\Controller\LandingController.php`
+- Layout Template: `Sitetheory\StreamBundle\Resources\views\Landing.html.twig`
+
+Let's say we created a custom layout for the Landing ContentType and gave it the variable of `Candidate`. The system will then look for the specific Candidate layout controller and twig:
+- Controller: `Sitetheory\StreamBundle\Controller\LandingCandidateController.php`
+- Layout Template: `Sitetheory\StreamBundle\Resources\views\Landing-Candidate.html.twig`
+
+A Client may customize the layout controller as well by using the same naming convention in their vhost folder.
+
