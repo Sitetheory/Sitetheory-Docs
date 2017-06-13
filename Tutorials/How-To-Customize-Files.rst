@@ -58,6 +58,77 @@ If you need to link to your own custom CSS for a site, the vhost needs to have a
         <link rel="stylesheet" href="/sitetheory/v/2/0/bundles/sitetheoryarticle/css/Article1000-Welcome.css">
     {% endblock link %}
 
+
+
+************
+Vendor Files
+************
+
+Vendors can customize their version of core files (so all their clients will get their customized version instead of the owning vendor's version). Vendors can also create their own custom Content Type Layouts (shared with any of their clients) or Content Types (shared via subscriptions).
+
+Customized Vendor Layouts
+=========================
+
+All Vendor bundles are stored in the platform version ``src`` folder under their own namespace, e.g. ``/var/www/core/v/1/0/src/Sitetheory`` (Sitetheory is just one vendor among many). So if a vendor called "Foo" wants to customize the Sitetheory core Profile layout, they would add the following file
+
+.. code-block:: shell
+
+    /var/www/core/v/1/0/src/Foo/Sitetheory/ProfileBundle/Resources/views/Profile.html.twig
+
+Note: normally, inside the ``Foo`` namespace you would have bundles only. but if the vendor needs to overwrite another vendor, they can add the vendor's namespace directly to the bundle level.
+
+And then the actual Twig template itself can extend the core version, by including an extends at the top. NOTE: this targets the Sitetheory vendor and the Profile bundle. Twig will look for the best version of this file according to namespace paths we've registered by priority in the InitController.
+
+.. code-block:: html
+
+    {% extends 'SitetheoryProfileBundle::Profile.html.twig' %}
+
+
+Customized Vendor Edit Pages
+============================
+
+Sometimes you want to customize the edit interface for a specific content type, this can be accomplished by just adding a custom file, e.g.
+
+.. code-block:: shell
+
+    /var/www/core/v/1/0/src/Foo/Sitetheory/ProfileBundle/Resources/views/ProfileEdit.html.twig
+
+.. code-block:: html
+
+    {% extends 'SitetheoryProfileBundle::ProfileEdit.html.twig' %}
+
+
+
+Custom ContentTypes
+===================
+
+If the vendor creates their own ContentType, they would need to create a Bundle namespace, and then a Content Type namespace (assigned to that bundle), and put their files in that bundle, e.g. for a "Component" bundle with a Content Type called "VolunteerForm" create these files
+
+.. code-block:: shell
+
+    /var/www/core/v/1/0/src/Foo/ComponentBundle/Controllers/VolunteerFormController.php
+    /var/www/core/v/1/0/src/Foo/ComponentBundle/Resources/views/VolunteerForm.html.twig
+
+If this is a custom controller, then you will just either extend the base content, or the shill directly
+
+.. code-block:: html
+
+    {% extends content.templates.shell %}
+
+or
+
+.. code-block:: html
+
+    {% extends "SitetheoryCoreBundle:Core:ContentBase.html.twig" %}
+
+
+If one of your vendor Content Type templates needs to extend another vendor template, then you need to target the vendor path in a slightly different manner to point Twig to the right vendor, by using the ``@`` notation.
+
+.. code-block:: html
+
+    {% extends '@FormComponent/VolunteerForm.html.twig' %}
+
+
 *****************
 Client Site Files
 *****************
@@ -71,6 +142,17 @@ Client Site files are located in the ``/var/www/vhosts/{ID}/src`` directory whic
     /var/www/vhosts/1/src/Sitetheory/MenuBundle/Resources/public/css/menu.css
 
 Controllers must include the same namespace and object name as the original file as well. They literally are identical.
+
+
+Customizing a Vendor Version
+============================
+
+Whether the vendor has created a custom Content Type, or just customized a version of some other vendor's layout, the site can make their own custom version of the same file and the system will give preference to the Site's version. However, sometimes the site wants to use the Vendor's file, but just customize part of it. In this case, the site would create their own version of the template, but at the top "extend" the vendor's version. In order to do that, they must properly target the Twig template they are extending, by pointing to the vendor's version with the ``@`` notation. In this case it has the Vendor "Foo" and then the the vendor "Sitetheory" (which the Foo vendor is overwriting when it created it's version), and then the bundle name (without the word "Bundle").
+
+.. code-block:: shell
+
+    {% extends '@FooSitetheoryStream/Profile.html.twig' %}
+
 
 Customizing Unique Instances of a Page
 ======================================
