@@ -99,20 +99,19 @@ Template Files
 The same principle applies to Design Template files, but there is a slight alternative structure for where to put the files in the Design Template bundle.
 
 .. note::
-    Templates are all located in a "Templates" vendor folder, with the name of the template as the vendor's name and the name of the template. So for template named "Admin" that the vendor "Sitetheory" creates the bundle name would be ``Templates\SitetheoryAdminBundle``
+    Templates are all located as bundles in their vendor's folder, e.g. the Sitetheory vendor has an "Admin" template, so it's located in ``src\Sitetheory\TemplateAdminBundle``.
 
-Controllers will be located in the Template’s src directory in subdirectories that mimic the core src directory, e.g.:
+If you need to customize the Controller of another bundle (regardless of the vendor owner of that bundle) then you will simply put a file in the Template’s src directory in subdirectories that mimic the core src directory, e.g.:
 
 .. code-block::
 
-    Templates/SitetheoryAdminBundle/src/Sitetheory/MenuBundle/Controller/MenuPrimaryController.php
+    src/Sitetheory/TemplateAdminBundle/src/Sitetheory/MenuBundle/Controller/MenuPrimaryController.php
 
 Templates will be located in the same cloned structure, e.g.:
 
 .. code-block::
 
-    Templates/SitetheoryAdminBundle/src/Sitetheory/MenuBundle/Resources/views/MenuPrimary.html.twig
-
+    src/Sitetheory/TemplateAdminBundle/src/Sitetheory/CoreBundle/Resources/views/User/UserSignIn.html.twig
 
 .. note::
 
