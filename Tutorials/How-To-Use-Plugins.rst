@@ -6,12 +6,27 @@ Standard plugins are defined in the Stratus.js and are available on any page by 
 
 
 Lazy Load Correct Sized Images
-----------------
-This plugin is so important, it's part of the core, so you don't have to specify a data-plugin value. Instead you just specify a data-src that points to the image that you want to load dynamically. It will calculate the size of the container and load the right sized image (XS, S, M, L, XL, HQ) to fill that area (which means it doesn't load images larger than mobile devices need).
+------------------------------
+
+This plugin allows you to load the best sized image based on the size of the container (XS, S, M, L, XL, HQ) so that it fills that area (which means it doesn't load images larger than mobile devices need).
+
+NOTE: this plugin requires Backbone and jQuery (which can conflict with some sites). We have an angular version of this function which is identical but triggered with `stratus-src` instead. The Angular version is necessary to use in contexts where the path to the image is dynamically loaded. Use the Angular version whenever you are already loading Angular (it's better). Use this plugin when you do not want to be tied to Angular.
+
+**Example**
+
+<!-- Load a default image, and then use the src path to find the best version of image -->
+<img data-plugin="lazy" src="foo-xs.jpg">
+
+<!-- Do not load a default image, use data-src to find the best version of the the iamge -->
+<img data-plugin="lazy" data-src="foo.jpg">
+
+<!-- Angular version of lazy loader -->
+<img stratus-src="lazy" src="foo.jpg">
+
 
 If you want a placeholder image to appear on the page, you can just enter that as the regular image src. It is usually recommended to specify the smallest version of the image, so that the image's native ratio will be available to the CSS so that the height is correctly proportional to the width (which means when the real image loads the page isn't going to shift as element heights change).
 
-If you use the lazy loading on images in your design (not created by the system so they don't automatically have the different size options, e.g. XS, S, M, L, XL, HQ, you will need to create these versions of your images that the plugin can load. You can technically make them any size, e.g. if you want your Small image to be 350px (because that is the largest you ever want it displayed) you can upload that size (instead of the standard 400px for S images).
+If you use the lazy loading on images in your design (not created by the system so they don't automatically have the different size options, e.g. XS, S, M, L, XL, HQ, you will need to create these versions of your images that the plugin can load. Your sizes should be the standard sizes, since we check the container and load the best size based on the expected size of the images.
 
 **Classes**
 - placeholder: When the image is first collected for lazy-loading a 'placeholder' class will be added to it, so that you can style default look of an image that isn't loaded, e.g. gray background with a loading icon.
@@ -20,15 +35,15 @@ If you use the lazy loading on images in your design (not created by the system 
 
 - loaded: when the image is loaded, the 'loading' class will be replaced by 'loaded'.
 
-**Data Options:**
+**Attribute Options:**
 
-- src: the data-src should point to the image that you want to lazy-load. If you have specified a regular img src as a placeholder image (e.g. a small version), and you want to lazy load the best size of that image, than you can avoid typing out the path a second time and just specify data-src="lazy" and the system will load the best version of the current image src.
+- stratus-src: the stratus-src should point to the image that you want to lazy-load. If you have specified a regular img src as a placeholder image (e.g. a small version), and you want to lazy load the best size of that image, than you can avoid typing out the path a second time and just specify data-src="lazy" and the system will load the best version of the current image src.
 
-- spy: By default the image will load when it is "on screen". But in some cases (like a Bootstrap Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
+- data-spy: By default the image will load when it is "on screen". But in some cases (like a Bootstrap Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
 
-**Additional Options**
+- data-ignore-visibility: normally it will look for the size of the container and load the correct image that will fill the container (assuming a 100% width is set on CSS). But if the container is invisible, it will try to go up the element tree to the first parent that is visible. This is often desirable because the parent is collapsed. However, in some cases, like a bootstrap carousel, if you have the parent width set explictly on a containing element, you want to use that (not the outer carousel width). So you set data-ignoreVisibility="true" and it will use the parent container width.
 
--disable-fadein: All images will fade in from opacity 0 to 1, when the placeholder class is replaced with the loaded class. If you have specified a src because you want a default placeholder image to show up, then obviously you don't want the placeholder image to go invisible. So you should add a "disable-fadein" class to the image.
+- data-disable-fadein: All images will fade in from opacity 0 to 1, when the placeholder class is replaced with the loaded class. If you have specified a src because you want a default placeholder image to show up, then obviously you don't want the placeholder image to go invisible. So you should add a "disable-fadein" class to the image.
 
 
 
@@ -98,12 +113,17 @@ Make a drawer slide in and out of the side of the website. The core plugins.css 
 
 **Required**
 - The button element needs an id, and the drawer needs an ID that matches with the suffix "-drawer".
+- If you need to toggle one drawer from more than one button (element) then the second element needs to have the identical id base but with a suffix "-*" (dash anything), e.g. if the original ID is "sidebarToggle" the second ID can be "sidebarToggle-2" or "sidebarToggle-retractableHeader".
 
 **Example**
-<div id="foo" data-plugin="Drawer">Open Drawer</div>
-<div id="foo-drawer">
-    <p>Drawer Content</p>
-</div>
+
+.. code-block:: html
+    :linenos:
+
+    <div id="foo" data-plugin="Drawer">Open Drawer</div>
+    <div id="foo-drawer">
+        <p>Drawer Content</p>
+    </div>
 
 
 
@@ -118,7 +138,7 @@ Dim
 
 Carousel
 --------
-The current carousel uses Bootstrap's Carousel, but we standardize how it is evoked and also allow an easy way to specify how many frames (item elements) to appear in each slide. This is useful when you want to display a gallery with several options. We also allow lazy loading of images inside the slideshow by toggling a Stratus.Environment.viewPortChange after the slide appears (otherwise the images will never appear unless you are simultaneously scrolling. So overall, it's better to call the carousel via our standard plugin.
+The current carousel uses Bootstrap's Carousel, but we standardize how it is evoked and also allow an easy way to specify how many frames (item elements) to appear in each slide. This is useful when you want to display a gallery with several items per slide. We also allow lazy loading of images inside the slideshow by toggling a Stratus.Environment.viewPortChange after the slide appears (otherwise the images will never appear unless you are simultaneously scrolling. And finally, we force the carousel to be paused until it's onscreen so that you don't arrive at a carousel half way through the cycle. So overall, it's better to call the carousel via our standard plugin.
 
  **Data Options**
 - group: the number of frames to group together and show in each slide (this will apply to both desktop and mobile, unless groupmobile is set).
@@ -127,20 +147,24 @@ The current carousel uses Bootstrap's Carousel, but we standardize how it is evo
 - All Standard Bootstrap data options: interval, pause, wrap, keyboard
 
 **Example**
-<div id="slideshow" class="carousel slide" data-plugin="carousel" data-group="3" data-colminsize="sm" data-interval="4000">
-    <div class="carousel-inner">
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+
+.. code-block:: html
+    :linenos:
+
+    <div id="slideshow" class="carousel slide" data-plugin="carousel" data-group="3" data-colminsize="sm" data-interval="4000">
+        <div class="carousel-inner">
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+            <div class="item"></div>
+        </div>
+        <div class="designSelectorControls">
+        <a class="carousel-control left" href="#slideshow" role="button" data-slide="prev" data-scroll="false"></a>
+        <a class="carousel-control right" href="#slideshow" role="button" data-slide="next" data-scroll="false"></a>
+        </div>
     </div>
-    <div class="designSelectorControls">
-    <a class="carousel-control left" href="#slideshow" role="button" data-slide="prev" data-scroll="false"></a>
-    <a class="carousel-control right" href="#slideshow" role="button" data-slide="next" data-scroll="false"></a>
-    </div>
-</div>
 
 **NOTE:**
 The data-scroll="false" is added to prevent our anchor script from scrolling to the new position.

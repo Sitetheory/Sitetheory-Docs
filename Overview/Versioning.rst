@@ -4,9 +4,9 @@ Versioning
 
 Versioning allows an entity's revision history to be tracked. The best example of this in action is seen when editing content (i.e. pages or modules on a site). Whenever content is edited by a new user or if it's been more than a set period of time (e.g. 30 minutes) since the last time it was saved, then a new unpublished version of the content is created. The new version can be previewed on the site in "Preview" mode, but will not appear on the live site until the version is "Published".
 
-All pages of the website are a ``View`` which has an association with on or more ``ViewVersion`` entities. These ``ViewVersion`` entities (and the content specific entities that are associated with that version) contain the unique content. See the :doc:`overview of how Pages work</2.0/Overview/Pages>` for more details.
+All pages of the website are a ``View`` which has an association with on or more ``ViewVersion`` entities. These ``ViewVersion`` entities (and the content specific entities that are associated with that version) contain the unique content. See the :doc:`overview of how Pages work</1.0/Overview/Pages>` for more details.
 
-Since versioning is a key part of the CMS, our framework makes it easy to make an entity "versionable". See the :namespace:`SitetheoryCmsBundle/Entity/View/ViewVersion` or :namespace:`SitetheoryCmsBundle/Entity/Design/Design` as examples of how to implement this in different ways. We use special Traits to make this easy, and minimize redundant code.
+Since versioning is a key part of the CMS, our framework makes it easy to make an entity "versionable". See the :namespace:`SitetheoryCoreBundle/Entity/View/ViewVersion` or :namespace:`SitetheoryCoreBundle/Entity/Design/Design` as examples of how to implement this in different ways. We use special Traits to make this easy, and minimize redundant code.
 
 *************************
 Interacting with Versions
@@ -61,4 +61,4 @@ But if an entity is going to be edited independently (e.g. Design), then it need
 How To Make an Entity Versionable
 ******************************
 
-See the tutorial on :doc:`/2.0/Tutorials/How-To-Make-An-Entity-Versionable` for specific examples and instructions.
+See the tutorial on :doc:`/1.0/Tutorials/How-To-Make-An-Entity-Versionable` for specific examples and instructions.
