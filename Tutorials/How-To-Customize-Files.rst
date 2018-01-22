@@ -10,9 +10,34 @@ The core platform files are located in the :namespace:`Sitetheory\CoreBundle` (a
 Composer Autoloader for Controllers
 ***********************************
 
-By default Symfony uses Composer autoloader, which is setup in ``app/autoload.php`` and looks at registered standard paths for custom files in the src/{VENDOR}/{BUNDLE} or app directories. We can register additional paths that contain files for namespaces that start with a name. But since we need to point to a dynamic directory that we only discover inside the :namespace:`Sitetheory\CoreBundle\Controller\InitController` (the Template and the Client Site), we have to modify the $loader after the fact with a reference to the ``$GLOBALS[‘loader’]`` (this works, although it is non-standard and not-recommended use of Globals). So in the ``InitController`` we register all namespaces that start with ``Sitetheory`` to point to the site's custom or templates files with a priority of: Client Site > Template > Core.
+By default Symfony uses Composer autoloader, which is setup in ``app/autoload.php`` and looks at registered standard paths for custom files in the src/{VENDOR}/{BUNDLE} or app directories. We can register additional paths that contain files for namespaces that start with a name. But since we need to point to a dynamic directory that we only discover inside the :namespace:`Sitetheory\CoreBundle\Controller\InitController` (looking in the Master Vendor, Vendor, Template, Client Site, dev User), we have to modify the $loader after the fact with a reference to the ``$GLOBALS[‘loader’]`` (this works, although it is non-standard and not-recommended use of Globals). So in the ``InitController`` we register all namespaces that start with ``Sitetheory`` to point to the site's custom files with a priority the priority below:
 
-This lets you add files with the same namespace, filename, classname and directory structure to easily overwrite core functionality. The namespace allows these files to be located and loaded with a prioritization of which to use.
+-**Dev User**: for a developer testing new features (only accessible to this user).
+-**Site Template**: the site's custom template or customization of a vendor template located in site's folder, e.g. a template may customize the UserBundle.
+-**Site**: the custom version of any vendor and bundle file defined in generic site folder, e.g. customize the UserBundle's layout.
+-**Vendor Template**: any customizations to the core that were made by the vendor's template.
+-**Vendor**: any customizations in the vendor's folder structure
+-**Vendor Master Template**: any customizations in the vendor's master site's template (e.g. Vendor Gutensite has a master Vendor of Sitetheory)
+-**Vendor Master**: any customizations in the vendor's master site's folder structure (e.g. Vendor Gutensite has a master Vendor of Sitetheory)
+-**Sitetheory Core**: the core Sitetheory files (often the same as "vendor master")
+
+This has a cascading priority that lets you customize files in a very targeted manner by creating files with the same vendor and bundle namespace directory structure and matching filename to easily overwrite core functionality and design. The example below assumes a site (id 100) which may be a child site of a master site (id 9) is assigned to a vendor called "Foo" for the template "Bar" which is a child site of it's master "Sitetheory". Each of these paths looks into a folder that emulates the main Sitetheory 'src' folder, which lets you customize any file by specifying the vendor and bundle name via the folder structure of their original locations. We also look in here specifically for templates that have been customized for the CMS Edit pages.
+
+
+Namespace                       Path
+---------                       -----
+
+user                            /var/www/vhosts/100/user/1/
+siteTemplate                    /var/www/vhosts/100/src/Foo/TemplateBarBundle/src/
+site                            /var/www/vhosts/100/src/
+siteMasterTemplate              /var/www/vhosts/9/src/Foo/TemplateBarBundle/src/
+siteMaster                      /var/www/vhosts/9/src/
+siteVendorTemplate              /var/www/core/v/1/0/src/Foo/TemplateBarBundle/src/
+siteVendor                      /var/www/core/v/1/0/src/Foo/
+siteVendorMasterTemplate        /var/www/core/v/1/0/src/Sitetheory/TemplateBarBundle/src/
+siteVendorMaster                /var/www/core/v/1/0/src/Sitetheory/
+Core                            /var/www/core/v/1/0/src/Sitetheory/
+
 
 
 *************************
@@ -87,7 +112,7 @@ And then the actual Twig template itself can extend the core version, by includi
 Customized Vendor Edit Pages
 ============================
 
-Sometimes you want to customize the edit interface for a specific content type, this can be accomplished by just adding a custom file, e.g.
+Sometimes you want to customize the edit interface for a specific content type, this can be accomplished by just adding a custom file in any of the cascading priority paths, e.g. if your vendor is "Foo" and you want to customize the "Sitetheory" vendor's files
 
 .. code-block:: shell
 
@@ -98,18 +123,38 @@ Sometimes you want to customize the edit interface for a specific content type, 
     {% extends 'SitetheoryProfileBundle::ProfileEdit.html.twig' %}
 
 
+Custom Vendor Content Type Edit Pages
+============================
 
-Custom ContentTypes
+At the moment, if you want to have a custom content type (e.g. an edit page for a new vendor Content Type) it requires a bit of work:
+
+#1 Make a Content Type for the edit page, e.g. ComponentEventListEdit
+#2 Make a Controller and Template for this edit page.
+#3 Subscribe the Vendor's Admin site to this new Content Type
+#4 Create a new page on the Vendor's Admin site with a routing URL.
+
+So for a lot of pages that don't require custom meta (e.g. a page to create an edit page, or a non-configurable content type usually in the admin) we allow you to create and edit generic pages at /Cms/Edit which is (Content\ContentEdit) page.
+
+But in many cases, we do need to have some custom template for the contentType edit page, but we don't want to go through the entire process above. So we need to be able to just create the template for the edit page and the system should use that if it exists rather than the generic. Just add it to the vendor's folder with the name structure of the Content Type, e.g.
+
+.. code-block:: shell
+
+    src/Foo/ComponentBundle/Controllers/ComponentEventListEditController.php
+    src/Foo/ComponentBundle/Resources/views/ComponentEventListEdit.html.twig
+
+
+
+Custom Vendor ContentTypes
 ===================
 
 If the vendor creates their own ContentType, they would need to create a Bundle namespace, and then a Content Type namespace (assigned to that bundle), and put their files in that bundle, e.g. for a "Component" bundle with a Content Type called "VolunteerForm" create these files
 
 .. code-block:: shell
 
-    /var/www/core/v/1/0/src/Foo/ComponentBundle/Controllers/VolunteerFormController.php
-    /var/www/core/v/1/0/src/Foo/ComponentBundle/Resources/views/VolunteerForm.html.twig
+    src/Foo/ComponentBundle/Controllers/VolunteerFormController.php
+    src/Foo/ComponentBundle/Resources/views/VolunteerForm.html.twig
 
-If this is a custom controller, then you will just either extend the base content, or the shill directly
+If this is a custom controller, then you will just either extend the base content, or the file directly
 
 .. code-block:: html
 
@@ -122,11 +167,16 @@ or
     {% extends "SitetheoryCoreBundle:Core:ContentBase.html.twig" %}
 
 
-If one of your vendor Content Type templates needs to extend another vendor template, then you need to target the vendor path in a slightly different manner to point Twig to the right vendor, by using the ``@`` notation.
+If one of your vendor Content Type templates needs to extend another vendor template, then you need to target the vendor path in a slightly different manner to point Twig to the right vendor, by using the ``@`` notation to target the bundle name.
 
 .. code-block:: html
 
-    {% extends '@FormComponent/VolunteerForm.html.twig' %}
+    {% extends '@FooComponent/VolunteerForm.html.twig' %}
+
+If you are customizing a site and need to customize the vendor's custom Content Type, you can use the following non-standard extending format (no @ symbol targetting):
+
+.. code-block:: html
+    {% extends 'FooComponentBundle::VolunteerForm.html.twig' %}
 
 
 *****************
@@ -196,7 +246,7 @@ If you need to customize the Controller of another bundle (regardless of the ven
 
 .. code-block::
 
-    src/Sitetheory/TemplateAdminBundle/src/Sitetheory/MenuBundle/Controller/MenuPrimaryController.php
+    src/Sitetheory/TemplateAdminBundle/src/Sitetheory/CoreBundle/Controller/User/UserSignInController.php
 
 Templates will be located in the same cloned structure, e.g.:
 
@@ -208,12 +258,28 @@ Templates will be located in the same cloned structure, e.g.:
 
     TODO: Assets
 
-    The framework should reference asset files in the same namespace as the original, e.g. ``@SitetheoryCoreBundle/Resources/public/css/dash.css`` should find files in ``@Templates/SitetheoryAdminBundle/Resources/SitetheoryCms/public/css/dash.css`` if they are customized and exist in that location.
+    The framework should reference asset files in the same namespace as the original, e.g. ``@SitetheoryCoreBundle/Resources/public/css/dash.css`` should find files in ``@SitetheoryTemplateAdminBundle/src/Sitetheory/CoreBundle/Resources/public/css/dash.css`` if they are customized and exist in that location.
 
 
 *************************
 Custom Layout Controllers
 *************************
+
+In order to allow flexibility with executing custom functionality for each layer of design, we load 3 different types of controllers (if they exist) and execute their indexAction() (usually only the content type controller will exist). These can all load independently (they are not exclusive):
+
+#1 Template: add an initController.php#indexAction() method in the template to execute on every page (e.g. to control template or entire site)
+#2 Layout: add an initController.php#indexAction() method in a Content Type layout, to give added functionality for every instance of when a particular layout is loaded.
+#3 Content Type: add an initController.php#indexAction() method in a ContentType controller for every instance of Content Type (regardless of layout).
+#4 Unique Content ID: add an initController.php#indexAction to a specific contentId instance, e.g. Profile12345.php.
+
+We only load one Template for the contentType, and that template extends other templates upward to the shell and base templates. But we need to find the best type of template, e.g. the contentType could be customized for:
+
+#1 ContentType
+#2 Specific ID of page
+#3 Specific EditID of content being Edited
+
+Each of these controllers and templates needs to look for the "Best" version in cascading location priority (See cascading priority list at top of page):
+
 
 
 Templates
