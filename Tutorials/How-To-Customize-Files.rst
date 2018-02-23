@@ -3,8 +3,9 @@
 How To Customize Files
 ######################
 
+The Sitetheory framework allows you to easily customize any Controller, Template, CSS, Javascript, etc. The framework will find the "best" version of Controllers (PHP) and Templates (Twig) depending on a cascading order of which priority folders contain customized files, e.g. core templates can overwrite core files, vendors can overwrite core vendor, master sites can overwrite the vendor, and custom site files can overwrite templates. NOTE: public assets like CSS, Javascript or images are not able to be found dynamically (see section below).
 
-The core platform files are located in the :namespace:`Sitetheory\CoreBundle` (and other bundles in the ``Sitetheory`` vendor directory). These can be customized for a specific **Client Site** or a **Design Template** by adding custom files to the right location.
+The core platform files are located in the :namespace:`Sitetheory\CoreBundle` (and other bundles in the ``Sitetheory`` vendor directory). These can be customized for a specific **Client Site** or a **Template** by adding custom files to the right location.
 
 ***********************************
 Composer Autoloader for Controllers
@@ -21,7 +22,7 @@ By default Symfony uses Composer autoloader, which is setup in ``app/autoload.ph
 -**Vendor Master**: any customizations in the vendor's master site's folder structure (e.g. Vendor Gutensite has a master Vendor of Sitetheory)
 -**Sitetheory Core**: the core Sitetheory files (often the same as "vendor master")
 
-This has a cascading priority that lets you customize files in a very targeted manner by creating files with the same vendor and bundle namespace directory structure and matching filename to easily overwrite core functionality and design. The example below assumes a site (id 100) which may be a child site of a master site (id 9) is assigned to a vendor called "Foo" for the template "Bar" which is a child site of it's master "Sitetheory". Each of these paths looks into a folder that emulates the main Sitetheory 'src' folder, which lets you customize any file by specifying the vendor and bundle name via the folder structure of their original locations. We also look in here specifically for templates that have been customized for the CMS Edit pages.
+This has a cascading priority that lets you customize files in a very targeted manner by creating files with the same vendor and bundle namespace directory structure and matching filename to easily overwrite core functionality (controllers) and design (templates). The example below assumes a site (id 100) which may be a child site of a master site (id 9) is assigned to a vendor called "Foo" for the template "Bar" which is a child site of it's master "Sitetheory". Each of these paths looks into a folder that emulates the main Sitetheory 'src' folder, which lets you customize any file by specifying the vendor and bundle name via the folder structure of their original locations. We also look in here specifically for templates that have been customized for the CMS Edit pages.
 
 
 Namespace                       Path
@@ -58,30 +59,194 @@ Then as long as we put the files in the right directory, they will override the 
 Assets
 ******
 
-We haven’t found or created a method to instantly override custom CSS, images, etc. To do that, we would either need to create some fancy Apache rewrite to look in alternative folders if no file is found, or else make a custom asset loader function that checks if ``file_exists()`` on every single asset. That would not be very efficient. So for now, we just require that the a custom Twig template is created which points to the custom asset. That means right now, you can’t just drop the images or css into the directory. 
+Standard Location of Assets
+===========================
 
-The advantage with this method is that there is less "magic" and the CMS is more efficient on load. So to link to a custom file you would put it in the ``Resources/public`` directory in a directory named after the bundle you are overriding (this is strictly an organizational standard since you will manually link to this location manually). For example if you are customizing an image for the :namespace:`Sitetheory/MenuBundle`, in the :namespace:`Templates/SitetheoryAdminBundle` template, you would do something like this:
+Assets are stored in the standard Symfony bundle locations below root, e.g. for a Foo bundle:
+
+.. code-block:: shell
+    /var/www/core/v/1/0/src/Sitetheory/FooBundle/Resources/public/css/
+    /var/www/core/v/1/0/src/Sitetheory/FooBundle/Resources/public/js/
+    /var/www/core/v/1/0/src/Sitetheory/FooBundle/Resources/public/images/
+
+Since the website can't load these files below root, we have a script (see "Deployment of Files" below) which creates symlinks from the public web folder to each bundles public folder, e.g.
+
+.. code-block:: shell
+    /var/www/core/web/assets/1/0/bundles/sitetheoryfoo -> /var/www/core/v/1/0/src/Sitetheory/FooBundle/Resources/public/
+
+So anything you put in the public folder, will be publicly accessible on the webserver.
+
+Loading an Image
+----------------
+
+To load an image from this folder, you would link to the file in this bundle:
+
+.. code-block:: html+twig
+    :linenos:
+    <img src="/assets/1/0/bundles/sitetheoryfoo/images/bar.jpg">
+
+
+But from Twig, we prefer to use an asset function that lets us dynamically request the correct version:
+
+.. code-block:: html+twig
+    :linenos:
+    <img src="{{ asset('bundles/sitetheoryfoo/images/bar.jpg') }}">
+
+
+Loading CSS and Javascript
+--------------------------
+CSS and Javascript is loaded from the exact same structure, but we have a few extra functions to dynamically determine the best extension, to load the correct minified version on live sites or raw version when in development mode.
+
+.. code-block:: html+twig
+    :linenos:
+        {% block link %}
+            {{ parent() }}
+            <link rel="{{ styleRel('less') }}" type="text/css" href="{{ asset('/bundles/sitetheoryfoo/css/foo.' ~ styleExt('less')) }}" data-file="foo.css">
+        {% endblock link %}
+
+         {% block scripts %}
+            {{ parent() }}
+            <script type="{{ scriptType('coffeescript') }}" src="{{ asset('/bundles/sitetheoryfoo/js/bar.' ~ scriptExt('coffee')) }}" data-file="bar.js"></script>
+        {% endblock scripts %}
+
+
+NOTE: we have Twig methods for compiling CSS and Javascript and adding the right extensions.
+
+Twig Methods for CSS
+--------------------
+- styleExt(format)
+    -'css': In dev, it wil load ".css" and in live it will load ".min.css".
+    -'less': In dev, we will have the ".less" extension, but stratus will dynamically compile the file into CSS so that it works (this requires rel="{{ styleRel('less') }}" to tell stratus to compile it). In live mode, it will append ".min.css" and load like normal.
+    -'sass': this will append ".scss" in dev mode (but currently will break because there is no compiler). In Live mode it will load ".min.css" and work like normal.
+- styleRel(format): this will add "css", "less", "sass" to the `rel` attribute, which in dev mode triggers the compiling (if necessary).
+
+
+Twig Methods for Javascript
+---------------------------
+-scriptExt(format)
+    -'coffeescript': On dev mode this will append ".coffee" and on live mode it will append ".min.js".
+    -'typescript':  On dev mode this will append ".ts" and on live mode it will append ".min.js".
+    -'js':  On dev mode this will append ".js" and on live mode it will append ".min.js".
+-scriptType(format)
+    -'coffeescript': On dev mode this add type="text/coffeescript" and on live type="text/javascript".
+    -'typescript': On dev mode this add type="text/typescript" and on live type="text/javascript".
+    -'js':  ".js": On both dev and live mode this adds type="text/javascript"
+
+
+
+Asset Management
+================
+Asset management is a little complex, because we allow designers and developers to use CSS helper languages like LESS and SASS, or javascript helper languages like CoffeeScript and TypeScript. So this requires compiling before deployment to the server. Plus we minify these for faster loading on the live server (but in keep non-minified in dev mode).
+
+Right now we are using a customized configuration with Gulp to find files, pipe in a compiler and out web ready files before deploying to the server.
+NOTE: We anticipate that in the future we will use Symfony's Encore bundle on the backend and Webpack on the front end.
+
+Supported Formats
+-----------------
+- LESS 2: http://lesscss.org/
+- SASS 3: https://sass-lang.com/
+- CoffeeScript 2: http://coffeescript.org/
+- TypeScript 2: https://www.typescriptlang.org/
+
+
+Dev Mode
+--------
+In dev mode only, we run Webpack on the front end to compile files dynamically (with minimal overhead), so that you can test your work in dev mode without constantly compiling and deploying compiled files.
+
+
+Deployment of Assets
+====================
+
+Compiling Files
+---------------
+Prior to deploying files to the production server, Gulp must be run to compile web ready versions of all the files. For example, this converts a LESS file into a CSS file that can be run from a browser, or a CoffeeScript into javascript, and minifies JS and CSS for optimized loading.
+
+NOTE: Designers do not need to worry about using Gulp, since when testing in the dev mode the system can use the raw versions of the files. Eventually Gulp compiling will be done automatically on the server. But at the moment, we run gulp on a local git repository to compile the files, then we commit to git, and deploy the latest files to the server.
+
+Deploying Files
+---------------
+Sitetheory has a Python Script that runs on a server cronjob (every 2 minutes) to ensure web access to assets. This script checks all the bundles in the core src and vendor and vhost, finds which have public assets in their Resources folder and then creates symlinks from the public /web/ folder to the below root Resources folder where these are all stored. This is necessary so that these below root files can be loaded from the web.
+
+.. code-block:: shell
+    /var/www/core/web/assets/1/0/bundles/sitetheoryfoo -> /var/www/core/v/1/0/src/Sitetheory/FooBundle/Resources/public/
+
+For nested emulated bundles (where bundles customize another bundle) we make special symlinks via the following convention:
+
+.. code-block:: shell
+    /var/www/core/web/assets/1/0/bundles/sitetheoryfoo-siteheorybaz -> /var/www/core/v/1/0/src/Sitetheory/FooBundle/src/Sitetheory/BazBundle/Resources/public/
+
+For vhosts with customized files, we must also make symlinks:
+
+.. code-block:: shell
+    /var/www/vhosts/100/assets/1/0/bundles/sitetheoryfoo -> /var/www/vhosts/100/src/Sitetheory/FooBundle/Resources/public/
+    /var/www/vhosts/100/assets/1/0/bundles/sitetheorybar -> /var/www/vhosts/100/src/Sitetheory/BarBundle/Resources/public/
+
+
+Customization of Assets
+=======================
+Unlike Controllers and Templates, currently the framework will not automatically find the "best" version public asset files (e.g. CSS, JS, Images).
+
+We haven’t found or created a method to instantly override custom CSS, images, etc. To do that, we would either need to create some fancy Apache rewrite to look in alternative folders if no file is found, or else make a custom asset loader function that checks if ``file_exists()`` on every single asset. That would not be very efficient. So for now, we just require that the a custom Twig template is created which points to the custom asset. That means right now, you can’t just drop the images or css into a directory. The advantage with this method is that there is less "magic" and the CMS is more efficient on load. NOTE: The only time a website will automatically load a custom version of a file, is if a specific website has saved a file (in their vhost folder) in the exact same web folder location as the core files (in these cases Apache will load the custom version). But this isn't the recommended method of customizing files.
+
+Templates load public assets like CSS, Javascript and images by pointing to hard coded source locations in their bundle's public web folder. So if you make a customized version of an asset, you have to manually update the template to point to the custom location. These assets could technically be located anywhere, but for consistency, we put them in the bundle's `src` folder, emmulating the Vendor and Bundle name of the file we are overwriting, e.g. if you are editing a template called "Foo" and you want to overwrite the some CSS, Javascript or Image sfile located in the core UserBundle, you would put them in nested emulated bundle structure (within the `FooBundle/src` folder), e.g. you would save these files in the following locations:
+
+.. code-block:: shell
+    /var/www/core/1/0/src/Sitetheory/FooBundle/src/Sitetheory/BarBundle/Resources/public/css/baz.css
+    /var/www/core/1/0/src/Sitetheory/FooBundle/src/Sitetheory/BarBundle/Resources/public/js/shaz.js
+    /var/www/core/1/0/src/Sitetheory/FooBundle/src/Sitetheory/BarBundle/Resources/public/images/jazz.jpg
+
+
+Customize CSS and Javascript
+----------------------------
+
+If you have a "Foo" bundle, and you want to overwrite the core CSS and Javascript assets of another bundle, you can place these new assets in the correct nested emulated folder structure. But since these are in a sub 'src' folder that emulates the nested bundle structure, you need to use the correct symlink, that was created for this non-standard location. We do that by just referencing the original bundle with a dash and then the second bundle, e.g. `sitetheoryfoo-sitetheorybar`
+
+
+.. code-block:: html+twig
+    :linenos:
+    {% block link %}
+        {{ parent() }}
+        <link rel="{{ styleRel('less') }}" type="text/css" href="{{ asset('/bundles/sitetheoryfoo-sitetheorybar/css/baz.' ~ styleExt('less')) }}" data-file="foo.css">
+    {% endblock link %}
+
+     {% block scripts %}
+        {{ parent() }}
+        <script type="{{ scriptType('js') }}" src="{{ asset('/bundles/sitetheoryfootemplate-sitetheorybar/js/shaz.' ~ scriptExt('js')) }}" data-file="bar.js"></script>
+    {% endblock scripts %}
+
+
+
+Customize Image Location
+------------------------
+
+The template file would look like this:
 
 .. code-block:: html+twig
     :linenos:
 
-    <img src="{{ asset('bundles/templatessitetheoryadmin/SitetheoryMenu/images/Daniela-Avatar.jpg') }}">
+        <img src="{{ asset('bundles/sitetheoryfoo-sitetheorybar/images/jazz.jpg') }}">
 
-If you need to link to your own custom CSS for a site, the vhost needs to have a web folder that points to the public resources. That means that it should have the same folder structure as a normal Assetic dump, e.g. /var/www/vhosts/100/web/sitetheory/v/2/0/bundles/. This folder will contain symbolic links to the bundles public folder.
+
+Custom Assets for Client Sites
+-------------------
+
+When you are customizing files from one bundle to overwrite another, you have to make a custom template that points to a special custom file location. But when you are customizing assets in a client's website, you can take advantage of a web server (Apache) feature that will load the "best" version of the file. The system looks first in the vhost folder before looking in the core framework folders. So if you just create and save files in an emulated src folder with vendor and bundle names. The framework system will load custom Controllers and Templates from these locations.
+
+So to overwrite the FooBundle file from:
 
 .. code-block:: shell
-    :linenos:
+    /var/www/core/v/1/0/src/Sitetheory/BarBundle/Resources/public/css/baz.css
 
-    mkdir /var/www/vhosts/100/web/sitetheory/v/2/0/bundles/
-    ln -s /var/www/vhosts/100/src/Sitetheory/ArticleBundle/Resources/public /var/www/vhosts/100/web/sitetheory/v/2/0/bundles/sitetheoryarticle
+You would put a file here:
+.. code-block:: shell
+    /var/www/vhosts/100/src/Sitetheory/BarBundle/Resources/public/css/baz.css
 
- Unfortunately, the Template will not be able to use Assetic, and must just have a direct link.
 
- .. code-block:: html+twig
-    {% block link %}
-        {{ parent() }}
-        <link rel="stylesheet" href="/sitetheory/v/2/0/bundles/sitetheoryarticle/css/Article1000-Welcome.css">
-    {% endblock link %}
+
+
+
+
+
 
 
 
@@ -227,12 +392,6 @@ For Controllers, since you append the viewID to the filename you will also need 
     }
 
 
-Client Site Assets
-==================
-
-.. note::
-    **TODO:** We need to figure out where custom Client Site assets will be stored. Most likely they will need to go in the ``/var/www/vhosts/{ID}/web/`` directory in a structure that mimics the core. And then some sort of apache mod rewrite magic may need to happen to load these. Alternatively, instead of the web path being /sitetheory/v/2/0/bundles/ the Client Site files could be located at /client/.
-
 
 **************
 Template Files
@@ -283,13 +442,13 @@ Each of these controllers and templates needs to look for the "Best" version in 
 
 
 Templates
----------
+=========
 
 If a template requires a special customized controller, you can create that controller in the template bundle, e.g. `Sitetheory\TemplateCustomBundle\Controller\TemplateController.php`. This will load and execute before the ContentType controller.
 
 
 Layouts
--------
+=======
 
 Some layouts may require a custom controller. This can be accomplished by creating special files that the system looks for. If we look at the StreamBundle `Landing` contentType, the normal files will be:
 - Controller: `Sitetheory\StreamBundle\Controller\LandingController.php`
@@ -300,4 +459,5 @@ Let's say we created a custom layout for the Landing ContentType and gave it the
 - Layout Template: `Sitetheory\StreamBundle\Resources\views\Landing-Candidate.html.twig`
 
 A Client may customize the layout controller as well by using the same naming convention in their vhost folder.
+
 
