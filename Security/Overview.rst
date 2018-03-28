@@ -2,67 +2,55 @@
 Overview
 ########
 
+We have a set of fuzzy logic that brings varied levels of granularity.
 
+Restricting Access
+==================
 
-Menu Component
-==============
+If you create a permission (or role with permissions) for a specific Asset (Site, User, Bundle, Entity, content record, etc),
+then that entity is immediately made private and can only be accessed by other Identities with the same permissions
+(or role with permissions).
 
-We provide an easy way for a designer to insert the menu into any part of the Twig template design and determine how
-the menu looks and functions.
-
-Caching
--------
-Everything is cached after the first call on a page, so you can call upon it multiple times without causing extra overhead.
-
-
-Parameters
-----------
-
--Entity (1st parameter):
-    -pass in the content entity for the current page, so the menu can determine this page's position in the menu.
--Type (2nd parameter):
-    -'full': all the nested links of a menu (e.g. for a sitemap at bottom of page)
-    -'primary': show links from the top level (e.g. for top of page)
-    -'section': detect what "section" the current page belongs to by looking up where the 'content' is located in the
-    menu links, recording the parents up to the top level, and then displaying all the links in the current section.
-    For example, the "About" section may have 5 sublinks, and even sub-sublinks under reach, so we would show all the
-    initial 5 sublinks in a sidebar "section" which will probably be an accordion that when you open up shows the active
-    link path styled (bold) at each level of nesting so when you look at the menu you know what page you are currently
-    on and how it relates to the other menu links.
-
-Parameters (planned)
---------------------
--style: accordion (e.g. side menu links), dropdown (e.g. top menu links), sitemap (sitemap would be show everything in one block, e.g. in the footer).
-
--limit: how many links to show on the top level (e.g. 6 or null)
-
--depth: how many levels deep to show menu (e.g. main links may only have 1 level, with no sublinks, but side links or drop down may be designed to allow 4 levels of nested menu links). [default accordion: 3 levels deep; default dropdown: 2; default sitemap: 3]
-
--parentId (optional): if you want the menu to only show links that are children of a specific link parent, e.g. this the logic of how type="section" works ( except that automatically finds the section you are in, whereas here you are manually specifying the parent).
-
--menuId (optional): if you want to show links that belong to another menu (aside from the default main menu, you can specify an alternative ID).
-
-
-Twig Extension Location
------------------------
-
-Sitetheory\MenuBundle\Twig\Extension\MenuExtension
+For example, if you create a page on your site called "Member Dashboard" and you want to restrict access
+to this page, then you would create a role called "Member" and give it permission to view this new page (as well as other
+pages that you want restricted to members). As soon as you give one identity (Vendor, Site, or User) access to a
+specific Asset, that asset is no longer public anymore.
 
 
 
-Example
--------
-.. code-block:: html+twig
-    :linenos:
-    {% set menuExample = menu(content) %}
-    {% set menuExample = menu(content, 'full') %}
-    {% set menuExample = menu(content, 'primary') %}
-    {% set menuExample = menu(content, 'section') %}
+Admin Restrictions
+==================
 
-Other Requirements
-------------------
+If you have a website and someone creates an account on that site, most likely they will be assigned to a predefined
+"member" role. You would have created that role, and given that role view access to a specific group of pages that only
+"members" could access. But the user will not have any "edit" permissions. So if they sign in to the admin control panel
+(e.g. admin.sitetheory.io) the system will not recognize that they have access to edit any sites, the sites dropdown
+menu at the top of the page will not show any sites to switch to, and going to ?siteEditId=x will not work because they
+do not have edit permissions for any site. They can create their own site and edit that, but simply having "member" role
+on the site doesn't give them editing permissions on any website.
 
-    -determine which menu link is currently active for the current page, as well as all the related parents up to level 1 (so we can set an active class on the each active link)
-    -Data attributes added to each link so that they can be targeted in CSS to change active states.
-    -HTML outputted as <ul> that is easy to style in CSS, with standard classes that specify things like "level", "active", so that designers can easily style menus consistently in any template.
+
+Entity Restrictions
+===================
+
+By default all Assets (Vendor, Site, User, Bundle, Entity or Content Records) are viewable by the public. So if you have
+an entity for BillingBundle\BillingMethod, and someone went to /Api/BillingMethod then they would be able to see all
+billing method records for the current site. But as soon as we create a permission (or role with permissions)
+restricting the BillingBundle, then this content is restricted. The same is true of /Api/User, but fortunately whenever
+a new user is created, we create a permission that makes them the owner of their own user, which renders all their
+information private.
+
+That means we have to be very careful to always create permissions for anything that could be private. Fortunately we
+also have field based restrictions defined/hardcoded on the entity itself.
+
+
+Field Restrictions
+==================
+
+When an entity is defined, the individual fields have annotations that specify whether each individual field is readable,
+searchable, writable,
+
+
+
+
 

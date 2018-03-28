@@ -1,113 +1,67 @@
-#########################
-How To Create Admin Pages
-#########################
+################################
+How To Add Elements to Templates
+################################
 
-Admin pages are going to be created slightly differently than regular pages, i.e. they aren't created through the Content page, but through a special page (Content Type restricted to CMS service) that gives full access to create new content types.
+Menu Component
+==============
 
+We provide an easy way for a designer to insert the menu into any part of the Twig template design and determine how
+the menu looks and functions.
 
-********************************
-Steps to Create a Basic New Page
-********************************
-
-
-#. **Create Content Type**
-
-    If this is going to be a new type of CMS admin page (which it probably will be since most admin pages are unique, i.e. one content type for one page), first create a new record using the Content Type list online.
-
-    Select the Vendor and set the name of the Bundle as well as the name of the Controller that will contain the code for this page. This controller name will also be the standard common name for form types, templates, etc. In all but the most simple bundles, the controller name should include a folder prefix to keep the code files for your content organized, e.g. ``View\ViewSeoEdit`` (the suffix "Controller" is assumed and will be added automatically in the code).
-
-#. **Create View**
-
-    Create a page in the system with a friendly URL: /Admin/CMS/Edit
-
-    Use the prefix '/Admin/' in the friendly URL, so that all admin pages are prefixed consistently, and follow other established patterns so that our URLs all match a predictable standard.
-
-#. **Create Controller**
-
-    The controller will contain the code for the functionality of the page. If this is part of the core CMS, this will be located in a sub folder of :namespace:`Sitetheory\CoreBundle\Controller`, but if it's the admin controller for another bundle feature, it will go in whatever bundle where the related admin and public controllers and templates are located, e.g. :namespace:`Sitetheory\CoreBundle\Controller\View\ViewSeoEditController`
-
-    This controller should follow standard Symfony standards for controllers, and the indexAction “should” in pass in Request and InitController (the CMS core controller), e.g.
-
-    .. code-block:: php
-        :linenos:
-
-        <?php
-        public function indexAction(Request $request, InitController $initController)
+Caching
+-------
+Currently, we cache the menu in the RAM (Environment) so you can call upon it multiple times without causing extra overhead.
+TODO: We need to create or delete/recreate a menu.json cache whenever a link is created, edited, or deleted in the main
+menu (this could be a Menu or MenuLink listener).
 
 
-    If this page is going to be a list page it should probably extend the :namespace:`Sitetheory\CoreBundle\Controller\Cms\ListControllerBase` to utilize standard list, search and filtering features. See section about `How to Create List Pages`_ for details.
+Parameters
+----------
 
-    If this page is going to be an edit page it should probably extend the `Sitetheory\CoreBundle\Controller\Cms\EditControllerBase` to utilize standard admin editing features. See section about `How to Create Editor Pages`_ for details.
+-Entity (1st parameter):
+    -pass in the content entity for the current page, so the menu can determine this page's position in the menu.
+-Type (2nd parameter):
+    -'full': all the nested links of a menu (e.g. for a sitemap at bottom of page)
+    -'primary': show links from the top level (e.g. for top of page)
+    -'section': detect what "section" the current page belongs to by looking up where the 'content' is located in the
+    menu links, recording the parents up to the top level, and then displaying all the links in the current section.
+    For example, the "About" section may have 5 sublinks, and even sub-sublinks under reach, so we would show all the
+    initial 5 sublinks in a sidebar "section" which will probably be an accordion that when you open up shows the active
+    link path styled (bold) at each level of nesting so when you look at the menu you know what page you are currently
+    on and how it relates to the other menu links.
+
+Parameters (planned)
+--------------------
+-style: accordion (e.g. side menu links), dropdown (e.g. top menu links), sitemap (sitemap would be show everything in one block, e.g. in the footer).
+
+-limit: how many links to show on the top level (e.g. 6 or null)
+
+-depth: how many levels deep to show menu (e.g. main links may only have 1 level, with no sublinks, but side links or drop down may be designed to allow 4 levels of nested menu links). [default accordion: 3 levels deep; default dropdown: 2; default sitemap: 3]
+
+-parentId (optional): if you want the menu to only show links that are children of a specific link parent, e.g. this the logic of how type="section" works ( except that automatically finds the section you are in, whereas here you are manually specifying the parent).
+
+-menuId (optional): if you want to show links that belong to another menu (aside from the default main menu, you can specify an alternative ID).
 
 
-#. **Create Template**
+Twig Extension Location
+-----------------------
 
-    Every page needs a template to provide the visual display for the controller. These are located in the standard Symfony locations, in the same Vendor and Bundle and the same naming convention and folder structure as the Controller, e.g. :namespace:`Sitetheory\CoreBundle\Resources\views\View\ViewSeoEdit.html.twig`
-
-    This template should extend the shell, e.g. ``{% extends view.viewVersion.shell %}`` (the selected for every view is set based on the design settings and applied to every view unless an alternative shell is specified for this page in the design layout settings).
-
-    If this page is extending some standard functionality (e.g. List or Editor), then the template will extend the standard templates associated with that functionality which in turn extends the shell, e.g. ``{% extends 'SitetheoryCoreBundle:Cms:EditBase.html.twig' %}``
-
-************************
-How to Create List Pages
-************************
-
-In order to utilize standard functionality for building lists, you should extend the standard List Controller and Templates.
-
-**[todo: add more details once we finalize this]**
+Sitetheory\MenuBundle\Twig\Extension\MenuExtension
 
 
-**************************
-How to Create Editor Pages
-**************************
 
-In order to utilize standard functionality for building editing pages, you should extend the standard Editor Controller and Templates.
+Example
+-------
+.. code-block:: html+twig
+    :linenos:
+        {% set menuExample = menu(content) %}
+        {% set menuExample = menu(content, 'full') %}
+        {% set menuExample = menu(content, 'primary') %}
+        {% set menuExample = menu(content, 'section') %}
 
-
-Editor Controller
-=================
-
-If this is a generic editor for any entity, extend the standard edit controller :namespace:`Sitetheory\CoreBundle\Controller\Cms\EditControllerBase.php`.
-
-If this is going to be a page that interacts with Content Types via the View, extend the special version of this controller :namespace:`Sitetheory\CoreBundle\Controller\View\ViewEditControllerBase.php` which extends ``EditControllerBase`` with some additional functionality specific to Views, e.g. publishing and versioning.
-
-In both cases the base controller will load getForm() to return the path to the correct form type. By default this function will find the form based on the current page's controller (this works because everything follows the same common name of the controller).
-
-Custom Editor Form
+Other Requirements
 ------------------
 
-If you need an alternative form, you can write your own custom getForm() function to set your preferred form type.
-
-.. code-block:: php
-    :linenos:
-
-    <?php
-    public function getForm(InitController $initController) {
-        return 'Sitetheory\CoreBundle\Form\Type\View\ViewSeoEditType';
-    }
-
-See example code for reference of implementation in the file ``    Sitetheory\CoreBundle\Controller\View\ViewSeoEditController.php``
-
-
-Editor Form Types
-=================
-
-If this is an editing page that extends the EditControllerBase, it will need it's own custom Form Type (to control what fields should be available on the editing page), using the standard Symfony methods. We use a custom form type so that we can reuse this if necessary, and as a way to abstract out the definition of the forms so that we don't have to define them in the controller. The custom form type should refer to the parent 'edit' (for generic editing) or 'view' (for editing the View, to be used in conjunction with ``ViewEditControllerBase``), in order to extend the reusable CMS form types.
-
-.. code-block:: php
-    :linenos:
-
-    <?php
-    public function getParent() {
-        return 'view';
-    }
-
-See example code for reference of implementation in the file :namespace:`Sitetheory\CoreBundle\Form\Type\View\ViewSeoEditType.php`
-
-
-Editor Templates
-================
-
-The template should extend the editor template (so that it has all the standard action buttons) and include it's own custom fields:
-
-See example code for reference of implementation in the file :namespace:`Sitetheory\CoreBundle\Resources\views\View\ViewSeoEdit.html.twig`.
+    -determine which menu link is currently active for the current page, as well as all the related parents up to level 1 (so we can set an active class on the each active link)
+    -Data attributes added to each link so that they can be targeted in CSS to change active states.
+    -HTML outputted as <ul> that is easy to style in CSS, with standard classes that specify things like "level", "active", so that designers can easily style menus consistently in any template.
