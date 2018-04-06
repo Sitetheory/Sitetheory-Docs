@@ -98,6 +98,17 @@ API
     API/Overview
     API/*
 
+===
+Vendors
+===
+
+.. toctree::
+:maxdepth: 1
+        :glob:
+
+        Vendors/Overview
+        Vendors/*
+
 
 ================
 Other References
