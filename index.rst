@@ -10,11 +10,11 @@ Frontend
 On the front end, all default Sitetheory themes use a proprietary `Stratus`_ Javascript framework to manage the UI/UX
 look, feel and functionality (custom themes can bypass everything if desired). Stratus has a few core features, and also
 loads other dependencies through `Require.js`_. Via Require.js, Stratus loads some helpful javascript libraries used
-extensively throughout the site, including `Angular.js`_, which is used for model management
+extensively throughout the site, including `Underscore.js`_ and `Angular.js`_. Angular is used for model management
 (fetching and persisting data/entities from the API). Angular was chosen over React because it gives designers absolute
-and direct control over the look of everything from Twig template files (developers haven't hard coded bad design in obscure javascript files that designers can't find). Empowering designers means faster and more beautiful design.
+and direct control over the look of everything from Twig template files (developers haven't hard coded bad design in obscure javascript files designers can't find). Empowering designers means faster and more beautiful design.
 
-More details can be found at the `Stratus`_ Docs. (TODO: broken link)
+More details can be found at the `Stratus`_ Docs. (TODO: Fix Broken Link)
 
 =======
 Backend
@@ -126,6 +126,7 @@ Other References
 .. _Doctrine: http://www.doctrine-project.org/
 .. _Twig: http://twig.sensiolabs.org/
 .. _Require.js: http://Require.js.org/
+.. _Underscore.js: http://Underscore.js.org/
 .. _Angular.js: https://Angular.js.org/
 .. _Angular Material: https://material.Angular.js.org
 
