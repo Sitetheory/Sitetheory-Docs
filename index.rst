@@ -87,6 +87,17 @@ Entities
     Entities/Overview
     Entities/*
 
+========
+Internals
+========
+
+.. toctree::
+:maxdepth: 1
+        :glob:
+
+        Internals/Overview
+        Internals/*
+
 ===
 API
 ===
