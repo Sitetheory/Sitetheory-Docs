@@ -92,11 +92,11 @@ Internals
 ========
 
 .. toctree::
-:maxdepth: 1
-        :glob:
+    :maxdepth: 1
+    :glob:
 
-        Internals/Overview
-        Internals/*
+    Internals/Overview
+    Internals/*
 
 ===
 API
@@ -109,16 +109,16 @@ API
     API/Overview
     API/*
 
-===
+=======
 Vendors
-===
+=======
 
 .. toctree::
-:maxdepth: 1
-        :glob:
+    :maxdepth: 1
+    :glob:
 
-        Vendors/Overview
-        Vendors/*
+    Vendors/Overview
+    Vendors/*
 
 
 ================
