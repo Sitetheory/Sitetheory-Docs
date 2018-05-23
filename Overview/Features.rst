@@ -117,6 +117,6 @@ You can do advanced searches on one or more specific fields by using a special f
 Customization
 *************
 
-The framework allows you to customize the generic PHP controller or Twig template for any content type by adding an identical file to the client's site ``/var/wwww/vhosts/{ID}/src/`` directory. Design Templates can also be customized in the same way by adding files to the ``Sitetheory/Template{TEMPLATE-NAME}Bundle/src/`` directory. Individual pages can have a unique controller only for that view ID by adding a similar file with the additional view ID appended to the name.
+The framework allows you to customize the generic PHP controller or Twig template for any content type by adding an identical file to the client's site in the relevant version ``/var/wwww/vhosts/{ID}/v/1/0/src/`` directory. Design Templates can also be customized in the same way by adding files to the ``Sitetheory/Template{TEMPLATE-NAME}Bundle/src/`` directory. Individual pages can have a unique controller only for that view ID by adding a similar file with the additional view ID appended to the name.
 
 Learn more about :doc:`File Customizations </1.0/Tutorials/How-To-Customize-Files>`.

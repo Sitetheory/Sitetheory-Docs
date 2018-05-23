@@ -28,11 +28,11 @@ This has a cascading priority that lets you customize files in a very targeted m
 Namespace                       Path
 ---------                       -----
 
-user                            /var/www/vhosts/100/user/1/
-siteTemplate                    /var/www/vhosts/100/src/Foo/TemplateBarBundle/src/
-site                            /var/www/vhosts/100/src/
-siteMasterTemplate              /var/www/vhosts/9/src/Foo/TemplateBarBundle/src/
-siteMaster                      /var/www/vhosts/9/src/
+user                            /var/www/vhosts/100/user/1/v/1/0/
+siteTemplate                    /var/www/vhosts/100/v/1/0/src/Foo/TemplateBarBundle/src/
+site                            /var/www/vhosts/100/v/1/0/src/
+siteMasterTemplate              /var/www/vhosts/9/v/1/0/src/Foo/TemplateBarBundle/src/
+siteMaster                      /var/www/vhosts/9/v/1/0/src/
 siteVendorTemplate              /var/www/core/v/1/0/src/Foo/TemplateBarBundle/src/
 siteVendor                      /var/www/core/v/1/0/src/Foo/
 siteVendorMasterTemplate        /var/www/core/v/1/0/src/Sitetheory/TemplateBarBundle/src/
@@ -178,8 +178,8 @@ For nested emulated bundles (where bundles customize another bundle) we make spe
 For vhosts with customized files, we must also make symlinks:
 
 .. code-block:: shell
-    /var/www/vhosts/100/assets/1/0/bundles/sitetheoryfoo -> /var/www/vhosts/100/src/Sitetheory/FooBundle/Resources/public/
-    /var/www/vhosts/100/assets/1/0/bundles/sitetheorybar -> /var/www/vhosts/100/src/Sitetheory/BarBundle/Resources/public/
+    /var/www/vhosts/100/assets/1/0/bundles/sitetheoryfoo -> /var/www/vhosts/100/v/1/0/src/Sitetheory/FooBundle/Resources/public/
+    /var/www/vhosts/100/assets/1/0/bundles/sitetheorybar -> /var/www/vhosts/100/v/1/0/src/Sitetheory/BarBundle/Resources/public/
 
 
 Customization of Assets
@@ -239,7 +239,7 @@ So to overwrite the FooBundle file from:
 
 You would put a file here:
 .. code-block:: shell
-    /var/www/vhosts/100/src/Sitetheory/BarBundle/Resources/public/css/baz.css
+    /var/www/vhosts/100/v/1/0/src/Sitetheory/BarBundle/Resources/public/css/baz.css
 
 
 
@@ -348,13 +348,13 @@ If you are customizing a site and need to customize the vendor's custom Content 
 Client Site Files
 *****************
 
-Client Site files are located in the ``/var/www/vhosts/{ID}/src`` directory which mimics the exact structure of the core Sitetheory framework directory. To customize controllers or templates, just add the exact same file to the client’s site directory, e.g.
+Client Site files are located in the relevant version directory ``/var/www/vhosts/{ID}/v/1/0/src`` which mimics the exact structure of the core Sitetheory framework directory. To customize controllers or templates, just add the exact same file to the client’s site directory, e.g.
 
 .. code-block:: shell
 
-    /var/www/vhosts/1/src/Sitetheory/MenuBundle/Controller/MenuPrimary.php
-    /var/www/vhosts/1/src/Sitetheory/MenuBundle/Resources/views/MenuPrimary.html.twig
-    /var/www/vhosts/1/src/Sitetheory/MenuBundle/Resources/public/css/menu.css
+    /var/www/vhosts/1/v/1/0/src/Sitetheory/MenuBundle/Controller/MenuPrimary.php
+    /var/www/vhosts/1/v/1/0/src/Sitetheory/MenuBundle/Resources/views/MenuPrimary.html.twig
+    /var/www/vhosts/1/v/1/0/src/Sitetheory/MenuBundle/Resources/public/css/menu.css
 
 Controllers must include the same namespace and object name as the original file as well. They literally are identical.
 
@@ -377,14 +377,14 @@ If you need to customize a controller or template for a unique instance of a pag
 .. code-block:: shell
     :linenos:
 
-    /var/www/vhosts/1/src/Sitetheory/MenuBundle/Resources/views/MenuPrimary12345.html.twig
+    /var/www/vhosts/1/v/1/0/src/Sitetheory/MenuBundle/Resources/views/MenuPrimary12345.html.twig
 
 For Controllers, since you append the viewID to the filename you will also need to append it to the classname, e.g.
 
 .. code-block:: php
     :linenos:
 
-    /var/www/vhosts/1/src/Sitetheory/MenuBundle/Controller/MenuPrimary12345.php
+    /var/www/vhosts/1/v/1/0/src/Sitetheory/MenuBundle/Controller/MenuPrimary12345.php
     <?php
     class MenuPrimary12345 extends ContentController Base
     {

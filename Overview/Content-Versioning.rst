@@ -1,6 +1,6 @@
-##########
-Versioning
-##########
+##################
+Content Versioning
+##################
 
 Versioning allows an entity's revision history to be tracked. The best example of this in action is seen when editing content (i.e. pages or modules on a site). Whenever content is edited by a new user or if it's been more than a set period of time (e.g. 30 minutes) since the last time it was saved, then a new unpublished version of the content is created. The new version can be previewed on the site in "Preview" mode, but will not appear on the live site until the version is "Published".
 
