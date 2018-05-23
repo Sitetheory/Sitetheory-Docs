@@ -28,11 +28,16 @@ This has a cascading priority that lets you customize files in a very targeted m
 Namespace                       Path
 ---------                       -----
 
-user                            /var/www/vhosts/100/user/1/v/1/0/
-siteTemplate                    /var/www/vhosts/100/v/1/0/src/Foo/TemplateBarBundle/src/
-site                            /var/www/vhosts/100/v/1/0/src/
-siteMasterTemplate              /var/www/vhosts/9/v/1/0/src/Foo/TemplateBarBundle/src/
-siteMaster                      /var/www/vhosts/9/v/1/0/src/
+user                            /var/www/vhosts/100/user/1/
+userVersioned                   /var/www/vhosts/100/user/1/v/1/0/
+siteTemplate                    /var/www/vhosts/100/src/Foo/TemplateBarBundle/src/
+siteTemplateVersioned           /var/www/vhosts/100/v/1/0/src/Foo/TemplateBarBundle/src/
+site                            /var/www/vhosts/100/src/
+siteVersioned                   /var/www/vhosts/100/v/1/0/src/
+siteMasterTemplate              /var/www/vhosts/9/src/Foo/TemplateBarBundle/src/
+siteMasterTemplateVersioned     /var/www/vhosts/9/v/1/0/src/Foo/TemplateBarBundle/src/
+siteMaster                      /var/www/vhosts/9/src/
+siteMasterVersioned             /var/www/vhosts/9/v/1/0/src/
 siteVendorTemplate              /var/www/core/v/1/0/src/Foo/TemplateBarBundle/src/
 siteVendor                      /var/www/core/v/1/0/src/Foo/
 siteVendorMasterTemplate        /var/www/core/v/1/0/src/Sitetheory/TemplateBarBundle/src/
@@ -40,6 +45,9 @@ siteVendorMaster                /var/www/core/v/1/0/src/Sitetheory/
 Core                            /var/www/core/v/1/0/src/Sitetheory/
 
 
+All of the vHost ``src`` folders can be versioned, if a particular Bundle needs to be specifically altered for each core version, but it isn't necessary in the case that you have some customizations that are universally accepted.
+
+Note: Assets will only create a respective symlink to the first found bundle in the hierarchical algorithm.  For instance, having the same Bundle in both a vHost ``src`` and a versioned ``v/1/0/src``  will only create a symlink to the former, while skipping an overwrite from the latter.
 
 *************************
 Twig Loader for Templates
