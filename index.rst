@@ -14,7 +14,7 @@ extensively throughout the site, including `Underscore.js`_ and `Angular.js`_. A
 (fetching and persisting data/entities from the API). Angular was chosen over React because it gives designers absolute
 and direct control over the look of everything from Twig template files (developers haven't hard coded bad design in obscure javascript files designers can't find). Empowering designers means faster and more beautiful design.
 
-More details can be found at the `Stratus`_ Docs. (TODO: Fix Broken Link)
+More details can be found at the `Stratus`_ Docs.
 
 =======
 Backend
