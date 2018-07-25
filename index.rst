@@ -135,8 +135,8 @@ Other References
 
 
 
-.. _Framework: http://api.sitetheory.io/index.html
-.. _Stratus: http://js.sitetheory.io/1/0/dist/stratus.html
+.. _Framework: https://api.sitetheory.io/1/0/index.html
+.. _Stratus: https://js.sitetheory.io/1/0/dist/stratus.html
 .. _Backwards Compatibility: http://en.wikipedia.org/wiki/Backward_compatibility
 .. _Symfony: http://symfony.com/
 .. _Doctrine: http://www.doctrine-project.org/
