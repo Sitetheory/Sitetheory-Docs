@@ -2,7 +2,11 @@
 Sitetheory 1.0
 ##############
 
-Sitetheory is a robust and scalable framework to build beautiful and highly functional platforms. It is built to empower vendors, developers and design partners to rapidly create cool websites and powerful mobile apps. Sitetheory is the first vendor among many, with an admin website that functions as a website builder, CMS (Content Management System) and CRM (Customer Relationship Management). But other vendors can leverage the existing UI, API, Content Types, and Functionality to create their own identical (white labeled) or distinct platforms or just to make individual websites.
+Sitetheory is a robust and scalable framework to build beautiful and highly functional platforms. It is built to empower
+vendors, developers and design partners to rapidly create cool websites and powerful mobile apps. Sitetheory is the first
+vendor among many, with an admin website that functions as a website builder, CMS (Content Management System) and CRM
+(Customer Relationship Management). But other vendors can leverage the existing UI, API, Content Types, and Functionality
+to create their own identical (white labeled) or distinct platforms or just to make individual websites.
 
 ========
 Frontend
@@ -12,7 +16,8 @@ look, feel and functionality (custom themes can bypass everything if desired). S
 loads other dependencies through `Require.js`_. Via Require.js, Stratus loads some helpful javascript libraries used
 extensively throughout the site, including `Underscore.js`_ and `Angular.js`_. Angular is used for model management
 (fetching and persisting data/entities from the API). Angular was chosen over React because it gives designers absolute
-and direct control over the look of everything from Twig template files (developers haven't hard coded bad design in obscure javascript files designers can't find). Empowering designers means faster and more beautiful design.
+and direct control over the look of everything from Twig template files (developers haven't hard coded bad design in
+obscure javascript files designers can't find). Empowering designers means faster and more beautiful design.
 
 More details can be found at the `Stratus`_ Docs.
 
@@ -131,13 +136,13 @@ Other References
 
 
 .. _Framework: http://api.sitetheory.io/index.html
-.. _Stratus: http://js.sitetheory.io/1/0/stratus.html
+.. _Stratus: http://js.sitetheory.io/1/0/dist/stratus.html
 .. _Backwards Compatibility: http://en.wikipedia.org/wiki/Backward_compatibility
 .. _Symfony: http://symfony.com/
 .. _Doctrine: http://www.doctrine-project.org/
 .. _Twig: http://twig.sensiolabs.org/
-.. _Require.js: http://Require.js.org/
-.. _Underscore.js: http://Underscore.js.org/
-.. _Angular.js: https://Angular.js.org/
-.. _Angular Material: https://material.Angular.js.org
+.. _Require.js: http://require.js.org/
+.. _Underscore.js: http://underscore.js.org/
+.. _Angular.js: https://angular.js.org/
+.. _Angular Material: https://material.angularjs.org
 
