@@ -1,12 +1,12 @@
 ####
-View
+Content
 ####
 
 
 Overview
 ========
 
-A View is simply a page that is attached to a Dynamic Route (i.e. /Home).
+A content is simply a page that is attached to a Dynamic Route (i.e. /Home).
 
 
 SOAP

@@ -18,7 +18,7 @@ The versionable entity registers the name of the parent entity and then the trai
     :linenos:
 
     <?php
-    class ViewVersion extends Base implements VersionEntityInterface {
+    class ContentVersion extends Base implements VersionEntityInterface {
         /**
          * Use Shared Versionable Traits
          */
@@ -29,7 +29,7 @@ The versionable entity registers the name of the parent entity and then the trai
          * @return string
         */
         public function getEntityName() {
-            return ‘viewVersion';
+            return ‘contentVersion';
         }
 
 
@@ -37,29 +37,20 @@ The versionable entity registers the name of the parent entity and then the trai
          * Register Parent Entity Name
          */
         public function getParentName() {
-            return 'view';
-        }
-
-        /**
-         * Register the Entity FormType so that versions can be loaded dynamically in the parent form.
-         * @return string
-         */
-
-        public function getEntityForm() {
-            return 'Sitetheory\CoreBundle\Form\Type\View\ViewVersionType';
+            return 'content';
         }
 
 
         /**
-         * @ORM\ManyToOne(targetEntity="\Sitetheory\CoreBundle\Entity\View\View", inversedBy="viewVersion")
-         * @ORM\JoinColumn(name="viewId", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+         * @ORM\ManyToOne(targetEntity="\Sitetheory\CoreBundle\Entity\Content\content", inversedBy="contentVersion")
+         * @ORM\JoinColumn(name="contentId", referencedColumnName="id", nullable=true, onDelete="SET NULL")
          */
-        protected $view;
+        protected $content;
 
         /**
          * @ORM\Column(type="integer", nullable=true)
          */
-        protected $viewId = NULL;
+        protected $contentId = NULL;
     }
 
 
@@ -88,13 +79,13 @@ How to Create a Parent Entity of a Versionable Entity
 Add Common Trait to Parent
 ==========================
 
-If this parent entity has only one versionable entity (e.g. View with ViewVersion), then use the ``VersionParentInterface`` and ``VersionParentTrait``. If this parent references more than one versionable entity, use ``MultipleVersionParentInterface`` and ``MultipleVersionParentInterface``
+If this parent entity has only one versionable entity (e.g. Content with ContentVersion), then use the ``VersionParentInterface`` and ``VersionParentTrait``. If this parent references more than one versionable entity, use ``MultipleVersionParentInterface`` and ``MultipleVersionParentInterface``
 
 .. code-block:: php
     :linenos:
 
     <?php
-    class View extends Base implements VersionParentInterface {
+    class Content extends Base implements VersionParentInterface {
         /**
          * Use Shared Versionable Traits.
          */
@@ -103,14 +94,14 @@ If this parent entity has only one versionable entity (e.g. View with ViewVersio
         /**
          * Define the Container Manually
          */
-        protected $viewVersion;
+        protected $contentVersion;
 
         /*
          * Manually define the versionable entities, required for generic EditControllerBase
          */
         public function getEntityVersion() {
                 return array(
-                    ‘viewVersion'
+                    ‘contentVersion'
                 );
             }
 
@@ -118,21 +109,21 @@ If this parent entity has only one versionable entity (e.g. View with ViewVersio
         /**
          * Manually define the getters/setters for container (required for symfony functions that reference this, e.g. form type)
          */
-        public function getViewVersion() {
-                return $this->viewVersion;
+        public function getContentVersion() {
+                return $this->contentVersion;
             }
-            public function setViewVersion($viewVersion) {
-                $this->viewVersion = $viewVersion;
+            public function setContentVersion($contentVersion) {
+                $this->contentVersion = $contentVersion;
                 return $this;
             }
 
         /**
-         * @ORM\OneToMany(targetEntity="\Sitetheory\CoreBundle\Entity\View\ViewVersion", mappedBy="view", cascade={"persist", "remove", "detach"}, orphanRemoval=true)
+         * @ORM\OneToMany(targetEntity="\Sitetheory\CoreBundle\Entity\Content\ContentVersion", mappedBy="content", cascade={"persist", "remove", "detach"}, orphanRemoval=true)
          */
-        protected $viewVersions;
+        protected $contentVersions;
         Versionable Entity Repository
         Implement Trait Interface & Custom Interface Methods
-        class ViewVersionRepository extends EntityRepository implements VersionRepositoryInterface
+        class ContentVersionRepository extends EntityRepository implements VersionRepositoryInterface
         {
 
         /**
@@ -148,21 +139,21 @@ If this parent entity has only one versionable entity (e.g. View with ViewVersio
 Registering Information for Dynamic Versions
 ********************************************
 
-If a parent entity has a "Fixed Version" relationship with a versionable entity, the parent must register the versionable entities via an array returned in ``getEntityVersion()``. And the parent entity implements the VersionParentTrait that includes a getVersion() method. This lets you pass in the the name of the property where the dynamic version is stored (e.g. ``getVersion(‘viewVersion')``) and that aliases to the ``getViewVersion()`` method.
+If a parent entity has a "Fixed Version" relationship with a versionable entity, the parent must register the versionable entities via an array returned in ``getEntityVersion()``. And the parent entity implements the VersionParentTrait that includes a getVersion() method. This lets you pass in the the name of the property where the dynamic version is stored (e.g. ``getVersion(‘contentVersion')``) and that aliases to the ``getContentVersion()`` method.
 
-But in some cases, you may not know what the versionable entity is offhand, but you just need to know whether it's published or not, e.g. in a generic edit template. So in those cases you can just call that method without an entity name and it will fetch the first versionable entity. For example, when editing a View (e.g. ``ArticleEdit``), the editor will be set to edit the View entity. The editControllerBase will put this View entity into ``$initController->view[‘entities'][‘editor']`` which is accessible in the template as ``{{ view.entities.editor }}``. So if you call ``{{ view.entities.editor.version.timePublish }}``, it will get the timePublish for the ``view.viewVersion`` entity, since that is the first (and only) versionable entity.
+But in some cases, you may not know what the versionable entity is offhand, but you just need to know whether it's published or not, e.g. in a generic edit template. So in those cases you can just call that method without an entity name and it will fetch the first versionable entity. For example, when editing a content (e.g. ``ArticleEdit``), the editor will be set to edit the Content entity. The editControllerBase will put this Content entity into ``$initController->content[‘entities'][‘editor']`` which is accessible in the template as ``{{ content.entities.editor }}``. So if you call ``{{ content.entities.editor.version.timePublish }}``, it will get the timePublish for the ``content.contentVersion`` entity, since that is the first (and only) versionable entity.
 
 Entities Associated with the Versionable Entity
 ===============================================
 
-The sub entities associated with the versionable entity (e.g. each content type, ViewSettings, etc), need to register their rootParent so that we can update the rootParent's mod time, e.g. update View when Article is edited.
+The sub entities associated with the versionable entity (e.g. each content type, ContentSettings, etc), need to register their rootParent so that we can update the rootParent's mod time, e.g. update Content when Article is edited.
 
 .. code-block:: php
     :linenos:
 
     <?php
     public function getParent() {
-        return $this->getViewVersion();
+        return $this->getContentVersion();
     }
     public function getRootParent() {
         return $this->getParent()->getParent();
@@ -171,7 +162,7 @@ The sub entities associated with the versionable entity (e.g. each content type,
 Find the Entity Version
 =======================
 
-The VersionParentTrait provides methods for interacting with the version, by specifying the dynamic entity name, e.g. ``$view->getVersion(‘viewVersion')``. However, the parent entity MUST define the getters and setters for the associated versionable entity anyway, in order for symfony to function properly. So this dynamic method should NOT be used (it's slower). It's ONLY needed for some dynamic internal reasons. You should always use the custom defined getter/setter, e.g. ``$view->getViewVersion()``, ``$site->getDesign()``, etc.
+The VersionParentTrait provides methods for interacting with the version, by specifying the dynamic entity name, e.g. ``$content->getVersion(‘contentVersion')``. However, the parent entity MUST define the getters and setters for the associated versionable entity anyway, in order for symfony to function properly. So this dynamic method should NOT be used (it's slower). It's ONLY needed for some dynamic internal reasons. You should always use the custom defined getter/setter, e.g. ``$content->getContentVersion()``, ``$site->getDesign()``, etc.
 
 Associate the Correct Entity Version
 ====================================
@@ -184,10 +175,10 @@ Once you've set up an entity correctly, your controller can simply call the corr
     <?php
     /**
      * VERSIONING
-     * Get the Best ViewVersion of the View based on the environment view mode
+     * Get the Best ContentVersion of the Content based on the environment view mode
      */
-    $viewVersionRepo = $em->getRepository('SitetheoryCoreBundle:View\ViewVersion');
-    $viewVersionRepo->associateVersion(‘ViewVersion', $view, $this->env->getMode());
+    $contentVersionRepo = $em->getRepository('SitetheoryCoreBundle:Content\ContentVersion');
+    $contentVersionRepo->associateVersion(‘ContentVersion', $content, $this->env->getMode());
 
 Iterate Versions
 ================

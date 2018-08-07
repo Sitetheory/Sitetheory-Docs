@@ -26,7 +26,7 @@ Backend
 =======
 On the backend, Sitetheory utilizes `Symfony`_ as a modern framework, `Doctrine`_ for database and entity management, and
 `Twig`_ for HTML templating. As a CMS framework, Sitetheory just manages page requests on the server side. The current URL
-determines the correct View (page) to load. Each View is associated with a specific Content Type, e.g. Article, Profile,
+determines the correct Content (page) to load. Each Content is associated with a specific Content Type, e.g. Article, Profile,
 Landing Page Stream, etc. Sitetheory will load the correct Controller for the current Content Type, as well as the appropriate
 Twig Template. Individual Themes or websites can extend or overwrite the Controller or Templates to allow for endless
 customization.

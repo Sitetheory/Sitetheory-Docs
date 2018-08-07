@@ -7,7 +7,7 @@ The Stratus.js adds a lot of useful CSS classes to the HTML body, which can assi
 .. code-block:: html
     :linenos:
 
-    <body class="SitetheoryArticleBundle-Article viewId-12345 layout-Main mac chrome version47 loaded">
+    <body class="SitetheoryArticleBundle-Article contentId-12345 layout-Main mac chrome version47 loaded">
 
 Browser
 -------
@@ -29,7 +29,7 @@ The Content Type of this page, e.g. SitetheoryArticleBundle-Article. This lets y
 
 ID
 --
-The id of the page, e.g. viewId-12345. This is useful if you need to style something differently for one specific page.
+The id of the page, e.g. contentId-12345. This is useful if you need to style something differently for one specific page.
 
 
 

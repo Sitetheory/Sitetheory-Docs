@@ -225,14 +225,14 @@ Example: Edit
             <stratus-help flex="5">Lorem ipsum dolor sit amet.</stratus-help>
             <md-input-container flex="95" ng-show="model.completed">
                 <label>Title</label>
-                <input ng-model="model.data.viewVersion.title" type="text" required>
+                <input ng-model="model.data.contentVersion.title" type="text" required>
             </md-input-container>
 
             {# Example: basic date picker #}
             <div flex="5"></div>
             <md-input-container flex="95" ng-show="model.completed">
                 <label>Display Date</label>
-                <md-datepicker ng-model="model.data.viewVersion.timeCustom"></md-datepicker>
+                <md-datepicker ng-model="model.data.contentVersion.timeCustom"></md-datepicker>
             </md-input-container>
 
             {# Example: Select with options hydrated from API #}
@@ -281,7 +281,7 @@ Example: Edit
             <md-input-container flex="95" ng-show="model.completed">
                 <label>Body</label>
                 {# leave `froala` attribute empty to use default, provide value "froalaOptions" to use Stratus defaults, or pass in a JSON attribute of valid Froala options from their documentations #}
-                <textarea froala="froalaOptions" ng-model="model.data.viewVersion.text"></textarea>
+                <textarea froala="froalaOptions" ng-model="model.data.contentVersion.text"></textarea>
             </md-input-container>
 
             {# Example: Autosave is enabled by default in most contexts, but if you need to manually save the model you can do it this way #}
@@ -370,7 +370,7 @@ Example
     :linenos:
 
     <stratus-option-value flex="95" ng-show="model.completed"
-        ng-model="model.data.viewVersion.meta.phones"
+        ng-model="model.data.contentVersion.meta.phones"
         data-options='["Main", "Mobile", "Work", "Personal"]'
         data-type="phone"
         data-custom="true"

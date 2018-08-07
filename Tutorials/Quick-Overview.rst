@@ -8,7 +8,7 @@ Technical Background
 The current website is built on the Sitetheory.io platform, and implements Angular as a javascript framework to
 handle model management and interact with the Sitetheory API. Sitetheory is built using PHP on the Symfony framework and
 utilizes Doctrine for database and entity management. Sitetheory is a CMS and framework that manages page requests on
-the server side. The current URL determines the correct View (page) to load. Each view is associated with a specific
+the server side. The current URL determines the correct Content (page) to load. Each Content is associated with a specific
 Content Type, e.g. Article, Profile, Landing Page Stream, etc. Sitetheory will load the correct controller for the
 current Content Type, as well as the correct Twig template. As a designer, you don't need to worry about most of that,
 you can just customize the template for a given page. You'll have access to do fancy stuff through Angular if you need
@@ -44,10 +44,10 @@ template. This core shell template in turn that extends the HTML base template
 Customize Pages
 ---------------
 
-Every page is a "View" which is assigned to a Content Type, e.g. Article, Profile, etc. To customize the look of all
+Every page is a "Content" which is assigned to a Content Type, e.g. Article, Profile, etc. To customize the look of all
 Articles, just add a file called `/Sitetheory/ArticleBundle/Resources/views/Article.html.twig`. To customize one specific
-Article, get the unique view ID of that article (from the admin url ?id=xxxx, or in the dev toolbar) and add a file
-called `/Sitetheory/ArticleBundle/Resources/views/Article[ID].html.twig` where "[ID]" is the view ID.
+Article, get the unique content ID of that article (from the admin url ?id=xxxx, or in the dev toolbar) and add a file
+called `/Sitetheory/ArticleBundle/Resources/views/Article[ID].html.twig` where "[ID]" is the content ID.
 
 
 

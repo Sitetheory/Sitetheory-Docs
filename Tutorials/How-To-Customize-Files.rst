@@ -59,7 +59,7 @@ By default Symfony looks for templates to override third party vendor bundles in
     :linenos:
 
     <?php
-    $this->container->get('twig.loader')->prependPath($templatePathView, $viewBundleNamespaceShortcut);
+    $this->container->get('twig.loader')->prependPath($templatePathContent, $contentBundleNamespaceShortcut);
     
 Then as long as we put the files in the right directory, they will override the core templates.
 
@@ -380,14 +380,14 @@ Whether the vendor has created a custom Content Type, or just customized a versi
 Customizing Unique Instances of a Page
 ======================================
 
-If you need to customize a controller or template for a unique instance of a page, i.e. a specific ``View`` ID (not just the generic controller or template for every instance of that content type), you can do that too! Just put the file in the same location as the generic file, but append the id to the end of the name, e.g.
+If you need to customize a controller or template for a unique instance of a page, i.e. a specific ``Content`` ID (not just the generic controller or template for every instance of that content type), you can do that too! Just put the file in the same location as the generic file, but append the id to the end of the name, e.g.
 
 .. code-block:: shell
     :linenos:
 
     /var/www/vhosts/1/v/1/0/src/Sitetheory/MenuBundle/Resources/views/MenuPrimary12345.html.twig
 
-For Controllers, since you append the viewID to the filename you will also need to append it to the classname, e.g.
+For Controllers, since you append the contentId to the filename you will also need to append it to the classname, e.g.
 
 .. code-block:: php
     :linenos:

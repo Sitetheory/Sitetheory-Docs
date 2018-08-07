@@ -7,12 +7,12 @@ How To Create Content Type Entities
 Create Entity Class
 -------------------
 
-An Entity class should be created for each Entity Content Type, whether or not you need unique fields for this Content Type (beyond what is included in the :doc:`ViewVersion </1.0/Overview/Pages>` already). The reason for this is so that all Content Types follow the same predictable structure, i.e. we always know that there will be an entity at ``$View->getViewVersion()->getContent()``. Most entities will need custom content fields, but either way we include it for consistency in case we need to add a custom field in the future and don’t want to have to create new records for every existing record.
+An Entity class should be created for each Entity Content Type, whether or not you need unique fields for this Content Type (beyond what is included in the :doc:`ContentVersion </1.0/Overview/Pages>` already). The reason for this is so that all Content Types follow the same predictable structure, i.e. we always know that there will be an entity at ``$content->getContentVersion()->getContent()``. Most entities will need custom content fields, but either way we include it for consistency in case we need to add a custom field in the future and don’t want to have to create new records for every existing record.
 
 Register API Accessibility
 --------------------------
 
-The Entity class should register the entity properties (fields) that are readable, writable, and searchable by using Sitetheory\Api annotation. This registration happens in the entity field declaration. See the :namespace:`SitetheoryCoreBundle:View\ViewVersion` as an example. See `Sitetheory\CoreBundle\Annotations\Api.php` for details.
+The Entity class should register the entity properties (fields) that are readable, writable, and searchable by using Sitetheory\Api annotation. This registration happens in the entity field declaration. See the :namespace:`SitetheoryCoreBundle:Content\ContentVersion` as an example. See `Sitetheory\CoreBundle\Annotations\Api.php` for details.
 
 * **Readable**
     All fields are readable by default. Set to false if you don't want them displaying. Set level="x" if you don't want

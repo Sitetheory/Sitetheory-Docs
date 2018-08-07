@@ -6,7 +6,7 @@ Content Types
 What Is a Content Type
 **********************
 
-Every :doc:`page is a View </1.0/Overview/Pages>` which is associated with a specific Content Type, e.g. Article, Map, Form, Video, etc. A Content Type is owned by a specific Vendor, and references a Controller that resides in a specific Bundle. The Controller is the PHP code that determines the actions for a specific page (and usually tells the page to display the content of the page according to the layout of a Twig template by the same name).
+Every :doc:`page is a content </1.0/Overview/Pages>` which is associated with a specific Content Type, e.g. Article, Map, Form, Video, etc. A Content Type is owned by a specific Vendor, and references a Controller that resides in a specific Bundle. The Controller is the PHP code that determines the actions for a specific page (and usually tells the page to display the content of the page according to the layout of a Twig template by the same name).
 
 .. _overview-restricting-to-services:
 
