@@ -6,9 +6,8 @@ Stream
 Overview
 ========
 
-Domains (i.e. example.com) are provided through Enom, Inc.
+Streams are a Content Type that displays content associated with specific tags.
 
-Further Details
-===============
-
-Coming soon!
+API
+===
+/Api/Stream

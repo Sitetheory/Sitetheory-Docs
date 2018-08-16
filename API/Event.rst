@@ -1,0 +1,13 @@
+#####
+Event
+#####
+
+
+Overview
+========
+
+The Event entity is a *routable* Content Type (i.e. "page"). It inherits all the standard functionality and features of a Content entity. See Content API for more details :doc:`/1.0/API/Content`. This API lets you fetch all Events (not other types of content).
+
+API
+===
+/Api/Event

@@ -6,9 +6,8 @@ Site
 Overview
 ========
 
-Domains (i.e. example.com) are provided through Enom, Inc.
+Site entity contains the basic information about the website, along with associated settings, primary domain, etc.
 
-Further Details
-===============
-
-Coming soon!
+API
+===
+/Api/Site
