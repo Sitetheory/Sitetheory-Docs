@@ -55,6 +55,7 @@ The `Meta` also be used to send data to the API, e.g. if an custom Entity API Co
 .. code-block:: javascript
     :caption: foo.js
     :name: bar.js
+
     {"meta":{"options":{"showContentInfo":true,"allRouting":true}}}
 
 
@@ -70,6 +71,7 @@ This could be a typical response from the API.
 .. code-block:: javascript
     :caption: foo.js
     :name: bar.js
+
     {
         "route": {
             "controller": "User"
@@ -122,6 +124,7 @@ This could be a typical PUT to the API to edit one field on the record. Note tha
 .. code-block:: javascript
     :caption: foo.js
     :name: bar.js
+
     {
         "email": "plato@epistemology.edu"
     }
