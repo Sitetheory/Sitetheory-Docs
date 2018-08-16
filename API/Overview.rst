@@ -117,7 +117,9 @@ This could be a typical PUT to the API to edit one field on the record. Note tha
 
 `PUT /Api/User/1`
 
-.. code-block:: JSON
+.. code-block:: javascript
+    :caption: foo.js
+    :name: bar.js
     {
         "email": "plato@epistemology.edu"
     }
