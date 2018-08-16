@@ -52,7 +52,7 @@ The `meta` always contains a `method` and `status`, at the very least.  The meth
 
 The `Meta` also be used to send data to the API, e.g. if an custom Entity API Controller needs extra `options` these can be put into the meta (instead of sending through the URL).
 
-.. code-block:: javascript
+.. code-block:: JSON
     {"meta":{"options":{"showContentInfo":true,"allRouting":true}}}
 
 
@@ -65,7 +65,7 @@ Example of Full Convoy
 ======================
 This could be a typical response from the API.
 
-.. code-block:: javascript
+.. code-block:: JSON
     {
         "route": {
             "controller": "User"
@@ -115,7 +115,7 @@ This could be a typical PUT to the API to edit one field on the record. Note tha
 
 `PUT /Api/User/1`
 
-.. code-block:: javascript
+.. code-block:: JSON
     {
         "email": "plato@epistemology.edu"
     }
@@ -150,7 +150,7 @@ This runs the `finalizer()` method on the API controller which does the initial 
 3. Custom Entity API Controllers
 ================================
 
- Every entity that is accessible in the API will have a controller, e.g. Article has a custom API controller found at **ArticleApiController** (`\Sitetheory\ArticleBundle\Controller\ArticleApiController.php`). This controller may just be a stub, because not every entity needs special API functionality (the default behavior is sufficient). But in this case the articles are a ContentType that function as a routable page on the site (e.g. like Profile, Event, Stream, etc), so this controller actually extends the shared **ContentApiController** (`\Sitetheory\CoreBundle\Controller\Content\ContentApiController.php`) because it shares a lot of similar functionality with all other page related Content.
+Every entity that is accessible in the API will have a controller, e.g. Article has a custom API controller found at **ArticleApiController** (`\Sitetheory\ArticleBundle\Controller\ArticleApiController.php`). This controller may just be a stub, because not every entity needs special API functionality (the default behavior is sufficient). But in this case the articles are a ContentType that function as a routable page on the site (e.g. like Profile, Event, Stream, etc), so this controller actually extends the shared **ContentApiController** (`\Sitetheory\CoreBundle\Controller\Content\ContentApiController.php`) because it shares a lot of similar functionality with all other page related Content.
 
 **All** API controllers also extend the **EntityApiController** (`\Sitetheory\ComponentBundle\Controller\EntityApiController.php`), which does the heavy lifting for managing the lifecycle of an API request for selecting, editing, creating, and deleting records, e.g. standard searching/filtering, permissions control, etc.
 
@@ -192,22 +192,23 @@ Depending on the type of Method requested, the relevant method will be used. Eac
 
 persist()
 ---------
-This is where the crazy starts. This persists changes to the entities (e.g. for PUT, POST and DELETE methods). This is smart enough to persist cross entity managers! It also references the Entity Annotations to determine CRUD access level on a per field basis.
+This persists changes to the entities (e.g. for PUT, POST and DELETE methods). This is smart enough to persist cross entity managers! It also references the Entity Annotations to determine CRUD access level on a per field basis.
 
-- Uses Tree Building to Navigate Nested Entities (this is where the crazy starts)
-- Hydrates any Entities that Haven't Been Fetched
+This is where the crazy starts. You will have to step through this method line by line (and really it's the persister() that does the recursive "Tree Building").
+
+- Uses "Tree Building" to recurse through nested entities.
+- Hydrates Associated Entities (when an ID changes, e.g. Site.SiteVersion.theme changes to a new template).
+- Validates CRUD permissions to edit on every nested entity and field.
 - Merges in Changes for Persisting
-- Validates CRUD permissions on every nested entity and field.
 - Handles AutoVersioning of Versionable Entities
 
-Many problems with the API are likely caused by issues in the Persister with permissions that result in changes to entities (or fields) to be discarded.
-
-[TODO] Alex needs to explain Tree Building in more detail.
+Many problems with the API are likely caused by issues in the complex `persister()` with permissions that result in changes to entities (or fields) to be discarded.
 
 
 finalize()
 ----------
 Finalize Structures the entity data that you send back from the API to the requesting script. It is called for all methods (e.g. GET, PUT, POST, etc). The `finalizeDefault()` is often customized to manipulate data before the request is returned. (see ContentApiController for example.)
+
 
 manifest()
 ----------
