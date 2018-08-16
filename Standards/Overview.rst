@@ -19,56 +19,7 @@ Release Cycles
 
 We use `Semantic Versioning`_ to determine when and how to set version numbers.
 
-Sitetheory API
-==============
 
-Everything in the API is handled from a payload, which can sometimes contain an outer object, we call the Convoy.  The Convoy may contain a `route` and/or `meta`, which will cause the payload to become nested a level deeper.  For example, this would look like so:
 
-.. code-block:: json
-    {
-        "route": {
-            "controller": "User"
-        },
-        "meta": {
-            "method": "get",
-            "status": [
-                {
-                    "code": "SUCCESS",
-                    "message": "Successfully executed request."
-                }
-            ]
-        },
-        "payload": [
-            {
-                "id": 1,
-                "username": "Plato",
-                "email": "plato@epistemology.edu"
-            },
-            {
-                "id": 2,
-                "username": "Aristotle",
-                "email": "aristotle@metaphysics.edu"
-            },
-            {
-                "id": 3,
-                "username": "Socrates",
-                "email": "socrates@maieutics.edu"
-            },
-            {
-                "id": 4,
-                "username": "Nietzsche",
-                "email": "friedrich@nihilism.org"
-            },
-            {
-                "id": 5,
-                "username": "Kierkegaard",
-                "email": "søren@existence.net"
-            }
-        ]
-    }
-
-The `route` contains information for where the payload needs to go, whether it be a `controller`, `user`, or some other destination.  If this is filled out by using a `RESTful` request like `/Api/User`
-
-The `meta` always contains a `method` and `status`, at the very least.  The methods are `get`, `set`, `new`, and `del`.  These can also be set by using a `RESTful` interface of `GET`, `PUT`, `POST`, and `DELETE`, respectively.  There is also a `PATCH` option, but it is synonymous with `PUT`, as they are both designed to be a patchable request.  The `status` should not be set unless we encounter an error.  If nothing fails at the time of serialization, the system will automatically place a `SUCCESS` status into the correlating array.  There may be other bits of information inside the `meta` as required by the destination.
 
 .. _Semantic Versioning: http://semver.org/spec/v2.0.0.html
