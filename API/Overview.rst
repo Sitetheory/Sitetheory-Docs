@@ -52,7 +52,7 @@ The `meta` always contains a `method` and `status`, at the very least.  The meth
 
 The `Meta` also be used to send data to the API, e.g. if an custom Entity API Controller needs extra `options` these can be put into the meta (instead of sending through the URL).
 
-.. code-block:: json
+.. code-block:: javascript
     {"meta":{"options":{"showContentInfo":true,"allRouting":true}}}
 
 
@@ -65,7 +65,7 @@ Example of Full Convoy
 ======================
 This could be a typical response from the API.
 
-.. code-block:: json
+.. code-block:: javascript
     {
         "route": {
             "controller": "User"
@@ -115,7 +115,7 @@ This could be a typical PUT to the API to edit one field on the record. Note tha
 
 `PUT /Api/User/1`
 
-.. code-block:: json
+.. code-block:: javascript
     {
         "email": "plato@epistemology.edu"
     }
