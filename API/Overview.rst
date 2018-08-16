@@ -52,7 +52,9 @@ The `meta` always contains a `method` and `status`, at the very least.  The meth
 
 The `Meta` also be used to send data to the API, e.g. if an custom Entity API Controller needs extra `options` these can be put into the meta (instead of sending through the URL).
 
-.. code-block:: JSON
+.. code-block:: javascript
+    :caption: foo.js
+    :name: bar.js
     {"meta":{"options":{"showContentInfo":true,"allRouting":true}}}
 
 
