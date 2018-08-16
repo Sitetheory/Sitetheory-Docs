@@ -65,7 +65,9 @@ Example of Full Convoy
 ======================
 This could be a typical response from the API.
 
-.. code-block:: JSON
+.. code-block:: javascript
+    :caption: foo.js
+    :name: bar.js
     {
         "route": {
             "controller": "User"
