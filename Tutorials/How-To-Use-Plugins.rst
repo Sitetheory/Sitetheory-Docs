@@ -4,6 +4,8 @@ How to Use Plugins
 
 Standard plugins are defined in the Stratus.js and are available on any page by adding a data-plugin="" attribute to any element. You may combine multiple plugins on one element by separating each plguin name with a space, e.g. data-plugin="AddClass Dim"
 
+NOTE: we are converting these plugins to the Angular method, e.g. data-plugin="onscreen" is now `stratus-on-screen`. The rest should be ported soon.
+
 
 Lazy Load Correct Sized Images
 ------------------------------
@@ -41,7 +43,7 @@ If you use the lazy loading on images in your design (not created by the system 
 
 - data-spy: By default the image will load when it is "on screen". But in some cases (like a Bootstrap Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
 
-- data-ignore-visibility: normally it will look for the size of the container and load the correct image that will fill the container (assuming a 100% width is set on CSS). But if the container is invisible, it will try to go up the element tree to the first parent that is visible. This is often desirable because the parent is collapsed. However, in some cases, like a bootstrap carousel, if you have the parent width set explictly on a containing element, you want to use that (not the outer carousel width). So you set data-ignoreVisibility="true" and it will use the parent container width.
+- data-ignore-visibility: normally it will look for the size of the container and load the correct image that will fill the container (assuming a 100% width is set on CSS). But if the container is invisible, it will try to go up the element tree to the first parent that is visible. This is often desirable because the parent is collapsed. However, in some cases, like a Bootstrap Carousel, if you have the parent width set explicitly on a containing element, you want to use that (not the outer carousel width). So you set data-ignoreVisibility="true" and it will use the parent container width.
 
 - data-disable-fadein: All images will fade in from opacity 0 to 1, when the placeholder class is replaced with the loaded class. If you have specified a src because you want a default placeholder image to show up, then obviously you don't want the placeholder image to go invisible. So you should add a "disable-fadein" class to the image.
 
@@ -54,7 +56,7 @@ The OnScreen plugin will detect when an element is visible on the screen and add
 
 **Example**
 
-<div data-plugin="OnScreen">Fancy Area</div>
+<div stratus-on-screen>Fancy Area</div>
 
 **Additional Options**
 
