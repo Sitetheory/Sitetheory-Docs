@@ -41,9 +41,9 @@ If you use the lazy loading on images in your design (not created by the system 
 
 - stratus-src: the stratus-src should point to the image that you want to lazy-load. If you have specified a regular img src as a placeholder image (e.g. a small version), and you want to lazy load the best size of that image, than you can avoid typing out the path a second time and just specify data-src="lazy" and the system will load the best version of the current image src.
 
-- data-spy: By default the image will load when it is "on screen". But in some cases (like a Bootstrap Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
+- data-spy: By default the image will load when it is "on screen". But in some cases (like a Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
 
-- data-ignore-visibility: normally it will look for the size of the container and load the correct image that will fill the container (assuming a 100% width is set on CSS). But if the container is invisible, it will try to go up the element tree to the first parent that is visible. This is often desirable because the parent is collapsed. However, in some cases, like a Bootstrap Carousel, if you have the parent width set explicitly on a containing element, you want to use that (not the outer carousel width). So you set data-ignoreVisibility="true" and it will use the parent container width.
+- data-ignore-visibility: normally it will look for the size of the container and load the correct image that will fill the container (assuming a 100% width is set on CSS). But if the container is invisible, it will try to go up the element tree to the first parent that is visible. This is often desirable because the parent is collapsed. However, in some cases, like a Carousel, if you have the parent width set explicitly on a containing element, you want to use that (not the outer carousel width). So you set data-ignoreVisibility="true" and it will use the parent container width.
 
 - data-disable-fadein: All images will fade in from opacity 0 to 1, when the placeholder class is replaced with the loaded class. If you have specified a src because you want a default placeholder image to show up, then obviously you don't want the placeholder image to go invisible. So you should add a "disable-fadein" class to the image.
 
@@ -138,9 +138,9 @@ Dim
   body.dim #app { opacity: .2; }
 
 
-Carousel
+Bootstrap Carousel (DEPRECATED)
 --------
-The current carousel uses Bootstrap's Carousel, but we standardize how it is evoked and also allow an easy way to specify how many frames (item elements) to appear in each slide. This is useful when you want to display a gallery with several items per slide. We also allow lazy loading of images inside the slideshow by toggling a Stratus.Environment.viewPortChange after the slide appears (otherwise the images will never appear unless you are simultaneously scrolling. And finally, we force the carousel to be paused until it's onscreen so that you don't arrive at a carousel half way through the cycle. So overall, it's better to call the carousel via our standard plugin.
+The current carousel uses Bootstrap Carousel, but we standardize how it is evoked and also allow an easy way to specify how many frames (item elements) to appear in each slide. This is useful when you want to display a gallery with several items per slide. We also allow lazy loading of images inside the slideshow by toggling a Stratus.Environment.viewPortChange after the slide appears (otherwise the images will never appear unless you are simultaneously scrolling. And finally, we force the carousel to be paused until it's onscreen so that you don't arrive at a carousel half way through the cycle. So overall, it's better to call the carousel via our standard plugin.
 
  **Data Options**
 - group: the number of frames to group together and show in each slide (this will apply to both desktop and mobile, unless groupmobile is set).
@@ -170,3 +170,34 @@ The current carousel uses Bootstrap's Carousel, but we standardize how it is evo
 
 **NOTE:**
 The data-scroll="false" is added to prevent our anchor script from scrolling to the new position.
+
+
+Carousel
+--------
+TODO: port features and explanations from Bootstrap Carousel above into this documentation once it's completed.
+
+The current carousel uses Swiper (https://idangero.us/swiper/).
+
+Swiper Natively Supports
+-lazy loading
+-autoplays (has transition times to set if needed)
+-loop
+-mouse/finger swiping (or keyboard),
+-swipe up/down
+-pagination/counter,
+-transition types/effects,
+-html frames
+
+ **Data Options**
+See Swiper documentation for all standard options. Additional Options listed below:
+
+
+**Example**
+
+.. code-block:: html
+    :linenos:
+
+        <stratus-carousel init-now="model.completed" images="
+        [{"src":"https://foo.com/1.jpg"},
+        {"src":"https://foo.com/2.jpg"}]" >
+        </stratus-carousel>
