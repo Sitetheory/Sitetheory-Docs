@@ -102,7 +102,7 @@ Initiate the onScreen component by adding `stratus-on-screen` to any element.
 
 Carousel
 ========
-The current carousel uses Swiper (https://idangero.us/swiper/).
+The current carousel uses `Swiper <https://idangero.us/swiper/>`_ .
 
 Swiper Natively Supports
 -lazy loading
@@ -133,7 +133,7 @@ Each slide will either be an image, video, or html. So a slide can be defined as
 **Slide Object Reference:**
     - src: URL to image
     - link: URL to load on click
-    - target: standard browser target (where to open the link), defaults to "_self". See: https://www.w3schools.com/tags/att_a_target.asp
+    - target: standard `browser target <https://www.w3schools.com/tags/att_a_target.asp>`_ (where to open the link), defaults to "_self".
     - title: Unused currently
     - description: Unused currently
 
@@ -155,7 +155,7 @@ Each slide will either be an image, video, or html. So a slide can be defined as
     - Options: 'slide','fade,'cube,'coverflow','flip'
     - TODO: Some transitions seem to have trouble with lazyLoad that we'll need to work on
 - data-pagination (boolean or JSON Object - default: false)
-    - See http://idangero.us/swiper/api/#pagination
+    - `See Swiper Documentation <http://idangero.us/swiper/api/#pagination>`_
     - JSON: TODO
         - clickable (boolean - default: false)
         - dynamicBullets (boolean - default: false)
@@ -164,7 +164,7 @@ Each slide will either be an image, video, or html. So a slide can be defined as
 - data-init-now (Javascript variable)
     - Specify a variable to watch. Delays initialization until provided variable exists/if not empty.
 - data-images-link-target (string - default: "_self")
-    - If data-images doesn't have a target, uses this option as it's default instead of "_self" (see: https://www.w3schools.com/tags/att_a_target.asp)
+    - If data-images doesn't have a `browser target <https://www.w3schools.com/tags/att_a_target.asp>`_, uses this option as it's default instead of "_self".
 - data-direction (String - default: 'horizontal')
     - Determine direction of slide movement.
     - Options: 'horizontal', 'vertical'
@@ -191,6 +191,16 @@ Each slide will either be an image, video, or html. So a slide can be defined as
     - TODO: implement
 - data-autoplay-delay
     - TODO: no longer an option?
+
+
+Multi-Colunns
+-------------
+The Swiper Carousel has many `advanced api options <http://idangero.us/swiper/api/#parameters>`_, including to control grouped/multiple slides in view (See section for "Slides Grid").
+
+Demos:
+`Multiple Slides Per View <http://idangero.us/swiper/demos/110-slides-per-view.html>`_
+`Slide Multiple Per Group <http://idangero.us/swiper/demos/210-infinite-loop-with-slides-per-group.html>`_
+
 
 
 Examples
