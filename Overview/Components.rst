@@ -1,3 +1,5 @@
+@TODO: review and update to ensure this is all still valid based on changes to stratus and standards since this was written in 2017.
+
 ##########################
 Introduction to Components
 ##########################
@@ -5,6 +7,10 @@ Introduction to Components
 Sitetheory is designed to make it easy for designers to create beautiful websites that are highly interactive and functional. We wanted to separate design and code as much as possible, so that a designer could easily build HTML/CSS without having to stumble around intimidating code. And yet, we want to allow hard core developers unlimited creativity to implement complex javascript if necessary. To make this possible, we've adopted the Angular framework (full MVC) which has a great templating system for designers, with beautiful pre-built components for the most common use cases and a few components of our own for our custom needs. Then either the designer or a programmer can add logic to their design using Angular syntax, pull dynamic data from APIs, and create a rich experience. At any time the designer can go into an existing dynamic page, and easily edit the design without being too concerned about creating development bugs. If a developer needs to implement complex features, they have full access to the javascript through our Stratus framework, or they can use require.js to require third party libraries and implement any feature they want.
 
 A component could be a simple display field to show the value of an entity, a text field that allows editing the value of an entity property, or it can be like a complex media selector that shows you all the elements you have selected and allows you to upload or select new media. Components render a template and add functionality to the page so the designer can control the user experience. Most components are set to auto-save changes, so the experience is much more responsive than traditional forms. Components are used extensively throughout the CMS admin and Live Edit mode.
+
+See our :doc:`Stratus-Components documentation </1.0/Overview/Stratus-Components>` for specifics about custom components we already built.
+
+
 
 
 #######
@@ -319,66 +325,3 @@ Example:
         <div ng-message="validateAny">Ya you really messed up.</div>
     </div>
 
-
-#################
-Custom Components
-#################
-
-See the `Stratus Documentation <http://js.sitetheory.io/1/0/stratus.html>`_ for detailed specs of each component.
-
-
-
-****************
-`<stratus-help>`
-****************
-
-Add a "Help" icon that reveals more information on hover.
-
-Example
--------
-
-.. code-block:: html
-    :linenos:
-
-    <stratus-help flex="5">This field allows you to explain how awesome you are.</stratus-help>
-
-
-************************
-`<stratus-option-value>`
-************************
-
-Add different types of dynamic fields that allow you to enter a value and select a label to describe what knd of infromation this is, e.g. an email field, that lets you select "Main", "Work", "Personal" or enter your own custom label.
-
-Options
--------
-
-* **data-type** (*string*): a string of one of the valid field types. A valid field type will add special styling, functionality, and validation relevant to that type of data. Valid options include: "phone", "email", "url", "location", "date". If no valid type is specified it will just be a simple field.
-* **data-options** (*array: required*) an array of labels to choose from for this field e.g. ["Main", "Mobile", "Work", "Personal"]
-* **data-custom** (*boolean*): specify `true` if you want users to be able to enter a custom value for the label. (*default: true*)
-* **data-multiple** (*boolean*): specify `true` if you want users to be able to add more than one version of this type of field, e.g. multiple phone numbers. (*default: true*)
-
-Additional Features for Type
-----------------------------
-
-- location: when saved, a location will attempt to do a geolocation lookup and store the latitude/longitude of the address.
-
-
-Example
--------
-
-.. code-block:: html
-    :linenos:
-
-    <stratus-option-value flex="95" ng-show="model.completed"
-        ng-model="model.data.contentVersion.meta.phones"
-        data-options='["Main", "Mobile", "Work", "Personal"]'
-        data-type="phone"
-        data-custom="true"
-        data-multiple="true">
-    </stratus-option-value>
-
-
-Backend Info
-------------
-
-The label/value pairs are stored in the AssetManager, which allows for multiple dynamic fields to be attached to any entity.
