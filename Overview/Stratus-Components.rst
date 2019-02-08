@@ -129,9 +129,8 @@ Options
 In addition to the standard Swiper options (listed in their documentation) we have additional options for our stratus component implementation.
 
 
-Each slide will either be an image, video, or html. So a slide can be defined as an ARRAY with simple image URLs, or as an array with multiple OBJECT elements. If it is defined as an Object (in different contexts) the slide object has standard elements.
-
 **Slide Object Reference:**
+Each slide will either be an image, video, or html. So a slide can be defined as an ARRAY with simple image URLs, or as an array with multiple OBJECT elements. If it is defined as an Object (in different contexts) the slide object has standard elements no matter where it's defined (e.g. directly in the `data-slides` settings or pulled from an API in `data-model`).
     - src: URL to image
     - link: URL to load on click
     - target: standard `browser target <https://www.w3schools.com/tags/att_a_target.asp>`_ (where to open the link), defaults to "_self".
@@ -141,7 +140,7 @@ Each slide will either be an image, video, or html. So a slide can be defined as
 
 - data-model (JSON Array)
     - TODO: this is not yet implemented. This should be a Collection object that will contain information for the slides. These variables should resemble the standard Slide Object defined above.
-- data-images (JSON Array)
+- data-slides (JSON Array)
     - TODO: consider changing this to 'data-slides' and allow passing in String as URL or HTML, and Object can specify 'src' or 'html' so that we can put anything we want in each slide.
     - This may be either a JSON Array of Strings or Objects.
     - Strings: Array of URLS to an image, e.g. ["https://domain.com/image1.jpg", "https://domain.com/image2.jpg"]
@@ -164,8 +163,8 @@ Each slide will either be an image, video, or html. So a slide can be defined as
         - render (String): 'fraction', 'customFaction' (not complete), 'progressbar', 'progressbarOpposite', 'numberBullet', 'bullet'
 - data-init-now (Javascript variable)
     - Specify a variable to watch. Delays initialization until provided variable exists/if not empty.
-- data-images-link-target (string - default: "_self")
-    - If data-images doesn't have a `browser target <https://www.w3schools.com/tags/att_a_target.asp>`_, uses this option as it's default instead of "_self".
+- data-slides-link-target (string - default: "_self")
+    - If data-slides doesn't have a `browser target <https://www.w3schools.com/tags/att_a_target.asp>`_, uses this option as it's default instead of "_self".
 - data-direction (String - default: 'horizontal')
     - Determine direction of slide movement.
     - Options: 'horizontal', 'vertical'
@@ -207,30 +206,51 @@ init-now="model.completed"
 Examples
 --------
 
+**Display Image Slides**
+
 .. code-block:: html
     :linenos:
 
             <stratus-carousel
-                data-images='["https://google.com/image1","https://google.com/image2","https://google.com/image3"]'
+                data-slides='["https://foo.com/image1","https://foo.com/image2","https://foo.com/image3"]'
             ></stratus-carousel>
 
+
+**Display HTML Slides**
+NOTE: HTML must be escaped for JSON.
+
+.. code-block:: html
+    :linenos:
+
+        <stratus-carousel
+            data-slides='["<h1>Foo</h1><img src=\"https://foo.com/images1\">", "<h1>Bar</h1><img src=\"https://foo.com/images2\">"]'
+        ></stratus-carousel>
+
+
+**Display Images with Links**
+
 .. code-block:: html
     :linenos:
 
             <stratus-carousel
-               data-images='[{"src":"https://google.com/image1", "link":"https://google.com/", "target":"_blank"}]'
+               data-slides='[{"src":"https://foo.com/image1", "link":"https://foo.com/", "target":"_blank"}]'
             ></stratus-carousel>
 
+
+**Modify Default Settings**
+
 .. code-block:: html
     :linenos:
 
             <stratus-carousel
-               data-images='["https://google.com/image1"]'
+               data-slides='["https://foo.com/image1"]'
                data-autoplay="true"
                data-transition-effect="fade"
                data-pagination='{"clickable":true, "render":"bullet"}'
                data-direction="vertical"
             ></stratus-carousel>
+
+
 
 
 
