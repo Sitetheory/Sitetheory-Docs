@@ -104,19 +104,20 @@ Carousel
 ========
 The current carousel uses `Swiper <https://idangero.us/swiper/>`_ .
 
-Swiper Natively Supports
+Swiper Natively Supports:
 -lazy loading
 -autoplays (has transition times to set if needed)
 -loop
 -mouse/finger swiping (or keyboard),
 -swipe up/down
--pagination/counter,
--transition types/effects,
+-pagination/counter
+-transition types/effects
 -html frames
 
 Implementation
 --------------
 The component is rendered as a dedicated element using `stratus-carousel` element.
+
 .. code-block:: html
     :linenos:
 
@@ -201,7 +202,7 @@ Demos:
 `Multiple Slides Per View <http://idangero.us/swiper/demos/110-slides-per-view.html>`_
 `Slide Multiple Per Group <http://idangero.us/swiper/demos/210-infinite-loop-with-slides-per-group.html>`_
 
-
+init-now="model.completed"
 
 Examples
 --------
