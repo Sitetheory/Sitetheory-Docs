@@ -2,7 +2,17 @@
 Overview
 ########
 
-Aside from handling regular website page requests, Sitetheory also handles all API requests through the /Api url on any domain. Sitetheory is a RESTful API using the standard methods of (GET, PUT, POST, DELETE, etc) for interaction with all entities and standard actions for viewing, creating, editing, and deleting content. Everything is accessible through the API and can be requested in JSON or XML. Access is controlled through a robust permissions system (based on your user account), with granular role or user based access to assets (site, bundles, content type, specific records or even specific fields). Additional SOAP style requests are available in the API for advanced filtering, e.g. you can pass in options to a custom Entity API Controller, e.g. ContentApiController accepts "options" `?options[showContentInfo]=true.`
+Aside from handling regular website page requests, Sitetheory also handles all API requests through the /Api url on any domain. Sitetheory is a **REST**ful API using the standard methods of (GET, PUT, POST, DELETE, etc) for interaction with all entities and standard actions for viewing, creating, editing, and deleting content. Everything is accessible through the API and can be requested in JSON or XML. Access is controlled through a robust permissions system (based on your user account), with granular role or user based access to assets (site, bundles, content type, specific records or even specific fields). Additional SOAP style requests are available in the API for advanced filtering, e.g. you can pass in options to a custom Entity API Controller, e.g. ContentApiController accepts "options" `?options[showContentInfo]=true.`
+
+
+********
+SECURITY
+********
+
+IMPORTANT: All API calls should be to the HTTPS (SSL enabled) version of the URL (so you do not send information in plain text)!
+
+The API will only allow you to interact with the data, based on your permissions. Some entities and records may be viewable by the public but not editable (e.g. Content) while others will be completely private (e.g. Billing). Others will be a mix, based on the annotation of the fields (e.g. User will expose the public username and avatar, but email and other private fields will be visible only to the user or a site administrator).
+
 
 
 ******
@@ -224,6 +234,31 @@ manifest()
 This is a special functionality to "Manifest" an empty new entity and it's associated parents and/or children. This should be added entity API controllers that have manual associations that need to be manifested, e.g. Content Integration (see ContentApiController).
 
 
+***********
+Admin Lists
+***********
+
+For the purpose of editing (e.g. on List Pages) in the admin context, the API adds the editUrl in the meta data it returns, so that you can know where entities should be edited. This is based on the entity's controller, but sometimes you need to specify an alternative URL. That can be easily customized for an entire entity by editing the entity's custom ApiController, e.g. for the Site entity, you edit the SiteApiController and add options like this:
+
+
+.. code-block:: php
+    :linenos:
+
+    protected $options = [
+            'altEditUrl' => [
+                'bundle' => 'Hosting',
+                'controller' => 'SiteSettingsEdit'
+            ]
+        ];
+
+Or if you just want an alternative editUrl in specific widgets, just add it to the data attribute like this:
+
+
+.. code-block:: javascript
+    :caption: GET Variable
+
+    data-api='{"options”:{“altEditUrl":{"bundle":"Hosting", "controller":"SiteSettingsEdit"}}}'
+
 
 ********************
 Advanced API Options
@@ -232,5 +267,207 @@ Advanced API Options
 
 Limits and Paging
 =================
-[TODO]
-You can limit the amount of records returned in each request by passing in options through the meta (see the list page component to see how we send these requests).
+The `meta` object of the response contains pagination information that describes how the total records, current records on this page, and total pages.
+
+.. code-block:: javascript
+    :caption: Pagination
+
+    {
+        "pagination": {
+            "countCurrent": 25,
+            "countTotal": 100,
+            "pageCurrent": 2,
+            "pageTotal": 4
+        }
+    }
+
+
+You can modify the how many records are returned and which page you want to view by passing variables to the API either through the URL or through the meta.
+
+.. code-block:: javascript
+    :caption: Meta
+
+    {"meta":{"options":{"page":2,"limit":10}}}
+
+.. code-block:: javascript
+    :caption: GET Variables
+
+    /Api/Content?page=2&limit=10
+
+
+
+Paging
+------
+By default the API loads the first page (if more records than one page exist), so you can pass in a variable to specify the page you wish to receive.
+
+Variable: `page` or `p`
+Type: integer
+Example: `/Api/{ENTITY}/?p=2`
+
+Paging Type
+-----------
+By default all content will be paged after a specific max limit.
+TODO: this may not be implemented yet (or relevant since infinite scroll is really just the front end UI making paging requests as you scroll.
+Variable: `pagingType`
+Values: `pager` (default), `infiniteScroll`
+Example: `/Api/{ENTITY}/?pagingType=infiniteScroll`
+
+
+Limit
+-----
+By default the API returns a fixed number of results (e.g. 25). If you wish to modify the number, you can pass in a limit.
+
+Variable: `limit` or `ql` ("query limit")
+Value: integer
+Example: `/Api/{ENTITY}/?ql=10
+
+Offset
+-----
+By default the API returns a fixed number of results (e.g. 25). If you wish to modify the number, you can pass in a limit.
+
+Variable: `offset` or `qlo` ("query limit offset")
+Value: integer
+Example: `/Api/{ENTITY}/?qlo=5
+
+
+Sort
+====
+By default the API sorts by timeEdit.
+
+Variable: `sort` or `qs` ("query sort")
+Value: string of field name
+Example: `/Api/{ENTITY}/?qs=name
+
+Sort Order
+==========
+By default the API sorts by DESC.
+
+Variable: `sortOrder` or `qso` ("query sort order")
+Value: `ASC`, `DESC`
+Example: `/Api/{ENTITY}/?qso=ASC
+
+
+Output Format
+=============
+By default all content will be returned in JSON format, but if you prefer XML, RSS, ICS, or other relevant formats you can specify the output format
+Variable: `output`
+Values: json (default), xml, rss, ics
+Example: `/Api/{ENTITY}/?output=xml`
+
+
+Search Queries
+==============
+You can search all the entity records, on all fields annotated as "searchable", for the string matching the query.
+
+Variable: `query` or `q`
+Values: string
+Example: `/Api/{ENTITY}/?q=foobar`
+
+TODO: specify the format for limiting search to specific fields
+
+Advanced
+--------
+You can pass in specific fields through the query field, e.g. "title=my title". This removes the filters that were found, so other parsing will not reference them. To search for strings for all searchable fields, in addition to value for a specific field, put the general string at the front of the search and put the field searches at the end
+
+Example 1: title=foo bar (finds where title = "foo bar")
+Example 2: title:foo bar time>2014-10-14 (finds where title contains "foo bar" and time is greater than the date)
+Example 3: baz shazam title:foo bar (finds where content includes baz and shazam and title contains "foo bar")
+
+Comparison Shortcuts
+--------------------
+[=] or [!=] - comparison means the values exactly equal or do not exactly equal each other. e.g. title="my title"
+[>] or [<] or [>=] or [<=] - comparison means the values are greater than or equal. e.g. timeEdit>2014-10-14
+[:] or [!:] or [LIKE] or [NOT LIKE] - comparison means "contains" instead of '=' which means "exactly equal".
+[?] or [!?] or [REGEXP] or [NOT REGEXP] - comparison means the following is a regular expression.
+[#] or [!#] or [IN] or [NOT IN] - comparison means the following is an IN comparison and the value should be separated by commas,
+[!#] - comparison means the values are NOT IN the field.
+
+Target Nested Fields
+--------------------
+Many fields you want to search are on nested entities, so you must specify the field name in dot notation, e.g. when searching the /Api/Content the main Content entity has very few fields of interest, most of what you search is the contentVersion, so your search would be on the nested version entity, e.g. to search the title:
+
+.. code-block:: javascript
+    :caption: GET Variables
+
+    /Api/Content?q=version.title[:]foo
+
+
+
+Select
+======
+By default all readable fields will be returned in the API. If you only want to return specific fields, you can select which fields are returned.
+
+Variable: `select`
+Values: array of field names
+Example: `/Api/{ENTITY}/?select[]=foo&select[]=bar`
+
+
+Unselect
+========
+By default all readable fields will be returned in the API. If you want all but a specific field, you can unselect that field.
+
+Variable: `unselect`
+Values: array of field names
+Example: `/Api/{ENTITY}/?uselect[]=baz&select[]=fuzz`
+
+
+Filter
+======
+The query parameter can allow you to search all searchable fields. But if you want to search one or more fields specifically, you can pass in a filter.
+
+TODO: fix/confirm how to do this, it's not working at this time. Filters are
+
+Variable: `filter`
+Values: array with field name
+Example: `/Api/{ENTITY}/?filter[title]=foo (where "title" is the field name and "foo" is the value to search)
+
+TODO: why do we need a more complicated method when the simple method above works?
+Variable: `options[filter]`
+Values: JSON object of field names and values
+Example: `/Api/{ENTITY}/?options[filter][]={"field":"foo","value":"bar"}
+
+
+
+Flatten
+=======
+
+Variable: `flatten`
+
+Alternative Edit URL
+====================
+If you need to lookup the URL for a content other than the current controller's corresponding Edit page, just pass in a bundle and controller.
+Variable: `altEditUrl`
+Value: Array of bundle and controller names.
+Example: /Api/Content?altEditUrl[bundle]=foo&altEditUrl[controller]=bar
+
+
+Special API Action
+==================
+Specify a special API action to run, e.g. "duplicate".
+Variable: `apiSpecialAction`
+Options:
+ - "duplicate" - triggers duplication of an entity
+ - "iterateVersion - iterates a versionable entity
+
+Example: /Api/Content/12345?apiSpecialAction=duplicate
+
+
+API Action
+==========
+Specify an alternative action (besides the default API action). This is an advanced feature if you have created a custom API controller that needs to do unique SOAP style actions that don't use the normal REST methods.
+
+Variable: `action`
+
+
+Show Assets
+===========
+Specify whether to show assets or not. By default assets are shown on the main entity if they exist, but in some contexts they may not be.
+Variable: `showAssets`
+Value: boolean (default: true, but depends on context)
+
+Manifest a Version Parent
+=========================
+When manifesting a new entity that is versionable, it will twiddle the entity and manifest a version parent by default. But if you need to return the version entity directly, set this to false.
+
+Variable: `manifestVersionParent`
+Value: boolean (default: false)

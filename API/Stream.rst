@@ -23,10 +23,13 @@ Example: https://dev.sitetheory.io/Api/Stream
 Get Content for a specific Stream
 ---------------------------------
 **/Api/[contentType]/[contentId]/Asset/Content** - Get all Content that is tagged with the Asset for a specific stream content type (e.g. Collection, Landing, etc). The
+
 Example: https://dev.sitetheory.io/Api/Collection/12345/Asset/Content
 
 Limit Streamed Content by Tag
 -----------------------------
 **/Api/[contentType]/[contentId]/Asset/Content?t=100** - Limit the content for a stream by specific tags that may be associated with that content (unrelated to the main tag that links it to the current stream). For example, you may have 10 articles tagged "foo" and a stream that is set to display the "foo" articles. But these articles may also contain secondary descriptive tags like "bar", "baz". This lets us filter the 10 articles on the stream, by additional unrelated tags.
+
 Example: https://dev.sitetheory.io/Api/Collection/12345/Asset/Content?t=100
+
 NOTE: to filter more than one tag, pass in a comma separated value for the "t" (tag) variable, e.g. ?t=[100,200]
