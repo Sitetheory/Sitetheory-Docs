@@ -173,7 +173,7 @@ Every entity that is accessible in the API will have a controller, e.g. Article 
 
 **All** API controllers also extend the **EntityApiController** (`\Sitetheory\ComponentBundle\Controller\EntityApiController.php`), which does the heavy lifting for managing the lifecycle of an API request for selecting, editing, creating, and deleting records, e.g. standard searching/filtering, permissions control, etc.
 
-We often need to customize the data for specific entities, e.g. if an Profile is requested (or any Content), by default we also want to fetch the Route, the best version, and the related meta data for profiles. So in each entity's custom API controller we extend methods from the `EntityApiController` to modify the database lookup (e.g. join additional tables). So each Entity API Controller has full control over the lifecycle of the request.
+We often need to customize the data for specific entities, e.g. if a Profile is requested (or any Content), by default we also want to fetch the Route, the best version, and the related meta data for profiles. So in each entity's custom API controller we extend methods from the `EntityApiController` to modify the database lookup (e.g. join additional tables). So each Entity API Controller has full control over the lifecycle of the request.
 
 Custom Actions
 --------------
@@ -365,13 +365,10 @@ Example: `/Api/{ENTITY}/?q=foobar`
 
 TODO: specify the format for limiting search to specific fields
 
-Advanced
---------
+Advanced Filtering
+------------------
 You can pass in specific fields through the query field, e.g. "title=my title". This removes the filters that were found, so other parsing will not reference them. To search for strings for all searchable fields, in addition to value for a specific field, put the general string at the front of the search and put the field searches at the end
 
-Example 1: title=foo bar (finds where title = "foo bar")
-Example 2: title:foo bar time>2014-10-14 (finds where title contains "foo bar" and time is greater than the date)
-Example 3: baz shazam title:foo bar (finds where content includes baz and shazam and title contains "foo bar")
 
 Comparison Shortcuts
 --------------------
@@ -381,6 +378,37 @@ Comparison Shortcuts
 [?] or [!?] or [REGEXP] or [NOT REGEXP] - comparison means the following is a regular expression.
 [#] or [!#] or [IN] or [NOT IN] - comparison means the following is an IN comparison and the value should be separated by commas,
 [!#] - comparison means the values are NOT IN the field.
+
+
+You can do advanced searches on one or more specific fields by using a special field syntax ``FIELD[=]VALUE``, where ``FIELD`` is the field name (or a registered alias) and ``VALUE`` is the value (one or more words). The comparison can be:
+
+
+- **exactly equals:** ``[=]`` or ``[!=]``
+    Example: ``title[=]foo bar stache`` *(the title is exactly "foo bar stache")*
+
+- **contains:** ``[:]`` or ``[!:]``
+    Example: ``title[:]foo`` *(the title contains "foo" anywhere, e.g. "foobar" or "barfoodo")*
+
+- **greater or less than:** ``[>]`` or ``[<]`` ``[>=]`` or ``[<=]``
+    Note: if searching a time field, the human readable formats will be converted to a unix time stamp.
+    Example: ``time[>]2015-05-01``
+
+
+- **regular expression:** ``[?]`` or ``[!?]``
+    Note: reserved Regular Expression special characters need to be commented out with a backslash "\".
+    Examples:
+        ``title[?]^foo[a-z]+ar`` (the title starts with "foo" followed by any character a-z followed by "ar", e.g. "foobar" or "foojar")
+        ``title[!?]\(copy\)$`` (anything with a title that doesn't end in "(copy)")
+
+- **in list:** ``[#]`` or ``[!#]`` *(the value is in the list of options)*
+    Note: the value should be a comma separated list.
+    Example: ``id[#]1,2,3`` *(id equals 1,2 or 3)*
+
+Multi Part Filters
+------------------
+_**title[:]foo bar time[>]2014-10-14**_ - finds where title contains "foo bar" **and** time is greater than the date
+_**baz shazam title[:]foo bar**_ - finds where content includes baz and shazam in any field **and** "foo bar" only in the title field.
+
 
 Target Nested Fields
 --------------------

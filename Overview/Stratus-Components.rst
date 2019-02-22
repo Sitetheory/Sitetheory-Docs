@@ -367,7 +367,7 @@ It is often necessary to make a drawer slide in and out of the side of the websi
 Components For Editing
 ######################
 
-**TODO: this needs to be updated**
+**TODO: this needs to be updated since it was written in 2017 because we moved to Angular and most editing is done with Angular Material widgets**
 
 Generally we use Angular Material components for enabling editing on a page. But Sitetheory has created custom Editing Components that are specifically intended to allow a designer to render controller elements on the page to give editing functionality. A component can be a simple display field to show the value of an entity, a text field that allows editing the value of an entity property, or it can be like a complex media selector that shows you all the elements you have selected and allows you to upload or select new media. Components render a template and add functionality to the page so the designer can control the user experience. Most components are set to auto-save changes, so the experience is much more responsive than traditional forms. Components are used extensively throughout the CMS admin and Live Edit mode.
 

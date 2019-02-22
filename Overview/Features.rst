@@ -86,31 +86,35 @@ Filtering
 Field Specific Filters
 ======================
 
-You can do advanced searches on one or more specific fields by using a special field syntax ``FIELD:VALUE``, where ``FIELD`` is the field name (or a registered alias) and ``VALUE`` is the value (one or more words). The comparison can be:
+You can do advanced searches on one or more specific fields by using a special field syntax ``FIELD[=]VALUE``, where ``FIELD`` is the field name (or a registered alias) and ``VALUE`` is the value (one or more words). The comparison can be:
 
 
-- **exactly equals:** ``=`` or ``!=`` *(does not equal)*
-    Example: ``title=foo bar stache`` *(the title is exactly "foo bar stache")*
+- **exactly equals:** ``[=]`` or ``[!=]``
+    Example: ``title[=]foo bar stache`` *(the title is exactly "foo bar stache")*
 
-- **contains:** ``:``
-    Example: ``title:foo`` *(the title contains "foo" anywhere, e.g. "foobar" or "barfoodo")*
+- **contains:** ``[:]`` or ``[!:]``
+    Example: ``title[:]foo`` *(the title contains "foo" anywhere, e.g. "foobar" or "barfoodo")*
 
-- **greater or less than:** ``>`` or ``<``
-    Example: ``time>2015-05-01``
+- **greater or less than:** ``[>]`` or ``[<]`` ``[>=]`` or ``[<=]``
+    Note: if searching a time field, the human readable formats will be converted to a unix time stamp.
+    Example: ``time[>]2015-05-01``
 
-- **regular expression:** ``[?]`` or ``[!?]`` *(Regular Expression match or not matched)*
 
+- **regular expression:** ``[?]`` or ``[!?]``
     Note: reserved Regular Expression special characters need to be commented out with a backslash "\".
-
     Examples:
         ``title[?]^foo[a-z]+ar`` (the title starts with "foo" followed by any character a-z followed by "ar", e.g. "foobar" or "foojar")
         ``title[!?]\(copy\)$`` (anything with a title that doesn't end in "(copy)")
 
 - **in list:** ``[#]`` or ``[!#]`` *(the value is in the list of options)*
-
     Note: the value should be a comma separated list.
+    Example: ``id[#]1,2,3`` *(id equals 1,2 or 3)*
 
-    Example: ``id[]1,2,3`` *(id equals 1,2 or 3)*
+Multi Part Filters
+------------------
+_**title[:]foo bar time[>]2014-10-14**_ - finds where title contains "foo bar" **and** time is greater than the date
+_**baz shazam title[:]foo bar**_ - finds where content includes baz and shazam in any field **and** "foo bar" only in the title field.
+
 
 
 *************

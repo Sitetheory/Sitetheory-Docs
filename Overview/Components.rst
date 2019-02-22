@@ -54,15 +54,21 @@ Inside an Angular controller scope the following objects, methods and properties
 * **model.data** (*object*) This is where all the data for the model resides.
 
 
-*************
-Example: List
-*************
+
+
+########
+Examples
+########
+
+****
+List
+****
 
 NOTE: below is sample HTML, but a lot of the outer HTML is reusable in Twig by extending the ListBase. The raw HTML will be shown first so you understand the big picture, and the Twig implementation will be shown second if you want .
 
 
-HTML
-----
+RAW HTML
+---------
 
 .. code-block:: html+twig
     :linenos:
@@ -124,8 +130,8 @@ HTML
 
 
 
-TWIG
-----
+TWIG HTML By Extending the ListBase
+-----------------------------------
 
 .. code-block:: html+twig
     :linenos:
@@ -197,9 +203,9 @@ define your own controller, e.g.:
     {% endblock script %}
 
 
-*************
-Example: Edit
-*************
+****
+Edit
+****
 
 .. code-block:: html+twig
     :linenos:
@@ -294,6 +300,89 @@ Example: Edit
             <md-button aria-label="save" class="md-raised md-primary white-svg" ng-show="model.completed" ng-click="model.save()">Save</md-button>
         </div>
     </div>
+
+
+
+
+*******************
+Fetch Content Pages
+*******************
+
+This is a simple way to fetch all types of Content pages (no restriction on ``ContentType``, e.g. Articles and Profiles co-mingled)
+
+.. code-block:: html+twig
+    :linenos:
+
+
+    <div id="list-container" ng-controller='Generic' ng-cloak
+         data-target='Content'
+         class="clearfix">
+
+        <md-progress-linear md-mode="indeterminate" ng-show="collection.pending"></md-progress-linear>
+
+        <div class="st-grid st-grid-tablet column20" ng-repeat="model in collection.models" ng-sanitize="true">
+
+            <div class="related-item">
+                {% verbatim %}<div class="related-image" style="background: url({{ model.data.version.images[0].url || '' }}) no-repeat center center; background-size: cover;">{% endverbatim %}
+                <a ng-href="{% verbatim %} {{ model.data.routingPrimary.url }}{% endverbatim %}"><img src="{{ asset('bundles/sitetheorytemplate/images/common/shapeholder-square.png') }}"></a>
+                </div>
+                <div class="related-date font-primary" ng-bind="(model.data.version.timeCustom || model.data.time) |moment:{format:'MMMM Do YYYY'}"></div>
+                <h2><a ng-href="{% verbatim %} {{ model.data.routingPrimary.url }}{% endverbatim %}" ng-bind="model.data.version.title"></a></h2>
+            </div>
+        </div>
+    </div>
+
+
+********************
+Fetch Only Articles
+********************
+
+In the example above, if you wanted to only fetch the Articles you would target the Article ContentType only:
+
+.. code-block:: html+twig
+    :linenos:
+         data-target='Article'
+
+NOTE: You could specify any content type in the ``data-target`` field, e.g. ``Profile``, ``Event``, etc.
+
+
+********************
+Fetch Articles by Tag
+********************
+
+In the example above, if you wanted to only fetch the Articles associated with a specific Tag, you can modify the ``data-target`` like this:
+
+.. code-block:: html+twig
+    :linenos:
+
+        data-target='Tag/1/Article'
+
+Or Dynamically with a Twig Variable:
+
+.. code-block:: html+twig
+    :linenos:
+
+        data-target='Tag/{{ content.tags[0].id || '' }}/Article'
+
+If you wanted to fetch content for multiple tags, you can specify the tag IDs in a comma separated list. Note this just sends an API call with the query variables ``/Api/Article?t=1,2``:
+
+.. code-block:: html+twig
+    :linenos:
+
+        data-target='Article'
+        data-api='{"t":"1,2"}'
+
+
+Limit and Sort
+**************
+
+In the examples above, if you want to limit the records returned or sort them,  you can specify this in the ``data-api`` variables (:doc:`See API Overview of Advanced Options </1.0/API/Overview>`.):
+
+.. code-block:: html+twig
+    :linenos:
+
+         data-api='{"limit":5, "sort":"title", "sortOrder":"ASC"}'
+
 
 
 
