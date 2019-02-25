@@ -31,6 +31,14 @@ URL: /Api/Login
     {"email":"foo@bar.com","password":"abcd1234"}
 
 
+Logout
+------
+URL: /Member/Sign-Out
+Just go to this URL to logout.
+
+Coming Soon: /Api/Logout
+
+
 Update Password (or any other field)
 -----
 Method: PUT
@@ -51,8 +59,8 @@ URL: /Api/User
 
 **Required:**
 
--`email` (string) - You must provide an email (for account verification email)
--`profile.phones` (array with object values) - You must provide a phone for password resets.
+- `email` (string) - You must provide an email (for account verification email)
+- `profile.phones` (array with object values) - You must provide a phone for password resets.
 
 .. code-block:: javascript
     :caption: API Post Body
@@ -64,6 +72,7 @@ URL: /Api/User
         }
     }
 
+NOTE: when the user is created, the system will send a verification email for the user to click a link to verify the email and also set a password.
 
 
 **Other Fields:**
@@ -74,6 +83,7 @@ URL: /Api/User
 
     {
         "email":"foo@bar.com",
+        "password":"xyz321def",
         "username":"chadwick",
         "facebookId":"",
         "googleId":"",
@@ -97,7 +107,7 @@ URL: /Api/User
             "device":[],
             "ip":null,
             "id":4260,
-            "dates":[{"type":"date","name":"Mobile","value":"9251231234"}],
+            "dates":[{"type":"date","name":"Hired","value":"1234567890"}],
             "phones":[{"type":"phone","name":"Mobile","value":"9251231234"}],
             "emails":[{"type":"email","value":"foo@bar.com","name":"Work"}],
             "locations":[{"type":"location","name":"Office","value":"100 HQ Drive"}],
@@ -108,8 +118,45 @@ URL: /Api/User
 
 
 
-Update User
------
+Get Roles
+---------
+Method: GET
+URL: /Api/Role
+
+Find the role ID you want and add to a User.
+
+
+
+Add User to Role
+----------------
+Method: PUT
+URL: /Api/User/1
+
+.. code-block:: javascript
+    :caption: API Post Body
+
+    {
+        "Role": 214
+    }
+
+
+
+
+Update Password
+---------------
+Method: PUT
+URL: /Api/User/1
+
+.. code-block:: javascript
+    :caption: API Post Body
+
+    {
+        "password":"xxxyyyzzz3"
+    }
+
+
+Update User Info
+----------------
 Method: PUT
 URL: /Api/User/1
 
@@ -122,4 +169,6 @@ URL: /Api/User/1
             "phones":[{"type":"phone","name":"Mobile","value":"1112223333"}]
         }
     }
+
+
 
