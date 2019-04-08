@@ -37,7 +37,8 @@ If you are using HTML, this is as simple as a form that posts like this:
 - `session` - You must include the session ID in the post URL
 - The body of the POST must be encoded as "multipart/form-data", with the fields and files split up with boundary separators.
 
-**URL:** POST https://app.sitetheory.io:3000/?session=SESSIONID
+**URL:** POST https://app.sitetheory.io:3000/?session={SESSIONID}
+
 
 
 .. code-block:: javascript
@@ -65,6 +66,7 @@ If you are using HTML, this is as simple as a form that posts like this:
 
 
     ------WebKitFormBoundaryyNWzAjJ1ALa1ZByI--
+    XXXXXXX --- FILE DATA HERE --- XXXXXXXX
 
 
 **Sample Response**

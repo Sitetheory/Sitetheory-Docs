@@ -31,6 +31,10 @@ In a twig template we will call the menu function with desired options and direc
 or
 {{ menu(content, {type: 'accordion', levels: 2, parent: 'section', max: 5}) }}
 
+Returns
+-------
+This will return standard formatted HTML that can be easily styled in CSS depending on the `type` of menu requested, or it will return an array if you have specified output='array'.
+
 
 Arguments
 ---------
@@ -69,7 +73,7 @@ Note: all options will have defaults that may be overwritten by the specified me
 
 **`parent` (mixed int or str) [default: null]** - This defaults to null which means it will get all top level links without a parent. If another integer is specified, it will find links nested under the specified link ID (if it exists). Alternatively the value of "section" can be passed in to tell the script to fetch all links for the current main section. That means the current page (denoted by `content`) will be used to find the current main website section and we will only fetch the links that are nested under the current section. Section is defined as the highest level related link where parent=null or 0, e.g. If you have a site will main links: About, Resources, Products, each of those links are "sections" with parent=0 and if they have nested links, a "section" value would find all links underneath the "About" section.
 
-**`count` (int) [default: 6]** - This limits the total number of links for the top level. There is no limit for subsequent levels. This is most used when a designer needs the ability to limit how are displayed in a main header links.
+**`limit` (int) [default: 6]** - This limits the total number of links for the top level. There is no limit for subsequent levels. This is most used when a designer needs the ability to limit how are displayed in a main header links.
 
 **`action` (str) [default: click]** - Specify the type of action to trigger the opening of a menu subsection. Nested (accordion) menus should default to "click" while the Angular dropdown will default to "hover".  The option for "open" should only be used by the "nested" menu type if you want the nested menu structure to be fixed open without any opening/closing capabilities.  Options include:  "click", "hover", "open".
 
@@ -85,6 +89,8 @@ Other Features:
 **Section Name** - In cases where we use a section menu (e.g. `parent`="section" on a sidebar) we often want to know what section we are in (e.g. to put the name above the menu). So when we fetch that, we insert that information into the Twig Environment for the designer to access in the template. `{{ section }}` will contain an object that includes {'name', 'url'}, so we would access it in the template like this `<h2>{{ section.name }}</h2>`.
 
 **Active Menu** - The method needs to determine which menu link is currently active for the current page, as well as all the related parents up to level 1 (so we can set an active class on the each active link). So we check the `content` and find the menu link that points to the current page. Then we keep make a list of that link ID and all the link IDs of it's parent up to level 1. When we create the HTML we need to add the "active" class to each link in that nested tree and make sure that accordion menus stay open if it has the active class.
+
+The menuLinks array will specify `active` = true if the current link is active, and `activeParent`=true if the current link is a parent of an active link (up the tree). So HTML should add the appropriate classes and styles for active links versus the parent of active links. Most likely you'll want them all to say 'active' and just style them differently.
 
 **Actions** - For accordion ng-click and ng-class should add class .see-children only to the parent <li> of the link clicked.. There should be ng-click to open on levels 1-3. Clicking another menu open should close (collapse) all other menus already open. When a link is clicked with an ng-click (opening up a submenu) it should add the "active" class and remove the active class from all others at this current level or in other branches (keeping the active on it's own parent so it stays open and shows where we are in the menu).
 
