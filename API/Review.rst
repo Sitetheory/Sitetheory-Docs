@@ -18,6 +18,7 @@ Note: You can just send only the fields you want to set, the rest will set to de
 
 **Required:**
 - `content` - content is required because the review has to be associated with some content that is being reviewed.
+- `rating` - rating is required so the review has some numerical value.
 
 
 **URL:** POST /Api/Review

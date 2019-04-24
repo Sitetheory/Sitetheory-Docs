@@ -10,7 +10,8 @@ the menu looks and functions.
 
 Twig Method
 -----------
-{{ menu(content) }}
+{{
+menu(content) }}
 
 Caching
 -------
@@ -21,15 +22,16 @@ menu (this could be a Menu or MenuLink listener).
 
 Twig Extension Location
 -----------------------
-Sitetheory\MenuBundle\Twig\Extension\MenuExtension
-
+Twig Extension: Sitetheory/MenuBundle/Twig/Extension/MenuExtension.php
+Twig Template: Sitetheory/MenuBundle/Resources/views/MenuExtension.html.twig
+Twig Menu Component Macros: Sitetheory/MenuBundle/Resources/views/components.html.twig
 
 Usage
 -------
 In a twig template we will call the menu function with desired options and directly insert the HTML into the page.
 {{ menu(content) }}
 or
-{{ menu(content, {type: 'accordion', levels: 2, parent: 'section', max: 5}) }}
+{{ menu(content, {'scope': 'primary', 'limit': 6}) }}
 
 Returns
 -------
@@ -46,6 +48,14 @@ Arguments
 Options
 --------
 Note: all options will have defaults that may be overwritten by the specified menu "type" (since each will have different use cases). But of course the actual value may be modified by the manual options specified by the calling script.
+
+
+
+**`scope` (str) [default: primary]** - a string defining the scope of the menu to create. Options include: primary, section.
+
+- "primary" (default) - will find all top level links with no parents. Will default to type=simple, and return 1 level deep only by default. But you can specify other menu types and depths.
+
+- "section" - will find the section where the link to the current page is nested, and will return only that section (not counting the top link). If you get a section link you can also call {{ sectionName() }} and {{ sectionLink() }} (see other methods below).
 
 
 **`type` (str) [default: simple]** - a string defining the type of menu to create. Options include: simple, nested, sitemap, dropdown.
@@ -68,7 +78,7 @@ Note: all options will have defaults that may be overwritten by the specified me
 
 **`excludeHome` (boolean) [default: true]** - specify whether or not to exclude the link to the home page when you are on the home page. This is used for "simple" menu types (e.g. main top level links) to prevent the home button appearing on the home page.
 
-**`depth` (int) [default: 1]** -  A depth of 1 means we only fetch menu links at the top level (usually parent=null or 0, but could be all links of a different parent if a parent is set for the section). While a depth of 2 would fetch links nested under each main link.
+**`depth` (int) [default: 1]** -  A depth of 1 means we only display menu links at the top level (usually parent=null or 0, but could be all links of a different parent if a parent is set for the section). While a depth of 2 would fetch links nested under each main link.
 [Requirement: depth cannot exceed 4 under any circumstances]
 
 **`parent` (mixed int or str) [default: null]** - This defaults to null which means it will get all top level links without a parent. If another integer is specified, it will find links nested under the specified link ID (if it exists). Alternatively the value of "section" can be passed in to tell the script to fetch all links for the current main section. That means the current page (denoted by `content`) will be used to find the current main website section and we will only fetch the links that are nested under the current section. Section is defined as the highest level related link where parent=null or 0, e.g. If you have a site will main links: About, Resources, Products, each of those links are "sections" with parent=0 and if they have nested links, a "section" value would find all links underneath the "About" section.
@@ -79,6 +89,21 @@ Note: all options will have defaults that may be overwritten by the specified me
 
 **`output` (str) [default: html]** - specify whether you want to return finished HTML or the raw array of links. Options include: "html", "array".
 
+**`menu` (str) [default: null]** - specify a specific menu id that you want to fetch, if none specified, it will find the "main" menu.
+
+**`template` (str - default: 'SitetheoryMenuBundle::MenuExtension.html.twig')** - specify an alternative template Alias (vendorBundle syntax) to use for rendering HTML of the menu. The default used is very flexible and can be easily styled in the CSS for every type of menu.
+
+**`components` (str - default: 'SitetheoryMenuBundle::components.html.twig')** - specify an alternative components template that is used for the repeating menu elements. This is useful if you just want to customize part of the menu.
+
+**`ulClass` (str - default: null)** - specify additional custom CSS Class names for the ul (all menu types except dropdown).
+
+**`liClass` (str - default: null)** specify additional custom CSS Class names for the li (all menu types except dropdown).
+
+**`menuClass` (str - default: null)** - specify additional custom CSS Class names for the md-menu (dropdown type only).
+
+**`menuContentClass` (str - default: null)** - specify additional custom CSS Class names for the md-menu-content (dropdown type only).
+
+**`menuItemClass` (str - default: null)** - specify additional custom CSS Class names for the md-menu-item (dropdown type only).
 
 
 Other Features:
@@ -86,9 +111,11 @@ Other Features:
 
 **Styling** - The HTML for "simple", "accordion" and "sitemap" are all identical, but they just change styling based on CSS. The CSS is already in the common.css file. The appropriate type class should be set on the parent container based on the "type" name, e.g. `.menu-simple`, `.menu-sitemap`, `.menu-nested`, and `.menu-accordion`, `.menu-dropdown`.
 
-**Section Name** - In cases where we use a section menu (e.g. `parent`="section" on a sidebar) we often want to know what section we are in (e.g. to put the name above the menu). So when we fetch that, we insert that information into the Twig Environment for the designer to access in the template. `{{ section }}` will contain an object that includes {'name', 'url'}, so we would access it in the template like this `<h2>{{ section.name }}</h2>`.
+The layout is set in the MenuBundle/Resources/views/MenuExtension.html.twig (which can be customized for a specific template). But most of the elements are actually in the MenuBundle/Resources/views/components.html.twig, which can also be customized for a template, just point the options to that custom file, e.g. {{ menu(content, {'components': 'SitetheoryTemplateCustomBundle::components.html.twig'} ) }}. That's is the guts of the styling. However, if you just want to include some extra classes, you can see the options above to include classes in the <li> <ul> and <a>.
 
-**Active Menu** - The method needs to determine which menu link is currently active for the current page, as well as all the related parents up to level 1 (so we can set an active class on the each active link). So we check the `content` and find the menu link that points to the current page. Then we keep make a list of that link ID and all the link IDs of it's parent up to level 1. When we create the HTML we need to add the "active" class to each link in that nested tree and make sure that accordion menus stay open if it has the active class.
+**Section Name** - In cases where we use a section menu (e.g. {"scope": "section"} on a sidebar) we often want to know what section we are in (e.g. to put the name above the menu). This can be accessed through {{ sectionName() }} or {{ sectionLink() }} (see methods below).
+
+**Active Menu** - The method needs to determine which menu link is currently active for the current page, as well as all the related parents up to level 1 (so we can set an active class on the each active link). So we check the `content` and find the menu link that points to the current page. Then we keep make a list of that link ID and all the link IDs of it's parent up to level 1. When we create the HTML we add the "active" (if it's an active link) and "activeParent" (if it's a parent, not the actual active link) class to each link in that nested tree and make sure that accordion menus stay open if it has the active class.
 
 The menuLinks array will specify `active` = true if the current link is active, and `activeParent`=true if the current link is a parent of an active link (up the tree). So HTML should add the appropriate classes and styles for active links versus the parent of active links. Most likely you'll want them all to say 'active' and just style them differently.
 
@@ -98,6 +125,8 @@ The menuLinks array will specify `active` = true if the current link is active, 
 
 **HTML Output** - All the menu types share the same HTML except Dropdown uses Angular dropdown md-menu and md-link tags.
 Below is the recommended structure of the menus (which is already styled in the common.css).
+
+NOTE: The menuHelper->getMenuLinksNested() function we use, actually gets the FULL menu (4 levels deep) and stores that in a cache. Then each menu that is requested, is parsed from that. This is necessary so that we can find the right "section" of a page that might be nested. Even though we only want to show one or two levels publicly, we still need to get the full menu so we can find that info.
 
 
 .. code-block:: html+twig
@@ -135,3 +164,28 @@ Below is the recommended structure of the menus (which is already styled in the 
         </ul>
 
 
+
+Menu Section Component
+======================
+
+If you have loaded a "section" menu e.g. `{{ menu(content, {'scope': 'section'}) }}` then you can also get the section Name and full Link object, in case you want to create a header, or cookie crumbs.
+
+Get Section Name
+----------------
+You can just get the section name as a string.
+.. code-block:: html+twig
+    :linenos:
+
+    <h2 class="section-name">{{ sectionName() }}</h2>
+
+
+
+Get Section Link
+----------------
+You can get the entire Link object of the current section in case you want to get the name, route, and even all the children to cycle through and create a cookie crumb.
+
+.. code-block:: html+twig
+    :linenos:
+
+    {% set sectionLink = sectionLink() %}
+    <h2 class="section-name"><a href="{{ sectionLink.route }}">{{ sectionLink.name }}</a></h2>
