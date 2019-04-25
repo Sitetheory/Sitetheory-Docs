@@ -189,3 +189,15 @@ You can get the entire Link object of the current section in case you want to ge
 
     {% set sectionLink = sectionLink() %}
     <h2 class="section-name"><a href="{{ sectionLink.route }}">{{ sectionLink.name }}</a></h2>
+
+
+
+Menu HTML Component
+======================
+
+If you have a manual array of menuLinks objects, and you just want the get the HTML, you can pass those in to this function and get the results.
+
+.. code-block:: html+twig
+    :linenos:
+
+        {{ menuHtml($menuLinks, {'scope': 'section', 'type': 'simple}) }}
