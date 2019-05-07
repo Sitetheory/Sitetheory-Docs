@@ -332,19 +332,24 @@ Example: `/Api/{ENTITY}/?qlo=5
 
 Sort
 ====
-By default the API sorts by timeEdit.
+By default the API sorts by timeEdit DESC (most recent).
 
 Variable: `sort` or `qs` ("query sort")
-Value: string of field name
-Example: `/Api/{ENTITY}/?qs=name
+Value: string of valid field name, which are visible in the meta.searchable fields list in the API meta object.
+Example: `/Api/{ENTITY}/?qs=versions.title
+
+If you need to sort by more than one field, you can pass a comma separated list of sort options.
+Example: `/Api/{ENTITY}/?qs=versions.title ASC, versions.pullout DESC
 
 Sort Order
 ==========
-By default the API sorts by DESC.
+By default the API sorts by DESC. If you don't want to modify the field that is sorting and only want to modify the order, you can pass in just the sortOrder.
 
 Variable: `sortOrder` or `qso` ("query sort order")
 Value: `ASC`, `DESC`
 Example: `/Api/{ENTITY}/?qso=ASC
+
+
 
 
 Output Format

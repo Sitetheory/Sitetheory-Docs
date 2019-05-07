@@ -33,3 +33,10 @@ Limit Streamed Content by Tag
 Example: https://dev.sitetheory.io/Api/Collection/12345/Asset/Content?t=100
 
 NOTE: to filter more than one tag, pass in a comma separated value for the "t" (tag) variable, e.g. ?t=[100,200]
+
+/Api/Tag/537/Content
+/Api/Content?tags=537
+/Api/Content?tags=[537]
+/Api/Content?tags=[535,536,537,538]
+
+Note: the Variable is plural ("tags")

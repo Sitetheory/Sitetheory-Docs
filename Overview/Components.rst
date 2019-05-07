@@ -352,6 +352,7 @@ Fetch Articles by Tag
 ********************
 
 In the example above, if you wanted to only fetch the Articles associated with a specific Tag, you can modify the ``data-target`` like this:
+`/Api/Tag/1/Article`
 
 .. code-block:: html+twig
     :linenos:
@@ -372,6 +373,13 @@ If you wanted to fetch content for multiple tags, you can specify the tag IDs in
 
         data-target='Article'
         data-api='{"t":"1,2"}'
+
+
+Inverse
+=======
+This would give you everything that is assigned to a stream: /Api/Content/12345/Asset/Content
+This will take whatever tags the stream has, and do the same query, e.g. find Stream 12345 and get the content that are associated as assets (via the tags).
+You could also change this from Content to Media and it would find all media associated with Stream 12345.
 
 
 Limit and Sort
