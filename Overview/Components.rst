@@ -366,7 +366,7 @@ Or Dynamically with a Twig Variable:
 
         data-target='Tag/{{ content.tags[0].id }}/Article'
 
-If you wanted to fetch content for multiple tags, you can specify the tag IDs in a comma separated list. Note this just sends an API call with the query variables ``/Api/Article?t=[1,2]``:
+If you wanted to fetch content for multiple tags, you can specify the tag IDs in a comma separated list. Note this just sends an API call with the query variables ``/Api/Article?tags=[1,2]``:
 
 .. code-block:: html+twig
     :linenos:
