@@ -22,17 +22,20 @@ Example: https://dev.sitetheory.io/Api/Stream
 
 Get Content for a specific Stream
 ---------------------------------
-**/Api/[contentType]/[contentId]/Asset/Content** - Get all Content that is tagged with the Asset for a specific stream content type (e.g. Collection, Landing, etc). The
+**/Api/[contentType]/[contentId]/Asset/Content** - Get all Content that is tagged with the Asset for a specific stream content type (e.g. Collection, Landing, etc). This finds all the tags that a Stream is set to display, and then all content that is associated with those tags.
 
 Example: https://dev.sitetheory.io/Api/Collection/12345/Asset/Content
 
-Limit Streamed Content by Tag
+Limit Content by Tag
 -----------------------------
-**/Api/[contentType]/[contentId]/Asset/Content?t=100** - Limit the content for a stream by specific tags that may be associated with that content (unrelated to the main tag that links it to the current stream). For example, you may have 10 articles tagged "foo" and a stream that is set to display the "foo" articles. But these articles may also contain secondary descriptive tags like "bar", "baz". This lets us filter the 10 articles on the stream, by additional unrelated tags.
+**/Api/[contentType]/Content?tags=100** - Limit the content for a stream by specific tags that may be associated with that content (unrelated to the main tag that links it to the current stream). For example, you may have 10 articles tagged "foo" and a stream that is set to display the "foo" articles. But these articles may also contain secondary descriptive tags like "bar", "baz". This lets us filter the 10 articles on the stream, by additional unrelated tags.
 
-Example: https://dev.sitetheory.io/Api/Collection/12345/Asset/Content?t=100
+Example: https://dev.sitetheory.io/Api/Content?tags=100
+Or Limit Only Articles by Tag: Example: https://dev.sitetheory.io/Api/Article?tags=100
 
-NOTE: to filter more than one tag, pass in a comma separated value for the "t" (tag) variable, e.g. ?t=[100,200]
+NOTE: you can also further limit an existing stream by only some of the tags, e.g. if you want to have filters on the side. This would find a subset of the stream's content, based on whether any of that content ALSO had the requested overlapping or extra tags, e.g. https://dev.sitetheory.io/Api/Collection/12345/Asset/Content?tags=[100,101]
+
+NOTE: to filter more than one tag, pass in a comma separated value for the "tags" variable, e.g. ?tags=[100,200]
 
 /Api/Tag/537/Content
 /Api/Content?tags=537
