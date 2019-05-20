@@ -60,8 +60,8 @@ Note: all options will have defaults that may be overwritten by the specified me
 
 **`type` (str) [default: simple]** - a string defining the type of menu to create. Options include: simple, nested, sitemap, dropdown.
 
--"simple" (default) - This is a simple menu list typically used primarily for a main menu links in header. It is automatically limited to one level, which by default will be the top level (if `parent` is defaulted to null or 0) but could be used for section links if `parent`="section".  If `parent` != null or 0, there should be an option to display the parent "section" link as header for the menu (sectionHeader).
-[related defaults: `depth`=1;`count`=6; `sectionHeader`=true;]
+-"simple" (default) - This is a simple menu list typically used primarily for a main menu links in header. It is automatically limited to one level, which by default will be the top level (if `parent` is defaulted to null or 0).
+[related defaults: `depth`=1;`count`=6;]
 
 -"accordion"  - This works like a standard nested according menu (usually used for the sidebars to display section links because header shows main top level links). You can click to open subsections (if any nested menu links exist), when clicking a link on one level, it closes any other subsections that were previously open.
 [related defaults: `parent`="section"; `depth`=3, `count`=null; `action`='click']
