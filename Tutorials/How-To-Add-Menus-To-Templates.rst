@@ -75,9 +75,6 @@ Note: all options will have defaults that may be overwritten by the specified me
 -`dropdown` - This uses the Angular dropdown menu, which has slightly different HTML than the other menu types (e.g. md-menu tags). See Angular dropdown for reference.
 [related defaults: `depth`=2; `count`=6; `action`="hover"]
 
-
-**`excludeHome` (boolean) [default: true]** - specify whether or not to exclude the link to the home page when you are on the home page. This is used for "simple" menu types (e.g. main top level links) to prevent the home button appearing on the home page.
-
 **`depth` (int) [default: 1]** -  A depth of 1 means we only display menu links at the top level (usually parent=null or 0, but could be all links of a different parent if a parent is set for the section). While a depth of 2 would fetch links nested under each main link.
 [Requirement: depth cannot exceed 4 under any circumstances]
 
