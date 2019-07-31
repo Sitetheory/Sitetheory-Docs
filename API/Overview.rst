@@ -434,9 +434,11 @@ By default all readable fields will be returned in the API. If you only want to 
 
 Variable: `select` or `unselect`
 Values: array of field names
+
 Examples:
-`/Api/{ENTITY}/?select[]=foo&select[]=bar`
-`/Api/{ENTITY}/?unselect[]=baz&select[]=fuzz`
+
+- `/Api/{ENTITY}/?select[]=foo&select[]=bar`
+- `/Api/{ENTITY}/?unselect[]=baz&select[]=fuzz`
 
 
 Filter
@@ -447,10 +449,11 @@ Variable: `filter`
 Values: array with field name and value (for exact match) or JSON string with `field`, `value` and `comparison`
 
 Examples:
-`/Api/{ENTITY}/?filter[title]=foo (where "title" is the field name and "foo" is the value to search)
-`/Api/{ENTITY}/?filter[]={"field":"foo","value":"bar", "comparison":":"}
-`/Api/{ENTITY}/?filter[foo]={"value":"bar", "comparison":":"}&filter[ping]={"value":100, "comparison":">"}
-`/Api/{ENTITY}/?filter={"field":"foo","value":"1,2,3,4", "comparison":"IN"}
+
+- `/Api/{ENTITY}/?filter[title]=foo (where "title" is the field name and "foo" is the value to search)
+- `/Api/{ENTITY}/?filter[]={"field":"foo","value":"bar", "comparison":":"}
+- `/Api/{ENTITY}/?filter[foo]={"value":"bar", "comparison":":"}&filter[ping]={"value":100, "comparison":">"}
+- `/Api/{ENTITY}/?filter={"field":"foo","value":"1,2,3,4", "comparison":"IN"}
 
 NOTE: the EntityApiController will compile these filters and confirm that you have permissions to search each requested field.
 
