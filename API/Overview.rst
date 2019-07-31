@@ -475,7 +475,9 @@ Special API Action
 ==================
 Specify a special API action to run, e.g. "duplicate".
 Variable: `apiSpecialAction`
+
 Options:
+
  - "duplicate" - triggers duplication of an entity
  - "iterateVersion - iterates a versionable entity
 
