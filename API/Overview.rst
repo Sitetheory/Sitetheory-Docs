@@ -452,6 +452,8 @@ Examples:
 `/Api/{ENTITY}/?filter[foo]={"value":"bar", "comparison":":"}&filter[ping]={"value":100, "comparison":">"}
 `/Api/{ENTITY}/?filter={"field":"foo","value":"1,2,3,4", "comparison":"IN"}
 
+NOTE: the EntityApiController will compile these filters and confirm that you have permissions to search each requested field.
+
 
 Flatten
 =======
