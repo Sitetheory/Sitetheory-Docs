@@ -360,7 +360,7 @@ Values: json (default), xml, rss, ics
 Example: `/Api/{ENTITY}/?output=xml`
 
 
-Search Queries
+Keyword Search Queries
 ==============
 You can search all the entity records, on all fields annotated as "searchable", for the string matching the query.
 
@@ -370,7 +370,7 @@ Example: `/Api/{ENTITY}/?q=foobar`
 
 TODO: specify the format for limiting search to specific fields
 
-Advanced Filtering
+Advanced Keyword Search Filtering
 ------------------
 You can pass in specific fields through the query field, e.g. "title=my title". This removes the filters that were found, so other parsing will not reference them. To search for strings for all searchable fields, in addition to value for a specific field, put the general string at the front of the search and put the field searches at the end
 
@@ -426,39 +426,31 @@ Many fields you want to search are on nested entities, so you must specify the f
 
 
 
-Select
+Select and Unselect
 ======
+NOTE: this shouldn't hurt UPDATES, since the API just updates the fields you provide, and if you are missing specific fields it won't modify them.
+
 By default all readable fields will be returned in the API. If you only want to return specific fields, you can select which fields are returned.
 
-Variable: `select`
+Variable: `select` or `unselect`
 Values: array of field names
-Example: `/Api/{ENTITY}/?select[]=foo&select[]=bar`
-
-
-Unselect
-========
-By default all readable fields will be returned in the API. If you want all but a specific field, you can unselect that field.
-
-Variable: `unselect`
-Values: array of field names
-Example: `/Api/{ENTITY}/?uselect[]=baz&select[]=fuzz`
+Examples:
+`/Api/{ENTITY}/?select[]=foo&select[]=bar`
+`/Api/{ENTITY}/?unselect[]=baz&select[]=fuzz`
 
 
 Filter
 ======
 The query parameter can allow you to search all searchable fields. But if you want to search one or more fields specifically, you can pass in a filter.
 
-TODO: fix/confirm how to do this, it's not working at this time. Filters are
-
 Variable: `filter`
-Values: array with field name
-Example: `/Api/{ENTITY}/?filter[title]=foo (where "title" is the field name and "foo" is the value to search)
+Values: array with field name and value (for exact match) or JSON string with `field`, `value` and `comparison`
 
-TODO: why do we need a more complicated method when the simple method above works?
-Variable: `options[filter]`
-Values: JSON object of field names and values
-Example: `/Api/{ENTITY}/?options[filter][]={"field":"foo","value":"bar"}
-
+Examples:
+`/Api/{ENTITY}/?filter[title]=foo (where "title" is the field name and "foo" is the value to search)
+`/Api/{ENTITY}/?filter[]={"field":"foo","value":"bar", "comparison":":"}
+`/Api/{ENTITY}/?filter[foo]={"value":"bar", "comparison":":"}&filter[ping]={"value":100, "comparison":">"}
+`/Api/{ENTITY}/?filter={"field":"foo","value":"1,2,3,4", "comparison":"IN"}
 
 
 Flatten
