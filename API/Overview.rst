@@ -362,7 +362,7 @@ Example: `/Api/{ENTITY}/?output=xml`
 
 Keyword Search Queries
 ==============
-You can search all the entity records, on all fields annotated as "searchable", for the string matching the query.
+The query parameter lets you search all the entity records, on all fields annotated as "searchable". This allows you to pass a string from a user search field exactly as formatted (giving the user more power to do complex searches). (NOTE: if you want to do searches on the API from a programmatic perspective, you should use the `filter` format specified later in this document.)
 
 Variable: `query` or `q`
 Values: string
@@ -443,17 +443,16 @@ Examples:
 
 Filter
 ======
-The query parameter can allow you to search all searchable fields. But if you want to search one or more fields specifically, you can pass in a filter.
+The simple string query parameter (above) can allow you to search all searchable fields. But if you want to search one or more fields specifically, you can pass in a filter as a single JSON array/object, or as key value pairs.
 
 Variable: `filter`
-Values: array with field name and value (for exact match) or JSON string with `field`, `value` and `comparison`
+Values: array with field name and value (for exact match) or JSON string as an array with `field`, `value` and `comparison`
 
 Examples:
 
-- `/Api/{ENTITY}/?filter[title]=foo (where "title" is the field name and "foo" is the value to search)
-- `/Api/{ENTITY}/?filter[]={"field":"foo","value":"bar", "comparison":":"}
-- `/Api/{ENTITY}/?filter[foo]={"value":"bar", "comparison":":"}&filter[ping]={"value":100, "comparison":">"}
-- `/Api/{ENTITY}/?filter={"field":"foo","value":"1,2,3,4", "comparison":"IN"}
+- `/Api/{ENTITY}/?filter[title]=foo&filter[price]=1000`
+- `/Api/{ENTITY}/?filter=[{"field":"foo","value":"bar", "comparison":"LIKE"},{"field":"extension","value":"jpg"}]`
+- `/Api/{ENTITY}/?filter={"field":"mime","value":"image", "comparison":"LIKE"}`
 
 NOTE: the EntityApiController will compile these filters and confirm that you have permissions to search each requested field.
 
