@@ -375,44 +375,45 @@ Advanced Keyword Search Filtering
 You can pass in specific fields through the query field, e.g. "title=my title". This removes the filters that were found, so other parsing will not reference them. To search for strings for all searchable fields, in addition to value for a specific field, put the general string at the front of the search and put the field searches at the end
 
 
-Comparison Shortcuts
+Comparison Values
 --------------------
-[=] or [!=] - comparison means the values exactly equal or do not exactly equal each other. e.g. title="my title"
-[>] or [<] or [>=] or [<=] - comparison means the values are greater than or equal. e.g. timeEdit>2014-10-14
-[:] or [!:] or [LIKE] or [NOT LIKE] - comparison means "contains" instead of '=' which means "exactly equal".
-[?] or [!?] or [REGEXP] or [NOT REGEXP] - comparison means the following is a regular expression.
-[#] or [!#] or [IN] or [NOT IN] - comparison means the following is an IN comparison and the value should be separated by commas,
-[!#] - comparison means the values are NOT IN the field.
+NOTE: when hard coding searches of the $options['filter']for ApiRepositoryTrait#findByFilter() in code, you should use the standard comparison values used by the database, but alternative aliases are available for use in query parameters where you don't want to URL Encode reserved characters like '='.
+
+[=] or [!=] - comparison means the values exactly equal or do not exactly equal each other. e.g. title="my title" (query alias: [EQ] and [NEQ] )
+[>] or [<] or [>=] or [<=] - comparison means the values are greater than or equal. e.g. timeEdit>2014-10-14 (query alias: [GT] [GTE] [LT] [LTE] )
+[LIKE] or [NOT LIKE] - comparison means "contains" instead of '=' which means "exactly equal".
+[REGEXP] or [NOT REGEXP] - comparison means the following is a regular expression. (not implemented at this time)
+[IN] or [NOT IN] - comparison means the following is an IN comparison and the value should be separated by commas.
 
 
-You can do advanced searches on one or more specific fields by using a special field syntax ``FIELD[=]VALUE``, where ``FIELD`` is the field name (or a registered alias) and ``VALUE`` is the value (one or more words). The comparison can be:
+You can do advanced searches on one or more specific fields by using a special field syntax ``FIELD[=]VALUE``. ``FIELD`` is the field name in format ``entity.field`` (if there is no entity it will be assumed to be the main entity 'e'), e.g. `version.title`. ``VALUE`` is the value (one or more words). The comparison can be:
 
 
 - **exactly equals:** ``[=]`` or ``[!=]``
     Example: ``title[=]foo bar stache`` *(the title is exactly "foo bar stache")*
 
-- **contains:** ``[:]`` or ``[!:]``
-    Example: ``title[:]foo`` *(the title contains "foo" anywhere, e.g. "foobar" or "barfoodo")*
+- **contains:** ``[LIKE]`` or ``[NOT LIKE]``
+    Example: ``title[LIKE]foo`` *(the title contains "foo" anywhere, e.g. "foobar" or "barfoodo")*
 
 - **greater or less than:** ``[>]`` or ``[<]`` ``[>=]`` or ``[<=]``
     Note: if searching a time field, the human readable formats will be converted to a unix time stamp.
     Example: ``time[>]2015-05-01``
 
 
-- **regular expression:** ``[?]`` or ``[!?]``
+- **regular expression:** ``[REGEXP]`` or ``[NOT REGEXP]``
     Note: reserved Regular Expression special characters need to be commented out with a backslash "\".
     Examples:
-        ``title[?]^foo[a-z]+ar`` (the title starts with "foo" followed by any character a-z followed by "ar", e.g. "foobar" or "foojar")
-        ``title[!?]\(copy\)$`` (anything with a title that doesn't end in "(copy)")
+        ``title[REGEXP]^foo[a-z]+ar`` (the title starts with "foo" followed by any character a-z followed by "ar", e.g. "foobar" or "foojar")
+        ``title[NOT REGEXP]\(copy\)$`` (anything with a title that doesn't end in "(copy)")
 
-- **in list:** ``[#]`` or ``[!#]`` *(the value is in the list of options)*
+- **in list:** ``[IN]`` or ``[NOT IN]`` *(the value is in the list of options)*
     Note: the value should be a comma separated list.
-    Example: ``id[#]1,2,3`` *(id equals 1,2 or 3)*
+    Example: ``id[IN]1,2,3`` *(id equals 1,2 or 3)*
 
 Multi Part Filters
 ------------------
-_**title[:]foo bar time[>]2014-10-14**_ - finds where title contains "foo bar" **and** time is greater than the date
-_**baz shazam title[:]foo bar**_ - finds where content includes baz and shazam in any field **and** "foo bar" only in the title field.
+_**title[LIKE]foo bar time[>]2014-10-14**_ - finds where title contains "foo bar" **and** time is greater than the date
+_**baz shazam title[LIKE]foo bar**_ - finds where content includes baz and shazam in any field **and** "foo bar" only in the title field.
 
 
 Target Nested Fields
@@ -422,7 +423,7 @@ Many fields you want to search are on nested entities, so you must specify the f
 .. code-block:: javascript
     :caption: GET Variables
 
-    /Api/Content?q=version.title[:]foo
+    /Api/Content?q=version.title[LIKE]foo
 
 
 
@@ -450,9 +451,9 @@ Values: array with field name and value (for exact match) or JSON string as an a
 
 Examples:
 
-- `/Api/{ENTITY}/?filter[title]=foo&filter[price]=1000`
-- `/Api/{ENTITY}/?filter=[{"field":"foo","value":"bar", "comparison":"LIKE"},{"field":"extension","value":"jpg"}]`
-- `/Api/{ENTITY}/?filter={"field":"mime","value":"image", "comparison":"LIKE"}`
+- `/Api/{ENTITY}/?filter[title]=foo&filter[price]=1000` (Exactly Equals)
+- `/Api/{ENTITY}/?filter=[{"field":"foo","value":"bar", "comparison":"LIKE"},{"field":"extension","value":"jpg"}]` (Multiple Fields)
+- `/Api/{ENTITY}/?filter={"field":"mime","value":"image", "comparison":"LIKE"}` (Single Field)
 
 NOTE: the EntityApiController will compile these filters and confirm that you have permissions to search each requested field.
 
@@ -461,13 +462,14 @@ Flatten
 =======
 
 Variable: `flatten`
+TODO: Explain what this is for.
 
 Alternative Edit URL
 ====================
 If you need to lookup the URL for a content other than the current controller's corresponding Edit page, just pass in a bundle and controller.
 Variable: `altEditUrl`
 Value: Array of bundle and controller names.
-Example: /Api/Content?altEditUrl[bundle]=foo&altEditUrl[controller]=bar
+Example: /Api/Content?altEditUrl[bundle]=Article&altEditUrl[controller]=Article
 
 
 Special API Action
