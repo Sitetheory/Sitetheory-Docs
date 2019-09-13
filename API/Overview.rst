@@ -336,10 +336,18 @@ By default the API sorts by timeEdit DESC (most recent).
 
 Variable: `sort` or `qs` ("query sort")
 Value: string of valid field name, which are visible in the meta.searchable fields list in the API meta object.
-Example: `/Api/{ENTITY}/?qs=versions.title
+Example: `/Api/{ENTITY}/?qs=version.title
 
 If you need to sort by more than one field, you can pass a comma separated list of sort options.
-Example: `/Api/{ENTITY}/?qs=versions.title ASC, versions.pullout DESC
+Example: `/Api/{ENTITY}/?qs=version.title ASC, version.pullout DESC
+But the recommended method is to pass an array:
+Example: `/Api/{ENTITY}/?sort[version.title]=ASC&sort[name]=DESC`
+
+NOTE: there are cases where we can pass in special conditions into the sort order and we'll parse that command.
+Example: `/Api/{ENTITY}/?sort[version.title]=ASC:LASTWORD`
+
+NOTE: there are special sort options that we parse to find the best way to search, by specifying the property as 'SITETHEORY:CUSTOM' and the property as the method we want to execute.
+Example: `/Api/{ENTITY}/?sort[SITETHEORY:CUSTOM]=bestTime`
 
 Sort Order
 ==========
