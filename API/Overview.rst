@@ -434,6 +434,19 @@ Many fields you want to search are on nested entities, so you must specify the f
     /Api/Content?q=version.title[LIKE]foo
 
 
+Get Multiple Records by Id
+-------
+Normally you would get a single record in RESTful format /Api/Media/1234, but if you need to get multiple ids you can do one of the following:
+
+.. code-block:: javascript
+    :caption: GET Variables
+
+    /Api/Content?q=id[=]1234
+    /Api/Content?q=id[IN]1234,5678
+    /Api/Content?options[id][]=1234&options[id][]=5678
+    /Api/Content?filter={"field":"id", "value":[1234,5678], "comparison": "IN"}
+
+
 
 Select and Unselect
 ======
