@@ -1,6 +1,6 @@
 NOTE: See our :doc:`Components documentation </1.0/Overview/Stratus-Components>` for an overview of Component Architecture if you want to build your own.
 
-Stratus components are available on any page by adding the stratus component name, e.g. "[TODO]". A few basic Stratus components are defined in the Stratus.js library. And Sitetheory has created custom Stratus Components which are specific to our platform. These are located in the most relevant related bundle in the Resources/public/js/stratus/ folder and defined in Sitetheory's stratus config file (CoreBundle/Resources/public/js/boot/config.js, e.g. `stratus-carousel`.
+Stratus components are available on any page by adding the stratus component name. A few basic Stratus components are defined in the Stratus.js library. And Sitetheory has created custom Stratus Components which are specific to our platform. These are located in the most relevant related bundle's Resources/public/js/stratus/ folder and defined in Sitetheory's stratus config file (CoreBundle/Resources/public/js/boot/config.js, e.g. `stratus-carousel`.
 
 
 ############################
@@ -99,10 +99,59 @@ Initiate the onScreen component by adding `stratus-on-screen` to any element.
 * data-reset: an integer representing a vertical (y) pixel position on the page that should trigger a reset when the page is scrolled to that point (defaults to 0).
 
 
+Embed
+=====
+Because of the way Angular controls the DOM, it is not possible to just paste third party Javascript on the page (e.g. a Twitter widget), if it is inside any Angular controlled areas, e.g. any part of the page that is inside an `ng-if`, `ng-repeat`, `ng-controller`, etc, essentially almost anywhere. If you do, there will be timing issues because Angular removes elements from the DOM unpredictably and controls when they appear. So we have to use a component to load the third party code at the right time.
+
+NOTE: this may not be implemented yet (10/14/2019)
+
+.. code-block:: html
+    :linenos:
+
+        <stratus-embed scripts="['foo.js', 'bar.js']">
+            <!-- code here -->
+        </stratus-embed>
+
+
+So looking at a third party embed code like Twitter (NOTE: we have a specific twitter component already):
+
+.. code-block:: html
+    :linenos:
+
+    <a href="https://twitter.com/intent/tweet?button_hashtag=gutensite&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #gutensite</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+Instead you would do this:
+
+.. code-block:: html
+    :linenos:
+
+        <stratus-embed scripts="['https://platform.twitter.com/widgets.js']">
+            <a href="https://twitter.com/intent/tweet?button_hashtag=gutensite&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #gutensite</a>
+        </stratus-embed>
+
+
+
+
+Twitter
+=======
+Becuase of the way that Angular controls the DOM, it's not possible to copy/paste third party embed code, so we have created a component that passes through the settings at the right time. It accepts the standard Twitter parameters for Twitter Component (https://developer.twitter.com/en/docs/twitter-for-websites/timelines/guides/parameter-reference).
+
+.. code-block:: html
+    :linenos:
+
+    <stratus-twitter-feed screen-name="gutensite"></stratus-twitter-feed>
+
+
+
+
 
 Carousel
 ========
-The current carousel uses `Swiper <https://idangero.us/swiper/>`_ .
+NOTE: for most cases we are using a simple CSS and basic Angular implementation of carousels, rather than this third party Swiper carousel, because it's easier to control the design and much more lightweight (no extra libraries). See examples in our streams that load modules.
+
+
+This carousel component uses `Swiper <https://idangero.us/swiper/>`_ .
 
 Swiper Natively Supports:
 -lazy loading
@@ -242,13 +291,13 @@ NOTE: HTML must be escaped for JSON.
 .. code-block:: html
     :linenos:
 
-            <stratus-carousel
-               data-slides='["https://foo.com/image1"]'
-               data-autoplay="true"
-               data-transition-effect="fade"
-               data-pagination='{"clickable":true, "render":"bullet"}'
-               data-direction="vertical"
-            ></stratus-carousel>
+        <stratus-carousel
+           data-slides='["https://foo.com/image1"]'
+           data-autoplay="true"
+           data-transition-effect="fade"
+           data-pagination='{"clickable":true, "render":"bullet"}'
+           data-direction="vertical"
+        ></stratus-carousel>
 
 
 
@@ -258,6 +307,25 @@ HOW TO USE STANDARD ANGULAR TO DO COMMON COMPONENT-LIKE FEATURES
 ================================================================
 
 We do not need specific components to do common design template features anymore, instead we just use standard Angular. And we have a core components.css that applies basic styles to the examples below.
+
+
+Add a Carousel
+**************
+In 95% of cases we can use a simple CSS and Angular version of a carousel, instead of a third party library (e.g. stratus-carousel). This is easier to style, and doesn't require loading any extra files. This requires a bit of HTML/Angular, so we have a Twig component that injects the necessary code onto a page which displays images or HTML slides.
+
+Example
+See the Landing.html.twig Stream for an implementation of the `ComponentsAdminList.html.twig` `carousel` macro.
+
+.. code-block:: html
+    :linenos:
+
+        {# Arguements:
+            model - (default: 'model.data')
+            ratio ('portrait', 'square', 'landscape', 'cinema')
+            carouselType ('images', 'HTML')
+            controlSize ('standard-controls', 'small-controls')
+        #}
+        {{ streamComponents.carousel('model.data', 'square', 'images') }}
 
 
 Add a Class

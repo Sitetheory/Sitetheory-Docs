@@ -8,9 +8,9 @@ Sitetheory is designed to make it easy for designers to create beautiful website
 
 A component could be a simple display field to show the value of an entity, a text field that allows editing the value of an entity property, or it can be like a complex media selector that shows you all the elements you have selected and allows you to upload or select new media. Components render a template and add functionality to the page so the designer can control the user experience. Most components are set to auto-save changes, so the experience is much more responsive than traditional forms. Components are used extensively throughout the CMS admin and Live Edit mode.
 
-See our :doc:`Stratus documentation </1.0/Overview/Stratus>` for specifics about how we use Stratus to manage the front end Javascript.
+See our :doc:`Stratus documentation </1.0/Stratus/Overview>` for specifics about how we use Stratus to manage the front end Javascript.
 
-See our :doc:`Stratus-Components documentation </1.0/Overview/Stratus-Components>` for specifics about custom components we already built.
+See our :doc:`Stratus-Components documentation </1.0/Stratus/Stratus-Components>` for specifics about custom components we already built.
 
 
 
