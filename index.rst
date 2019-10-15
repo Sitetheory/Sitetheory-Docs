@@ -119,11 +119,11 @@ Stratus
 ===
 
 .. toctree::
-:maxdepth: 1
-        :glob:
+    :maxdepth: 1
+    :glob:
 
-        Stratus/Overview
-        Stratus/*
+    Stratus/Overview
+    Stratus/*
 
 =======
 Vendors
