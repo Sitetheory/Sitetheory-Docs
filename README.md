@@ -1,4 +1,7 @@
 # Sitetheory-Docs
+
+[![Documentation Status](https://readthedocs.org/projects/sitetheory-docs/badge/?version=stable)](https://sitetheory-docs.readthedocs.io/en/stable/?badge=stable)
+
 Documentation for the Sitetheory Framework and CMS
 
 - Primary documentation can be found at https://docs.sitetheory.io/index.html
