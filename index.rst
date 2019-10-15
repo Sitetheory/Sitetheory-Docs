@@ -114,6 +114,17 @@ API
     API/Overview
     API/*
 
+===
+Stratus
+===
+
+.. toctree::
+:maxdepth: 1
+        :glob:
+
+        Stratus/Overview
+        Stratus/*
+
 =======
 Vendors
 =======

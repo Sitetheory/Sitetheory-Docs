@@ -7,3 +7,5 @@ Documentation for the Sitetheory Framework and CMS
 - Spinx Markup Reference can be found at: http://www.sphinx-doc.org/en/stable/rest.html
 
 
+NOTE: the current docs are located at: https://sitetheory-docs.readthedocs.io/en/stable/
+
