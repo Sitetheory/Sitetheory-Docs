@@ -1,8 +1,8 @@
 NOTE: See our :doc:`Stratus documentation </1.0/Stratus/Overview>` for an overview of how Stratus works.
 
-###############
-Stratus Filters
-###############
+##################
+Stratus Directives
+##################
 
 Like Stratus Components, you can create Angular style Directives for implementing functionality that isn't a Component or a Filter.
 

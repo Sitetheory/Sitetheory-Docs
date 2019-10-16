@@ -114,9 +114,9 @@ API
     API/Overview
     API/*
 
-===
+=======
 Stratus
-===
+=======
 
 .. toctree::
     :maxdepth: 1

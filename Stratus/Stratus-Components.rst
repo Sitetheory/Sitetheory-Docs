@@ -311,6 +311,7 @@ We do not need specific components to do common design template features anymore
 
 Add a Carousel
 **************
+
 In 95% of cases we can use a simple CSS and Angular version of a carousel, instead of a third party library (e.g. stratus-carousel). This is easier to style, and doesn't require loading any extra files. This requires a bit of HTML/Angular, so we have a Twig component that injects the necessary code onto a page which displays images or HTML slides.
 
 Example

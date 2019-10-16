@@ -1,8 +1,8 @@
-#######
-Stratus
-#######
+########
+Overview
+########
 
-Stratus is our own javascript library for managing the front end of websites. It allows us to use require.js to load the files we need when we need them. We use an Angular model to create Components, Services, Controllers, Filters, etc. See our :doc:`Components documentation </1.0/Overview/Components>` for generic information about how we use components on the site.
+Stratus is our own javascript library for managing the front end of websites. It allows us to use require.js to load the files we need when we need them. We use an Angular model to create Components, Controllers, Filters, Directives, etc. See our :doc:`Components documentation </1.0/Overview/Components>` for generic information about how we use components on the site.
 
 
 
