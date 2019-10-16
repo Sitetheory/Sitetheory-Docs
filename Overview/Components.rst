@@ -395,9 +395,9 @@ In the examples above, if you want to limit the records returned or sort them,  
 
 
 
-############
-# VALIDATION
-############
+##########
+Validation
+##########
 
 The `validate` directive enhances `Angular's internal form<https://docs.angularjs.org/guide/forms>`_ by using the `Angular ngMessages<https://docs.angularjs.org/api/ngMessages/directive/ngMessages>`_ system to allow custom validation in addition to the Angular defaults validation like `required`, `min`, `max`, `email`, etc. This `validate` directive adds several new validation methods that can be triggered for inputs by including the requirements as options.
 
