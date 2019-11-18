@@ -475,8 +475,37 @@ Examples:
 - `/Api/{ENTITY}/?filter[title]=foo&filter[price]=1000` (Exactly Equals)
 - `/Api/{ENTITY}/?filter=[{"field":"foo","value":"bar", "comparison":"LIKE"},{"field":"extension","value":"jpg"}]` (Multiple Fields)
 - `/Api/{ENTITY}/?filter={"field":"mime","value":"image", "comparison":"LIKE"}` (Single Field)
+- `/Api/{ENTITY}/?filter={"field":["foo","bar"],"value":"baz"}` (OR search on multiple fields)
 
 NOTE: the EntityApiController will compile these filters and confirm that you have permissions to search each requested field.
+
+For efficiency, you should always supply the exact filter (to avoid making the API extract and expand your filters). But in some cases you may need to pass in multiple values, fields, or comparisons.
+
+Multiple Values - OR
+-----------
+You can specify multiple possible values as an array. This becomes a set that matches any one value. If the comparison is "=" than this will be come an "IN" statement that will match exactl values. If you add a "comparison"="LIKE" then it will compare the values more losely.
+- `/Api/{ENTITY}/?filter={"field":"foo","value":["baz","bar"], "comparison":"LIKE"}`
+
+
+Multiple Fields - OR
+-----------
+You can specify multiple fields names as an array, and this becomes a SET that does an OR search on multiple fields (that looks like a generic search, but with a limited set of fields to search).
+- `/Api/{ENTITY}/?filter={"field":["foo","bar"],"value":"baz"}`
+
+NOTE: you cannot have multiple values and multiple fields, these are exclusive. If you need that you just need to create separate filters.
+
+
+Multiple Comparison - AND
+-----------
+You can also specify multiple comparison fields that exactly match an array of values. This is used for things like "between", and so naturally it creates separate AND filters. If you want OR, you just create sets
+- `/Api/{ENTITY}/?filter={"field":"foo","value":["100","1000"], "comparison":[">=","<="]}`
+
+
+
+Advanced Sets - OR
+---------
+By default all filters will create "AND" limits where every filter must match in order to get results. If you need to do an OR statement you create a "set", with one or more nested filters in the set.
+- `/Api/{ENTITY}/?filter={"set":[{"field":"foo","value":"bar"},{"field":"baz","value":"bang"}]}`
 
 
 Flatten
