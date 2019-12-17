@@ -13,29 +13,29 @@ Lazy Load Correct Sized Images
 
 `stratus-src`
 
-This stratus internal component allows you to load the best sized image based on the size of the container (XS, S, M, L, XL, HQ) so that it fills that area (which means it doesn't load images larger than mobile devices need).
+This stratus internal component allows you to load the best sized image based on the size of the container (XS, S, M, L, XL, HQ) so that it fills that area (which means it doesn't load images larger than mobile devices need), and it doesn't load elements that aren't on the page yet.
 
 **Example**
 
-Load a default small image, and then use the src path to find the best version of image.
+Load a default small image as a placeholder (useful for proportions and scaling), and then use the src path to find the best version of image.
 
 .. code-block:: html
     :linenos:
 
-            <img stratus-src src="foo-xs.jpg">
+        <img stratus-src src="foo-xs.jpg">
 
 
-    Do not load a default image, use stratus-src to find the best version of the the image.
+Do not load a default image, use stratus-src to find the best version of the the image.
 
 .. code-block:: html
     :linenos:
 
-            <img stratus-src="foo.jpg">
+        <img stratus-src="foo.jpg">
 
 
-    If you want a placeholder image to appear on the page, you can just enter that as the regular image src. It is usually recommended to specify the smallest version of the image, so that the image's native ratio will be available to the CSS so that the height is correctly proportional to the width (which means when the real image loads the page isn't going to shift as element heights change).
+If you want a placeholder image to appear on the page, you can just enter that as the regular image src. It is usually recommended to specify the smallest version of the image, so that the image's native ratio will be available to the CSS so that the height is correctly proportional to the width (which means when the real image loads the page isn't going to shift as element heights change).
 
-    NOTE: If you use the lazy loading on images in your hard coded design template assets (not created by the CMS system so they don't automatically have the different size options, e.g. XS, S, M, L, XL, HQ), you will need to create these versions of your images that the component can load. Your sizes should be the standard sizes, since we check the container and load the best size based on the expected size of the images.
+NOTE: If you use the lazy loading on images in your hard coded design template assets (not created by the CMS system so they don't automatically have the different size options, e.g. XS, S, M, L, XL, HQ), you will need to create these versions of your images that the component can load. Your sizes should be the standard sizes, since we check the container and load the best size based on the expected size of the images.
 
     XS: 200px
     S:  400px
@@ -45,23 +45,62 @@ Load a default small image, and then use the src path to find the best version o
     HQ: 1200px
 
 
+You can also use lazy loading on background images.
+
+.. code-block:: html
+    :linenos:
+
+        <div stratus-src style="background-image:url(foo.jpg)">
+
+
+You can also use lazy loading on background images.
+
+.. code-block:: html
+    :linenos:
+
+            <div stratus-src style="background-image:url(foo.jpg)">
+
+You can also use disable lazy-loading dynamically in Angular when only the data in the API will tell us if the image is eligible for lazy loading, by specify the value 'false'. This is used in places like a IDX widget that displays images from third party servers that are not variable sizes.
+
+.. code-block:: html
+    :linenos:
+
+                <div stratus-src="{{ model.images[0].lazy ? '' : 'false' }}" ng-style="{'background-image':'url({{ model.images[0].src }}'}"></div>
+
+
 **Classes**
 
 - placeholder: When the image is first collected for lazy-loading a 'placeholder' class will be added to it, so that you can style default look of an image that isn't loaded, e.g. gray background with a loading icon.
 
 - loading: when the image is on screen and is in the process of loading, a 'loading' class will be added.
 
-- loaded: when the image is loaded, the 'loading' class will be replaced by 'loaded'.
+- loaded: when the image is loaded, the 'loading' class will be replaced by 'loaded'. The loaded class should include a CSS animation that fades from opacity 0 to 1 to replace the current
 
 **Attribute Options:**
 
-- stratus-src: the stratus-src should point to the image that you want to lazy-load. If you have specified a regular img src as a placeholder image (e.g. a small version), and you want to lazy load the best size of that image, than you can avoid typing out the path a second time and just specify data-src="lazy" and the system will load the best version of the current image src.
+- stratus-src: (str|bool|null) If a string, stratus-src should point to the image path that you want to lazy-load. If you have specified a regular img src as a placeholder image (e.g. a small version), and you want to lazy load the best size of that image, than you can avoid typing out the path a second time and just specify the attribue `stratus-src` without a value and the system will load the best version of the current image src. If the value is `false` it should abort the lazy loading. This is necessary because when we load images dynamically in Angular (rather than Twig template) we can only manipulate the value not the attribute itself, so we will either pass in true or false.
 
-- data-spy: By default the image will load when it is "on screen". But in some cases (like a Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
+- `data-spy`: (str) By default the image will load when it is "on screen". But in some cases (like a Carousel) you need to specify a CSS selector for an alternative element on the screen that should trigger the loading, e.g. the container div.
 
-- data-ignore-visibility: normally it will look for the size of the container and load the correct image that will fill the container (assuming a 100% width is set on CSS). But if the container is invisible, it will try to go up the element tree to the first parent that is visible. This is often desirable because the parent is collapsed. However, in some cases, like a Carousel, if you have the parent width set explicitly on a containing element, you want to use that (not the outer carousel width). So you set data-ignoreVisibility="true" and it will use the parent container width.
+- `data-ignore-visibility`: (bool) normally it will look for the size of the container and load the correct image that will fill the container (assuming a 100% width is set on CSS). But if the container is invisible, it will try to go up the element tree to the first parent that is visible. This is often desirable because the parent is collapsed. However, in some cases, like a Carousel, if you have the parent width set explicitly on a containing element, you want to use that (not the outer carousel width). So you set data-ignoreVisibility="true" and it will use the parent container width.
 
-- data-disable-fadein: All images will fade in from opacity 0 to 1, when the placeholder class is replaced with the loaded class. If you have specified a src because you want a default placeholder image to show up, then obviously you don't want the placeholder image to go invisible. So you should add a "disable-fadein" class to the image.
+- `stratus-src-load`:
+TODO: explain what this means: "for variable Progressive image loading on certain resources"
+
+- `status-src-suffix`: (json) (TODO: IMPLEMENT) specify alternative formatting for image sizes, e.g. by default we add `-s`, `-m`, `-l`, etc to the base image url, but for third party sources, that format may be different. e.g. here we would specify that small and medium use the `-thumb` and all others use the default image, e.g. no alternative size added
+
+.. code-block:: html
+    :linenos:
+    <img stratus-src stratus-src-suffix='{"s":"-thumb", "m": "-thumb", "l":null, "xl":null, "hq":null}'
+
+    - `status-src-sizes`: (json) (TODO: IMPLEMENT) specify the specific alternative image paths for each size of image that best loads for our standard sizes (above)
+
+.. code-block:: html
+    :linenos:
+        <img stratus-src stratus-src-sizes='{"s":"12345.jpg", "m": "12345.jpg", "l":"678910.jpg", "xl":"678910.jpg", "hq":"678910.jpg"}'
+
+
+- TODO: Determine if we still want this options, which seems to have been removed from the current stratus, but should be in the history if we want to reference what it used to do: `data-disable-fadein`: All images will fade in from opacity 0 to 1, when the placeholder class is replaced with the loaded class. If you have specified a src because you want a default placeholder image to show up, then obviously you don't want the placeholder image to go invisible. So you should add a "disable-fadein" class to the image.
 
 
 
